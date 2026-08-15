@@ -40,6 +40,7 @@ This matrix records current evidence honestly; `partial` means the code has a us
 | FR-104 | pass | `AdvisoryEngine` returns suggestions only and never registers a controller, never creates a WorkerPlan, and never changes model/policy configuration; control/clarification and material-amendment requests fail closed. |
 | FR-105 | pass | `RoutingCandidate` carries rejection codes, estimated input/output tokens, cost, latency, confidence and a stable basis version for both direct and worker candidates. |
 | FR-106 | pass | `ShadowLedger` durably records unexecuted advice with a stable request fingerprint and `mark_compared` attaches the real outcome ref; records replay across restart and the `POST /v1/advisory` + `GET /v1/advisory/shadow` API is Idempotency-Key protected. |
+| EVAL-001 | pass | Offline evaluation set `evaluation/frozen_tasks.json` freezes three task families (backend/API diagnosis, frontend browser verification, disjoint full-stack) with five tasks each, ground-truth delegation, and acceptance criteria; `scripts/evaluate_offline.py` runs advisory decisions plus live A/B/C measurements; archived raw evidence lives in `evaluation/evidence/`. First live run (2026-08-15, gpt-5-6-mini): 6/15 correct delegation, A/B/C pass 4/7/5 with cost ~$0.019 / $0.035 / $0.037. `quality_claim: false`; API keys are never written into output. |
 
 The v0.0.2 advisory pipeline remains read-only: it is wired as an independent
 `/v1/advisory` surface and must still demonstrate quality/cost/latency gains

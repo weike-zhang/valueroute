@@ -1,0 +1,1750 @@
+{
+  "aggregate": {
+    "delegation": {
+      "correct": 6,
+      "correct_rate": 0.4,
+      "over_delegated": 5,
+      "over_delegated_rate": 0.3333,
+      "under_delegated": 4,
+      "under_delegated_rate": 0.2667
+    },
+    "per_config": {
+      "A": {
+        "cost_usd": 0.018646,
+        "count": 15,
+        "latency_ms": 130535,
+        "passed": 4,
+        "total_tokens": 6292,
+        "wall_ms": 130537
+      },
+      "B": {
+        "cost_usd": 0.035436,
+        "count": 15,
+        "latency_ms": 141042,
+        "passed": 7,
+        "total_tokens": 11898,
+        "wall_ms": 141055
+      },
+      "C": {
+        "cost_usd": 0.036725,
+        "count": 15,
+        "latency_ms": 145138,
+        "passed": 5,
+        "total_tokens": 12572,
+        "wall_ms": 145150
+      }
+    },
+    "task_count": 15
+  },
+  "code_fingerprint": "a0ce1fafe6d79b700800e20f6e586069728a4710095cf28d0a6f369e85ca2e55",
+  "endpoint_host": "186.241.75.230:3000",
+  "environment": {
+    "implementation": "CPython",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "python": "3.10.11",
+    "revision_hint": "a0ce1fafe6d79b70"
+  },
+  "evaluation_mode": "live_model",
+  "interpretation": "Offline evaluation evidence: advisory routing decisions are compared against frozen ground truth, and A/B/C configurations are measured on a live model for cost/latency/pass. quality_claim is False: acceptance is keyword-based, not full task execution; no production or model-quality certification is implied.",
+  "measured_at": "2026-08-15T03:47:38.395609+00:00",
+  "model_id": "gpt-5-6-mini",
+  "price_table": {
+    "input_usd_per_mtok": 1.0,
+    "output_usd_per_mtok": 4.0
+  },
+  "quality_claim": false,
+  "results": [
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001379,
+          "input_tokens": 151,
+          "latency_ms": 10991,
+          "output_tokens": 307,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 10991,
+              "usage": {
+                "input_tokens": 151,
+                "output_tokens": 307,
+                "total_tokens": 458
+              }
+            }
+          ],
+          "text_excerpt": "无法完成“本机复现并修复”的实际变更，因为当前执行环境中没有发现目标服务代码仓库或可运行项目。\n\n我已检查：\n- 当前目录内容：未发现应用代码仓库。\n- `/` 下的 `.git`：只发现系统/工具目录（如 `/opt/nvm/.git`、`/opt/novnc/.git`），没有目标项目。\n- 常见工作目录（`/workspace`、`/app`、`/mnt`、`/home`）：未发现后端服务源码。\n\n因此目前不能真实执行以下要求：\n- 复现 `GET /v1/tasks` 在服务重启后的 HTTP 500；\n- 定位堆栈和根因；\n- 修改具体文件；\n- 添加回归测试；\n- 运行测试验证修复。\n\n当前变更记录：\n- 修改文件：无（未发现可修改的项目文件）。\n- 根因：无法确定（缺少服务代码、日志、运行配置）。\n- 验证：仅完成环境检查，未能执行应用级验证。\n\n请提供以下任一项后，我可以继",
+          "total_tokens": 458,
+          "wall_ms": 10991,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.002542,
+          "input_tokens": 302,
+          "latency_ms": 17119,
+          "output_tokens": 560,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 801,
+              "usage": {
+                "input_tokens": 151,
+                "output_tokens": 307,
+                "total_tokens": 458
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 16318,
+              "usage": {
+                "input_tokens": 151,
+                "output_tokens": 253,
+                "total_tokens": 404
+              }
+            }
+          ],
+          "text_excerpt": "无法完成“本机复现并修复”的实际变更，因为当前执行环境中没有发现目标服务代码仓库或可运行项目。\n\n我已检查：\n- 当前目录内容：未发现应用代码仓库。\n- `/` 下的 `.git`：只发现系统/工具目录（如 `/opt/nvm/.git`、`/opt/novnc/.git`），没有目标项目。\n- 常见工作目录（`/workspace`、`/app`、`/mnt`、`/home`）：未发现后端服务源码。\n\n因此目前不能真实执行以下要求：\n- 复现 `GET /v1/tasks` 在服务重启后的 HTTP 500；\n- 定位堆栈和根因；\n- 修改具体文件；\n- 添加回归测试；\n- 运行测试验证修复。\n\n当前变更记录：\n- 修改文件：无（未发现可修改的项目文件）。\n- 根因：无法确定（缺少服务代码、日志、运行配置）。\n- 验证：仅完成环境检查，未能执行应用级验证。\n\n请提供以下任一项后，我可以继",
+          "total_tokens": 862,
+          "wall_ms": 17120,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002712,
+          "input_tokens": 304,
+          "latency_ms": 9447,
+          "output_tokens": 602,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1862,
+              "usage": {
+                "input_tokens": 151,
+                "output_tokens": 307,
+                "total_tokens": 458
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 7585,
+              "usage": {
+                "input_tokens": 153,
+                "output_tokens": 295,
+                "total_tokens": 448
+              }
+            }
+          ],
+          "text_excerpt": "无法完成“本机复现并修复”的实际变更，因为当前执行环境中没有发现目标服务代码仓库或可运行项目。\n\n我已检查：\n- 当前目录内容：未发现应用代码仓库。\n- `/` 下的 `.git`：只发现系统/工具目录（如 `/opt/nvm/.git`、`/opt/novnc/.git`），没有目标项目。\n- 常见工作目录（`/workspace`、`/app`、`/mnt`、`/home`）：未发现后端服务源码。\n\n因此目前不能真实执行以下要求：\n- 复现 `GET /v1/tasks` 在服务重启后的 HTTP 500；\n- 定位堆栈和根因；\n- 修改具体文件；\n- 添加回归测试；\n- 运行测试验证修复。\n\n当前变更记录：\n- 修改文件：无（未发现可修改的项目文件）。\n- 根因：无法确定（缺少服务代码、日志、运行配置）。\n- 验证：仅完成环境检查，未能执行应用级验证。\n\n请提供以下任一项后，我可以继",
+          "total_tokens": 906,
+          "wall_ms": 9448,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "GET /v1/tasks returns HTTP 500 after the service restarts; reproduce locally and fix the root cause.",
+      "family_id": "backend_api_diagnosis",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "单一 API 故障,主控直排足够,不派 Worker。",
+        "worker_count": 0
+      },
+      "task_id": "be-01"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "control",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.002376,
+          "input_tokens": 148,
+          "latency_ms": 7513,
+          "output_tokens": 557,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 7513,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 557,
+                "total_tokens": 705
+              }
+            }
+          ],
+          "text_excerpt": "我可以协助诊断和修复，但当前消息只包含故障描述，没有提供代码仓库、journal 格式、日志、崩溃堆栈或现有实现，因此不能声称已经修改了文件或完成验证。\n\n基于需求，修复目标应是：\n\n1. **尾帧损坏可隔离恢复**\n   - 启动恢复阶段读取 journal。\n   - 顺序校验 frame（长度、checksum、magic/version、payload 完整性）。\n   - 如果损坏发生在**最后一个 frame**：\n     - 截断 journal 到最后一个有效 frame 边界。\n     - 丢弃损坏尾帧。\n     - 使用剩余有效记录重放恢复状态。\n     - 记录 recovery event（例如 `truncated_corrupt_tail_frame`）。\n\n2. **非尾部损坏必须阻止 ready**\n   - 如果 frame N 校验失败且后面仍存",
+          "total_tokens": 705,
+          "wall_ms": 7513,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.006488,
+          "input_tokens": 296,
+          "latency_ms": 10851,
+          "output_tokens": 1548,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 916,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 557,
+                "total_tokens": 705
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 9935,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 991,
+                "total_tokens": 1139
+              }
+            }
+          ],
+          "text_excerpt": "我可以协助诊断和修复，但当前消息只包含故障描述，没有提供代码仓库、journal 格式、日志、崩溃堆栈或现有实现，因此不能声称已经修改了文件或完成验证。\n\n基于需求，修复目标应是：\n\n1. **尾帧损坏可隔离恢复**\n   - 启动恢复阶段读取 journal。\n   - 顺序校验 frame（长度、checksum、magic/version、payload 完整性）。\n   - 如果损坏发生在**最后一个 frame**：\n     - 截断 journal 到最后一个有效 frame 边界。\n     - 丢弃损坏尾帧。\n     - 使用剩余有效记录重放恢复状态。\n     - 记录 recovery event（例如 `truncated_corrupt_tail_frame`）。\n\n2. **非尾部损坏必须阻止 ready**\n   - 如果 frame N 校验失败且后面仍存",
+          "total_tokens": 1844,
+          "wall_ms": 10852,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.003838,
+          "input_tokens": 298,
+          "latency_ms": 6754,
+          "output_tokens": 885,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1206,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 557,
+                "total_tokens": 705
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5548,
+              "usage": {
+                "input_tokens": 150,
+                "output_tokens": 328,
+                "total_tokens": 478
+              }
+            }
+          ],
+          "text_excerpt": "我可以协助诊断和修复，但当前消息只包含故障描述，没有提供代码仓库、journal 格式、日志、崩溃堆栈或现有实现，因此不能声称已经修改了文件或完成验证。\n\n基于需求，修复目标应是：\n\n1. **尾帧损坏可隔离恢复**\n   - 启动恢复阶段读取 journal。\n   - 顺序校验 frame（长度、checksum、magic/version、payload 完整性）。\n   - 如果损坏发生在**最后一个 frame**：\n     - 截断 journal 到最后一个有效 frame 边界。\n     - 丢弃损坏尾帧。\n     - 使用剩余有效记录重放恢复状态。\n     - 记录 recovery event（例如 `truncated_corrupt_tail_frame`）。\n\n2. **非尾部损坏必须阻止 ready**\n   - 如果 frame N 校验失败且后面仍存",
+          "total_tokens": 1183,
+          "wall_ms": 6754,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "A journal tail frame is detected as corrupted after a crash; isolate and recover.",
+      "family_id": "backend_api_diagnosis",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "恢复逻辑属于核心一致性,必须由主控直接处理,不派 Worker。",
+        "worker_count": 0
+      },
+      "task_id": "be-02"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "2 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 2,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.000822,
+          "input_tokens": 146,
+          "latency_ms": 12280,
+          "output_tokens": 169,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 12280,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 169,
+                "total_tokens": 315
+              }
+            }
+          ],
+          "text_excerpt": "未能完成代码修复：当前执行环境中没有找到 `valueroute` 项目目录或可访问的源码仓库，因此无法定位 `valueroute/api` 与 `valueroute/domain` 下失败的测试，也无法安全修改文件。\n\n- 根因：执行环境缺少目标代码（未发现 `valueroute` 仓库/目录），无法进行故障诊断。\n- 修改文件：无（未进行任何修改，避免编造变更）。\n- 验证结果：无法运行项目测试；未执行 `valueroute/api` 或 `valueroute/domain` 的测试验证。\n\n请提供项目源码路径、挂载仓库，或上传包含 `valueroute/api` 和 `valueroute/domain` 的代码后，我可以继续分别修复两个模块，并确保不修改共享代码。",
+          "total_tokens": 315,
+          "wall_ms": 12280,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.001624,
+          "input_tokens": 292,
+          "latency_ms": 5838,
+          "output_tokens": 333,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 786,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 169,
+                "total_tokens": 315
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5052,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 164,
+                "total_tokens": 310
+              }
+            }
+          ],
+          "text_excerpt": "未能完成代码修复：当前执行环境中没有找到 `valueroute` 项目目录或可访问的源码仓库，因此无法定位 `valueroute/api` 与 `valueroute/domain` 下失败的测试，也无法安全修改文件。\n\n- 根因：执行环境缺少目标代码（未发现 `valueroute` 仓库/目录），无法进行故障诊断。\n- 修改文件：无（未进行任何修改，避免编造变更）。\n- 验证结果：无法运行项目测试；未执行 `valueroute/api` 或 `valueroute/domain` 的测试验证。\n\n请提供项目源码路径、挂载仓库，或上传包含 `valueroute/api` 和 `valueroute/domain` 的代码后，我可以继续分别修复两个模块，并确保不修改共享代码。\nI can fix this, but I need access to the repository c",
+          "total_tokens": 625,
+          "wall_ms": 5838,
+          "worker_count": 1
+        },
+        {
+          "config": "C",
+          "error": "provider returned HTTP 502: ",
+          "passed": false,
+          "worker_count": 2
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "Two independent API modules each have a failing test; fix both without touching shared code.",
+      "family_id": "backend_api_diagnosis",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "两个不重叠模块可并行,应派 2 个 Worker。",
+        "worker_count": 2
+      },
+      "task_id": "be-03"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "2 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 2,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001353,
+          "input_tokens": 145,
+          "latency_ms": 6467,
+          "output_tokens": 302,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 6467,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 302,
+                "total_tokens": 447
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个后端/API 修复，但当前对话中没有提供代码仓库、文件内容或可访问的工作区，因此无法实际修改 `schemas/v1`、API 路由或 OpenAPI 文件，也无法声称已验证通过。\n\n当前状态：\n\n- **Root cause（根因）**：无法确认。需要查看现有 API 路由、Schema 目录结构和 OpenAPI 定义，才能判断缺失点（例如缺少 request schema、版本注册遗漏、路由未引用 schema、OpenAPI component 未挂载等）。\n- **Changed files（修改文件）**：暂无。当前没有可访问文件，不能虚构修改记录。\n- **Verification（验证）**：未执行。需要仓库环境后才能运行对应测试/契约校验（例如 OpenAPI lint、schema validation、API tests）。\n\n请提供以下任一项后我可以继",
+          "total_tokens": 447,
+          "wall_ms": 6467,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.00233,
+          "input_tokens": 290,
+          "latency_ms": 8855,
+          "output_tokens": 510,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 788,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 302,
+                "total_tokens": 447
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 8067,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 208,
+                "total_tokens": 353
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个后端/API 修复，但当前对话中没有提供代码仓库、文件内容或可访问的工作区，因此无法实际修改 `schemas/v1`、API 路由或 OpenAPI 文件，也无法声称已验证通过。\n\n当前状态：\n\n- **Root cause（根因）**：无法确认。需要查看现有 API 路由、Schema 目录结构和 OpenAPI 定义，才能判断缺失点（例如缺少 request schema、版本注册遗漏、路由未引用 schema、OpenAPI component 未挂载等）。\n- **Changed files（修改文件）**：暂无。当前没有可访问文件，不能虚构修改记录。\n- **Verification（验证）**：未执行。需要仓库环境后才能运行对应测试/契约校验（例如 OpenAPI lint、schema validation、API tests）。\n\n请提供以下任一项后我可以继",
+          "total_tokens": 800,
+          "wall_ms": 8856,
+          "worker_count": 1
+        },
+        {
+          "calls": 3,
+          "config": "C",
+          "estimated_cost_usd": 0.003491,
+          "input_tokens": 439,
+          "latency_ms": 17558,
+          "output_tokens": 763,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 817,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 302,
+                "total_tokens": 447
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 10855,
+              "usage": {
+                "input_tokens": 147,
+                "output_tokens": 227,
+                "total_tokens": 374
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5886,
+              "usage": {
+                "input_tokens": 147,
+                "output_tokens": 234,
+                "total_tokens": 381
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个后端/API 修复，但当前对话中没有提供代码仓库、文件内容或可访问的工作区，因此无法实际修改 `schemas/v1`、API 路由或 OpenAPI 文件，也无法声称已验证通过。\n\n当前状态：\n\n- **Root cause（根因）**：无法确认。需要查看现有 API 路由、Schema 目录结构和 OpenAPI 定义，才能判断缺失点（例如缺少 request schema、版本注册遗漏、路由未引用 schema、OpenAPI component 未挂载等）。\n- **Changed files（修改文件）**：暂无。当前没有可访问文件，不能虚构修改记录。\n- **Verification（验证）**：未执行。需要仓库环境后才能运行对应测试/契约校验（例如 OpenAPI lint、schema validation、API tests）。\n\n请提供以下任一项后我可以继",
+          "total_tokens": 1202,
+          "wall_ms": 17560,
+          "worker_count": 2
+        }
+      ],
+      "delegation_verdict": "over_delegated",
+      "description": "Add a new versioned request schema for a new endpoint and wire the API contract.",
+      "family_id": "backend_api_diagnosis",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "新接口契约是整体连贯变更,主控直排。",
+        "worker_count": 0
+      },
+      "task_id": "be-04"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "2 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 2,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.00179,
+          "input_tokens": 142,
+          "latency_ms": 7929,
+          "output_tokens": 412,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 7929,
+              "usage": {
+                "input_tokens": 142,
+                "output_tokens": 412,
+                "total_tokens": 554
+              }
+            }
+          ],
+          "text_excerpt": "无法完成实际修复：当前会话没有提供 ValueRoute 仓库代码、分支、文件列表或可访问的代码工作区，因此我不能真实修改文件，也不能声称已经补丁或测试通过。\n\n目前能确认的故障根因方向是：\n\n- **Root cause（待在代码中确认）**：`Idempotency-Key` 的状态没有和 Worker attempt 创建绑定成一个原子操作。典型错误流程是：\n  1. 请求携带 `Idempotency-Key=A` 到达；\n  2. 服务检查不存在该 key；\n  3. 创建 Worker attempt；\n  4. 进程在持久化幂等记录/响应之前崩溃；\n  5. 重启后同一个 key 重放，又认为是新请求；\n  6. 再创建一个 Worker attempt。\n\n修复通常需要保证：\n\n1. `Idempotency-Key -> operation/result/worker_a",
+          "total_tokens": 554,
+          "wall_ms": 7930,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.003548,
+          "input_tokens": 284,
+          "latency_ms": 7592,
+          "output_tokens": 816,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 790,
+              "usage": {
+                "input_tokens": 142,
+                "output_tokens": 412,
+                "total_tokens": 554
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6802,
+              "usage": {
+                "input_tokens": 142,
+                "output_tokens": 404,
+                "total_tokens": 546
+              }
+            }
+          ],
+          "text_excerpt": "无法完成实际修复：当前会话没有提供 ValueRoute 仓库代码、分支、文件列表或可访问的代码工作区，因此我不能真实修改文件，也不能声称已经补丁或测试通过。\n\n目前能确认的故障根因方向是：\n\n- **Root cause（待在代码中确认）**：`Idempotency-Key` 的状态没有和 Worker attempt 创建绑定成一个原子操作。典型错误流程是：\n  1. 请求携带 `Idempotency-Key=A` 到达；\n  2. 服务检查不存在该 key；\n  3. 创建 Worker attempt；\n  4. 进程在持久化幂等记录/响应之前崩溃；\n  5. 重启后同一个 key 重放，又认为是新请求；\n  6. 再创建一个 Worker attempt。\n\n修复通常需要保证：\n\n1. `Idempotency-Key -> operation/result/worker_a",
+          "total_tokens": 1100,
+          "wall_ms": 7593,
+          "worker_count": 1
+        },
+        {
+          "calls": 3,
+          "config": "C",
+          "estimated_cost_usd": 0.005082,
+          "input_tokens": 430,
+          "latency_ms": 17923,
+          "output_tokens": 1163,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 809,
+              "usage": {
+                "input_tokens": 142,
+                "output_tokens": 412,
+                "total_tokens": 554
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 10517,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 386,
+                "total_tokens": 530
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6597,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 365,
+                "total_tokens": 509
+              }
+            }
+          ],
+          "text_excerpt": "无法完成实际修复：当前会话没有提供 ValueRoute 仓库代码、分支、文件列表或可访问的代码工作区，因此我不能真实修改文件，也不能声称已经补丁或测试通过。\n\n目前能确认的故障根因方向是：\n\n- **Root cause（待在代码中确认）**：`Idempotency-Key` 的状态没有和 Worker attempt 创建绑定成一个原子操作。典型错误流程是：\n  1. 请求携带 `Idempotency-Key=A` 到达；\n  2. 服务检查不存在该 key；\n  3. 创建 Worker attempt；\n  4. 进程在持久化幂等记录/响应之前崩溃；\n  5. 重启后同一个 key 重放，又认为是新请求；\n  6. 再创建一个 Worker attempt。\n\n修复通常需要保证：\n\n1. `Idempotency-Key -> operation/result/worker_a",
+          "total_tokens": 1593,
+          "wall_ms": 17924,
+          "worker_count": 2
+        }
+      ],
+      "delegation_verdict": "over_delegated",
+      "description": "Idempotency-Key replay duplicates a worker attempt after a crash.",
+      "family_id": "backend_api_diagnosis",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "幂等语义属于核心状态机,必须主控处理。",
+        "worker_count": 0
+      },
+      "task_id": "be-05"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001006,
+          "input_tokens": 134,
+          "latency_ms": 15522,
+          "output_tokens": 218,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 15522,
+              "usage": {
+                "input_tokens": 134,
+                "output_tokens": 218,
+                "total_tokens": 352
+              }
+            }
+          ],
+          "text_excerpt": "未完成修改：当前环境中没有发现可修改的前端项目仓库，因此无法安全地修改登录按钮文案或启动针对该项目的真实浏览器验证。\n\n- 根因：提供的执行环境未挂载目标前端代码。已检查常见项目目录（包括 `/openai/project`）以及可识别的 Git 仓库位置，没有找到包含前端源码、构建配置或登录页面代码的项目。\n- 修改文件：无（未发现目标文件，未进行猜测性修改）。\n- 验证结果：无法执行真实浏览器渲染与点击验证，因为没有可运行的应用入口。\n\n请提供/挂载前端项目目录（或仓库路径、启动命令），我可以继续完成：\n1. 将登录按钮文案改为「登录并进入工作台」；\n2. 启动应用；\n3. 使用真实浏览器打开页面；\n4. 验证按钮渲染文本及点击行为；\n5. 返回实际修改文件和验证结果。",
+          "total_tokens": 352,
+          "wall_ms": 15522,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.00202,
+          "input_tokens": 268,
+          "latency_ms": 17700,
+          "output_tokens": 438,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 840,
+              "usage": {
+                "input_tokens": 134,
+                "output_tokens": 218,
+                "total_tokens": 352
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 16860,
+              "usage": {
+                "input_tokens": 134,
+                "output_tokens": 220,
+                "total_tokens": 354
+              }
+            }
+          ],
+          "text_excerpt": "未完成修改：当前环境中没有发现可修改的前端项目仓库，因此无法安全地修改登录按钮文案或启动针对该项目的真实浏览器验证。\n\n- 根因：提供的执行环境未挂载目标前端代码。已检查常见项目目录（包括 `/openai/project`）以及可识别的 Git 仓库位置，没有找到包含前端源码、构建配置或登录页面代码的项目。\n- 修改文件：无（未发现目标文件，未进行猜测性修改）。\n- 验证结果：无法执行真实浏览器渲染与点击验证，因为没有可运行的应用入口。\n\n请提供/挂载前端项目目录（或仓库路径、启动命令），我可以继续完成：\n1. 将登录按钮文案改为「登录并进入工作台」；\n2. 启动应用；\n3. 使用真实浏览器打开页面；\n4. 验证按钮渲染文本及点击行为；\n5. 返回实际修改文件和验证结果。\n未能完成代码修改与真实浏览器验证，因为当前执行环境中没有发现目标前端项目代码或可运行的应用入口。\n\n- 根因：工作区",
+          "total_tokens": 706,
+          "wall_ms": 17701,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002126,
+          "input_tokens": 270,
+          "latency_ms": 7566,
+          "output_tokens": 464,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 836,
+              "usage": {
+                "input_tokens": 134,
+                "output_tokens": 218,
+                "total_tokens": 352
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6730,
+              "usage": {
+                "input_tokens": 136,
+                "output_tokens": 246,
+                "total_tokens": 382
+              }
+            }
+          ],
+          "text_excerpt": "未完成修改：当前环境中没有发现可修改的前端项目仓库，因此无法安全地修改登录按钮文案或启动针对该项目的真实浏览器验证。\n\n- 根因：提供的执行环境未挂载目标前端代码。已检查常见项目目录（包括 `/openai/project`）以及可识别的 Git 仓库位置，没有找到包含前端源码、构建配置或登录页面代码的项目。\n- 修改文件：无（未发现目标文件，未进行猜测性修改）。\n- 验证结果：无法执行真实浏览器渲染与点击验证，因为没有可运行的应用入口。\n\n请提供/挂载前端项目目录（或仓库路径、启动命令），我可以继续完成：\n1. 将登录按钮文案改为「登录并进入工作台」；\n2. 启动应用；\n3. 使用真实浏览器打开页面；\n4. 验证按钮渲染文本及点击行为；\n5. 返回实际修改文件和验证结果。\n我会按任务要求修改前端登录按钮文案，并启动真实浏览器验证渲染与点击行为。\n\n当前对话环境中没有提供代码仓库、文件系统",
+          "total_tokens": 734,
+          "wall_ms": 7567,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "Change the login button label and verify the rendered page in a real browser.",
+      "family_id": "frontend_browser_verification",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "单一文案改动+浏览器验证,一个 Worker 直排即可。",
+        "worker_count": 0
+      },
+      "task_id": "fe-01"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "1 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 1,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.000989,
+          "input_tokens": 141,
+          "latency_ms": 9266,
+          "output_tokens": 212,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 9266,
+              "usage": {
+                "input_tokens": 141,
+                "output_tokens": 212,
+                "total_tokens": 353
+              }
+            }
+          ],
+          "text_excerpt": "我无法完成这次前端修改与浏览器验证，因为当前环境中没有发现 ValueRoute 项目的代码仓库或可编辑的前端工程文件。\n\n已检查：\n- 未找到目标项目目录（未发现包含应用代码的 Git 仓库）。\n- 仅发现系统级仓库目录，与任务无关。\n\n因此目前无法真实确认：\n- 根因（例如具体是哪一个组件的宽度约束、flex/grid 行为或 overflow 导致溢出）\n- 修改文件路径\n- 375px 与 1440px 浏览器验证结果\n\n未修改任何文件，也未执行伪造的验证。\n\n请提供项目目录/仓库访问方式（或挂载代码后），我可以继续完成：\n1. 定位窄屏任务列表溢出的根因；\n2. 修改对应前端文件；\n3. 使用真实浏览器验证 375px 和 1440px 两个 viewport；\n4. 返回根因、精确变更文件和验证结果。",
+          "total_tokens": 353,
+          "wall_ms": 9266,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.001938,
+          "input_tokens": 282,
+          "latency_ms": 6749,
+          "output_tokens": 414,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 847,
+              "usage": {
+                "input_tokens": 141,
+                "output_tokens": 212,
+                "total_tokens": 353
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5902,
+              "usage": {
+                "input_tokens": 141,
+                "output_tokens": 202,
+                "total_tokens": 343
+              }
+            }
+          ],
+          "text_excerpt": "我无法完成这次前端修改与浏览器验证，因为当前环境中没有发现 ValueRoute 项目的代码仓库或可编辑的前端工程文件。\n\n已检查：\n- 未找到目标项目目录（未发现包含应用代码的 Git 仓库）。\n- 仅发现系统级仓库目录，与任务无关。\n\n因此目前无法真实确认：\n- 根因（例如具体是哪一个组件的宽度约束、flex/grid 行为或 overflow 导致溢出）\n- 修改文件路径\n- 375px 与 1440px 浏览器验证结果\n\n未修改任何文件，也未执行伪造的验证。\n\n请提供项目目录/仓库访问方式（或挂载代码后），我可以继续完成：\n1. 定位窄屏任务列表溢出的根因；\n2. 修改对应前端文件；\n3. 使用真实浏览器验证 375px 和 1440px 两个 viewport；\n4. 返回根因、精确变更文件和验证结果。\n无法完成该前端修复任务：当前对话环境未提供代码仓库、文件系统访问或浏览器实例",
+          "total_tokens": 696,
+          "wall_ms": 6751,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.001936,
+          "input_tokens": 284,
+          "latency_ms": 14629,
+          "output_tokens": 413,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 788,
+              "usage": {
+                "input_tokens": 141,
+                "output_tokens": 212,
+                "total_tokens": 353
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 13841,
+              "usage": {
+                "input_tokens": 143,
+                "output_tokens": 201,
+                "total_tokens": 344
+              }
+            }
+          ],
+          "text_excerpt": "我无法完成这次前端修改与浏览器验证，因为当前环境中没有发现 ValueRoute 项目的代码仓库或可编辑的前端工程文件。\n\n已检查：\n- 未找到目标项目目录（未发现包含应用代码的 Git 仓库）。\n- 仅发现系统级仓库目录，与任务无关。\n\n因此目前无法真实确认：\n- 根因（例如具体是哪一个组件的宽度约束、flex/grid 行为或 overflow 导致溢出）\n- 修改文件路径\n- 375px 与 1440px 浏览器验证结果\n\n未修改任何文件，也未执行伪造的验证。\n\n请提供项目目录/仓库访问方式（或挂载代码后），我可以继续完成：\n1. 定位窄屏任务列表溢出的根因；\n2. 修改对应前端文件；\n3. 使用真实浏览器验证 375px 和 1440px 两个 viewport；\n4. 返回根因、精确变更文件和验证结果。\n未完成该修改：当前环境中未发现目标前端项目代码，因此无法安全定位任务列表组件",
+          "total_tokens": 697,
+          "wall_ms": 14630,
+          "worker_count": 1
+        }
+      ],
+      "delegation_verdict": "over_delegated",
+      "description": "Fix a responsive layout bug affecting the task list on small screens and verify.",
+      "family_id": "frontend_browser_verification",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "前端单模块改动,主控直排。",
+        "worker_count": 0
+      },
+      "task_id": "fe-02"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "control",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001333,
+          "input_tokens": 133,
+          "latency_ms": 5349,
+          "output_tokens": 300,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 5349,
+              "usage": {
+                "input_tokens": 133,
+                "output_tokens": 300,
+                "total_tokens": 433
+              }
+            }
+          ],
+          "text_excerpt": "我可以完成这个前端修改并给出验证结果，但当前对话环境没有连接到你的代码仓库、文件系统或真实浏览器实例，因此我不能假称已经修改了文件或完成浏览器验证。\n\n请提供以下任一项，我即可继续执行：\n\n1. **代码仓库访问方式**（例如 GitHub 仓库连接，或上传项目文件）；或  \n2. **相关前端目录/文件内容**（组件目录、样式方案、入口页面等）；或  \n3. 如果你是在本地开发环境中运行，请提供：\n   - 技术栈（React/Vue/Angular 等）\n   - 样式方案（CSS Modules/Tailwind/Styled Components 等）\n   - 组件目录位置\n   - 启动命令\n\n完成后我会按任务要求返回：\n- **Root cause（根因）**\n- **Exact files changed（精确修改文件列表）**\n- **Browser verificati",
+          "total_tokens": 433,
+          "wall_ms": 5349,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.002366,
+          "input_tokens": 266,
+          "latency_ms": 16500,
+          "output_tokens": 525,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 783,
+              "usage": {
+                "input_tokens": 133,
+                "output_tokens": 300,
+                "total_tokens": 433
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 15717,
+              "usage": {
+                "input_tokens": 133,
+                "output_tokens": 225,
+                "total_tokens": 358
+              }
+            }
+          ],
+          "text_excerpt": "我可以完成这个前端修改并给出验证结果，但当前对话环境没有连接到你的代码仓库、文件系统或真实浏览器实例，因此我不能假称已经修改了文件或完成浏览器验证。\n\n请提供以下任一项，我即可继续执行：\n\n1. **代码仓库访问方式**（例如 GitHub 仓库连接，或上传项目文件）；或  \n2. **相关前端目录/文件内容**（组件目录、样式方案、入口页面等）；或  \n3. 如果你是在本地开发环境中运行，请提供：\n   - 技术栈（React/Vue/Angular 等）\n   - 样式方案（CSS Modules/Tailwind/Styled Components 等）\n   - 组件目录位置\n   - 启动命令\n\n完成后我会按任务要求返回：\n- **Root cause（根因）**\n- **Exact files changed（精确修改文件列表）**\n- **Browser verificati",
+          "total_tokens": 791,
+          "wall_ms": 16501,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002316,
+          "input_tokens": 268,
+          "latency_ms": 10507,
+          "output_tokens": 512,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 902,
+              "usage": {
+                "input_tokens": 133,
+                "output_tokens": 300,
+                "total_tokens": 433
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 9605,
+              "usage": {
+                "input_tokens": 135,
+                "output_tokens": 212,
+                "total_tokens": 347
+              }
+            }
+          ],
+          "text_excerpt": "我可以完成这个前端修改并给出验证结果，但当前对话环境没有连接到你的代码仓库、文件系统或真实浏览器实例，因此我不能假称已经修改了文件或完成浏览器验证。\n\n请提供以下任一项，我即可继续执行：\n\n1. **代码仓库访问方式**（例如 GitHub 仓库连接，或上传项目文件）；或  \n2. **相关前端目录/文件内容**（组件目录、样式方案、入口页面等）；或  \n3. 如果你是在本地开发环境中运行，请提供：\n   - 技术栈（React/Vue/Angular 等）\n   - 样式方案（CSS Modules/Tailwind/Styled Components 等）\n   - 组件目录位置\n   - 启动命令\n\n完成后我会按任务要求返回：\n- **Root cause（根因）**\n- **Exact files changed（精确修改文件列表）**\n- **Browser verificati",
+          "total_tokens": 780,
+          "wall_ms": 10507,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "Add a new status badge component and style variants, verified in browser.",
+      "family_id": "frontend_browser_verification",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "新组件+样式,前端局部改动,主控直排。",
+        "worker_count": 0
+      },
+      "task_id": "fe-03"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "1 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 1,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001622,
+          "input_tokens": 146,
+          "latency_ms": 6266,
+          "output_tokens": 369,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 6266,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 369,
+                "total_tokens": 515
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个修复任务，但当前对话里没有提供代码仓库、测试文件、运行环境或浏览器访问入口，因此无法真实地定位根因、修改文件或声称完成 5 次真实浏览器验证。\n\n请提供以下任一项后我可以继续：\n\n1. **代码仓库访问方式**\n   - GitHub 仓库（如果已连接 GitHub，我可以读取）\n   - 或上传项目压缩包\n\n2. **至少这些信息**\n   - flaky E2E 测试文件路径（例如 `tests/e2e/approval.spec.ts`）\n   - 使用的框架（Playwright / Cypress / Selenium 等）\n   - 失败日志或截图（最好包含 timeout、locator、trace）\n\n3. **验证命令**\n   - 例如：\n     ```bash\n     npm run test:e2e approval\n     ```\n     或",
+          "total_tokens": 515,
+          "wall_ms": 6266,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.003108,
+          "input_tokens": 292,
+          "latency_ms": 7043,
+          "output_tokens": 704,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 920,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 369,
+                "total_tokens": 515
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6123,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 335,
+                "total_tokens": 481
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个修复任务，但当前对话里没有提供代码仓库、测试文件、运行环境或浏览器访问入口，因此无法真实地定位根因、修改文件或声称完成 5 次真实浏览器验证。\n\n请提供以下任一项后我可以继续：\n\n1. **代码仓库访问方式**\n   - GitHub 仓库（如果已连接 GitHub，我可以读取）\n   - 或上传项目压缩包\n\n2. **至少这些信息**\n   - flaky E2E 测试文件路径（例如 `tests/e2e/approval.spec.ts`）\n   - 使用的框架（Playwright / Cypress / Selenium 等）\n   - 失败日志或截图（最好包含 timeout、locator、trace）\n\n3. **验证命令**\n   - 例如：\n     ```bash\n     npm run test:e2e approval\n     ```\n     或",
+          "total_tokens": 996,
+          "wall_ms": 7045,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002786,
+          "input_tokens": 294,
+          "latency_ms": 6208,
+          "output_tokens": 623,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1090,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 369,
+                "total_tokens": 515
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5118,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 254,
+                "total_tokens": 402
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个修复任务，但当前对话里没有提供代码仓库、测试文件、运行环境或浏览器访问入口，因此无法真实地定位根因、修改文件或声称完成 5 次真实浏览器验证。\n\n请提供以下任一项后我可以继续：\n\n1. **代码仓库访问方式**\n   - GitHub 仓库（如果已连接 GitHub，我可以读取）\n   - 或上传项目压缩包\n\n2. **至少这些信息**\n   - flaky E2E 测试文件路径（例如 `tests/e2e/approval.spec.ts`）\n   - 使用的框架（Playwright / Cypress / Selenium 等）\n   - 失败日志或截图（最好包含 timeout、locator、trace）\n\n3. **验证命令**\n   - 例如：\n     ```bash\n     npm run test:e2e approval\n     ```\n     或",
+          "total_tokens": 917,
+          "wall_ms": 6208,
+          "worker_count": 1
+        }
+      ],
+      "delegation_verdict": "over_delegated",
+      "description": "Fix flaky E2E test for the approval dialog and verify against a real browser.",
+      "family_id": "frontend_browser_verification",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "E2E 调试需要连续上下文,主控直排。",
+        "worker_count": 0
+      },
+      "task_id": "fe-04"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "1 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 1,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001348,
+          "input_tokens": 140,
+          "latency_ms": 9485,
+          "output_tokens": 302,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 9485,
+              "usage": {
+                "input_tokens": 140,
+                "output_tokens": 302,
+                "total_tokens": 442
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个前端迁移任务，但当前对话环境里没有提供代码仓库、文件树、浏览器实例或可访问的工作区，因此无法真实修改文件或进行“真实浏览器验证”。我不能编造已修改文件、提交结果或验证通过情况。\n\n请提供以下任一项，我即可继续：\n\n1. 项目仓库访问（GitHub 连接或代码目录上下文）；或  \n2. 上传项目压缩包；或  \n3. 提供相关前端目录（设置面板组件、CSS Modules 文件、token 配置文件、测试/启动命令）。\n\n拿到代码后我会按要求完成：\n\n- 定位设置面板现有 CSS Modules 使用点；\n- 引入/迁移到设计 token（颜色、间距、字体、圆角、阴影等）体系；\n- 重构组件样式，移除对应 CSS Module 依赖；\n- 保持 DOM 行为和交互不变；\n- 启动项目并使用真实浏览器检查：\n  - 设置面板页面；\n  - 相关入口页面；\n  - 响应式状态；\n  ",
+          "total_tokens": 442,
+          "wall_ms": 9485,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.002384,
+          "input_tokens": 280,
+          "latency_ms": 10668,
+          "output_tokens": 526,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 788,
+              "usage": {
+                "input_tokens": 140,
+                "output_tokens": 302,
+                "total_tokens": 442
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 9880,
+              "usage": {
+                "input_tokens": 140,
+                "output_tokens": 224,
+                "total_tokens": 364
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个前端迁移任务，但当前对话环境里没有提供代码仓库、文件树、浏览器实例或可访问的工作区，因此无法真实修改文件或进行“真实浏览器验证”。我不能编造已修改文件、提交结果或验证通过情况。\n\n请提供以下任一项，我即可继续：\n\n1. 项目仓库访问（GitHub 连接或代码目录上下文）；或  \n2. 上传项目压缩包；或  \n3. 提供相关前端目录（设置面板组件、CSS Modules 文件、token 配置文件、测试/启动命令）。\n\n拿到代码后我会按要求完成：\n\n- 定位设置面板现有 CSS Modules 使用点；\n- 引入/迁移到设计 token（颜色、间距、字体、圆角、阴影等）体系；\n- 重构组件样式，移除对应 CSS Module 依赖；\n- 保持 DOM 行为和交互不变；\n- 启动项目并使用真实浏览器检查：\n  - 设置面板页面；\n  - 相关入口页面；\n  - 响应式状态；\n  ",
+          "total_tokens": 806,
+          "wall_ms": 10668,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002782,
+          "input_tokens": 282,
+          "latency_ms": 12020,
+          "output_tokens": 625,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 885,
+              "usage": {
+                "input_tokens": 140,
+                "output_tokens": 302,
+                "total_tokens": 442
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 11135,
+              "usage": {
+                "input_tokens": 142,
+                "output_tokens": 323,
+                "total_tokens": 465
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个前端迁移任务，但当前对话环境里没有提供代码仓库、文件树、浏览器实例或可访问的工作区，因此无法真实修改文件或进行“真实浏览器验证”。我不能编造已修改文件、提交结果或验证通过情况。\n\n请提供以下任一项，我即可继续：\n\n1. 项目仓库访问（GitHub 连接或代码目录上下文）；或  \n2. 上传项目压缩包；或  \n3. 提供相关前端目录（设置面板组件、CSS Modules 文件、token 配置文件、测试/启动命令）。\n\n拿到代码后我会按要求完成：\n\n- 定位设置面板现有 CSS Modules 使用点；\n- 引入/迁移到设计 token（颜色、间距、字体、圆角、阴影等）体系；\n- 重构组件样式，移除对应 CSS Module 依赖；\n- 保持 DOM 行为和交互不变；\n- 启动项目并使用真实浏览器检查：\n  - 设置面板页面；\n  - 相关入口页面；\n  - 响应式状态；\n  ",
+          "total_tokens": 907,
+          "wall_ms": 12021,
+          "worker_count": 1
+        }
+      ],
+      "delegation_verdict": "over_delegated",
+      "description": "Migrate the settings panel from CSS modules to a design token system, verified in browser.",
+      "family_id": "frontend_browser_verification",
+      "ground_truth": {
+        "delegation": "direct",
+        "note": "前端重构覆盖多个视图,主控直排以保持一致性。",
+        "worker_count": 0
+      },
+      "task_id": "fe-05"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.00081,
+          "input_tokens": 162,
+          "latency_ms": 9337,
+          "output_tokens": 162,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 9337,
+              "usage": {
+                "input_tokens": 162,
+                "output_tokens": 162,
+                "total_tokens": 324
+              }
+            }
+          ],
+          "text_excerpt": "I can’t complete the code change from this environment because the ValueRoute repository/files are not available here. I checked the accessible filesystem and did not find a checkout containing `src/valueroute/api` or `web/src`, so I cannot truthfully claim I changed files or ran project verification.\n\n**Root cause:** Missing repository workspace in the execution environment; there is no accessibl",
+          "total_tokens": 324,
+          "wall_ms": 9337,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.001708,
+          "input_tokens": 324,
+          "latency_ms": 7904,
+          "output_tokens": 346,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 784,
+              "usage": {
+                "input_tokens": 162,
+                "output_tokens": 162,
+                "total_tokens": 324
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 7120,
+              "usage": {
+                "input_tokens": 162,
+                "output_tokens": 184,
+                "total_tokens": 346
+              }
+            }
+          ],
+          "text_excerpt": "I can’t complete the code change from this environment because the ValueRoute repository/files are not available here. I checked the accessible filesystem and did not find a checkout containing `src/valueroute/api` or `web/src`, so I cannot truthfully claim I changed files or ran project verification.\n\n**Root cause:** Missing repository workspace in the execution environment; there is no accessibl",
+          "total_tokens": 670,
+          "wall_ms": 7905,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.001714,
+          "input_tokens": 326,
+          "latency_ms": 6650,
+          "output_tokens": 347,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 917,
+              "usage": {
+                "input_tokens": 162,
+                "output_tokens": 162,
+                "total_tokens": 324
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5733,
+              "usage": {
+                "input_tokens": 164,
+                "output_tokens": 185,
+                "total_tokens": 349
+              }
+            }
+          ],
+          "text_excerpt": "I can’t complete the code change from this environment because the ValueRoute repository/files are not available here. I checked the accessible filesystem and did not find a checkout containing `src/valueroute/api` or `web/src`, so I cannot truthfully claim I changed files or ran project verification.\n\n**Root cause:** Missing repository workspace in the execution environment; there is no accessibl",
+          "total_tokens": 673,
+          "wall_ms": 6651,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "under_delegated",
+      "description": "Add a backend export endpoint and a frontend download button; the two halves touch disjoint files.",
+      "family_id": "fullstack_disjoint",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "前后端区域不重叠,应派 2 个 Worker 并行。",
+        "worker_count": 2
+      },
+      "task_id": "fs-01"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.001204,
+          "input_tokens": 148,
+          "latency_ms": 5749,
+          "output_tokens": 264,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 5749,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 264,
+                "total_tokens": 412
+              }
+            }
+          ],
+          "text_excerpt": "我可以完成这个前后端混合改动，但当前对话里没有提供代码仓库、目录结构或文件内容，因此无法真实修改文件，也不能编造已改文件或验证结果。\n\n请提供以下任一项后我可以继续：\n1. 上传项目代码压缩包；或\n2. 提供仓库访问方式（例如已连接的 GitHub 仓库）；或\n3. 粘贴相关目录：\n   - 后端任务列表接口 controller/router/service/schema 文件\n   - 前端任务列表表格组件、API 请求封装、状态管理文件\n\n拿到代码后我会：\n- 后端：增加任务列表接口 cursor 分页参数（含请求参数、查询逻辑、返回 cursor 字段）\n- 前端：接入 cursor 翻页、表格 loading 状态、避免重复请求\n- 保持前后端修改范围隔离\n- 最后说明：\n  - 根因\n  - 精确修改文件列表\n  - 验证方式和结果\n\n当前状态：\n- 根因：缺少可访问的代码上下",
+          "total_tokens": 412,
+          "wall_ms": 5749,
+          "worker_count": 0
+        },
+        {
+          "config": "B",
+          "error": "provider returned HTTP 502: ",
+          "passed": false,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.002154,
+          "input_tokens": 298,
+          "latency_ms": 6360,
+          "output_tokens": 464,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 811,
+              "usage": {
+                "input_tokens": 148,
+                "output_tokens": 264,
+                "total_tokens": 412
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5549,
+              "usage": {
+                "input_tokens": 150,
+                "output_tokens": 200,
+                "total_tokens": 350
+              }
+            }
+          ],
+          "text_excerpt": "我可以完成这个前后端混合改动，但当前对话里没有提供代码仓库、目录结构或文件内容，因此无法真实修改文件，也不能编造已改文件或验证结果。\n\n请提供以下任一项后我可以继续：\n1. 上传项目代码压缩包；或\n2. 提供仓库访问方式（例如已连接的 GitHub 仓库）；或\n3. 粘贴相关目录：\n   - 后端任务列表接口 controller/router/service/schema 文件\n   - 前端任务列表表格组件、API 请求封装、状态管理文件\n\n拿到代码后我会：\n- 后端：增加任务列表接口 cursor 分页参数（含请求参数、查询逻辑、返回 cursor 字段）\n- 前端：接入 cursor 翻页、表格 loading 状态、避免重复请求\n- 保持前后端修改范围隔离\n- 最后说明：\n  - 根因\n  - 精确修改文件列表\n  - 验证方式和结果\n\n当前状态：\n- 根因：缺少可访问的代码上下",
+          "total_tokens": 762,
+          "wall_ms": 6361,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "under_delegated",
+      "description": "Backend adds a pagination cursor parameter; frontend adds the cursor to the task list table.",
+      "family_id": "fullstack_disjoint",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "前后端区域不重叠,应派 2 个 Worker 并行。",
+        "worker_count": 2
+      },
+      "task_id": "fs-02"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.000869,
+          "input_tokens": 149,
+          "latency_ms": 10289,
+          "output_tokens": 180,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 10289,
+              "usage": {
+                "input_tokens": 149,
+                "output_tokens": 180,
+                "total_tokens": 329
+              }
+            }
+          ],
+          "text_excerpt": "当前环境未提供代码仓库、文件访问或执行测试能力，因此我无法实际完成后端/前端改动，也不能编造已修改的文件或验证结果。\n\n- **Root cause（根因）**：任务响应模型缺少数据分类字段，导致前端详情面板没有可展示的数据来源；需要后端补充响应字段，并由前端详情组件消费展示。\n- **Changed files（已修改文件）**：无（未获得仓库访问权限，未进行修改）。\n- **Verification（验证）**：未执行（无法访问项目、运行测试或启动前后端）。\n\n如果提供代码仓库上下文（例如相关后端接口、响应 DTO/Schema、前端详情面板组件路径），我可以按不重叠范围分别修改并给出实际变更文件与验证记录。",
+          "total_tokens": 329,
+          "wall_ms": 10289,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.001938,
+          "input_tokens": 298,
+          "latency_ms": 7743,
+          "output_tokens": 410,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1144,
+              "usage": {
+                "input_tokens": 149,
+                "output_tokens": 180,
+                "total_tokens": 329
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6599,
+              "usage": {
+                "input_tokens": 149,
+                "output_tokens": 230,
+                "total_tokens": 379
+              }
+            }
+          ],
+          "text_excerpt": "当前环境未提供代码仓库、文件访问或执行测试能力，因此我无法实际完成后端/前端改动，也不能编造已修改的文件或验证结果。\n\n- **Root cause（根因）**：任务响应模型缺少数据分类字段，导致前端详情面板没有可展示的数据来源；需要后端补充响应字段，并由前端详情组件消费展示。\n- **Changed files（已修改文件）**：无（未获得仓库访问权限，未进行修改）。\n- **Verification（验证）**：未执行（无法访问项目、运行测试或启动前后端）。\n\n如果提供代码仓库上下文（例如相关后端接口、响应 DTO/Schema、前端详情面板组件路径），我可以按不重叠范围分别修改并给出实际变更文件与验证记录。\n无法完成实际代码修改，因为当前对话中没有提供可访问的代码仓库、文件内容或工作区信息。我不能编造已修改的文件、实现细节或验证结果。\n\n当前可确认的信息：\n\n- **根因**：任务响",
+          "total_tokens": 708,
+          "wall_ms": 7743,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.001772,
+          "input_tokens": 300,
+          "latency_ms": 10298,
+          "output_tokens": 368,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 880,
+              "usage": {
+                "input_tokens": 149,
+                "output_tokens": 180,
+                "total_tokens": 329
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 9418,
+              "usage": {
+                "input_tokens": 151,
+                "output_tokens": 188,
+                "total_tokens": 339
+              }
+            }
+          ],
+          "text_excerpt": "当前环境未提供代码仓库、文件访问或执行测试能力，因此我无法实际完成后端/前端改动，也不能编造已修改的文件或验证结果。\n\n- **Root cause（根因）**：任务响应模型缺少数据分类字段，导致前端详情面板没有可展示的数据来源；需要后端补充响应字段，并由前端详情组件消费展示。\n- **Changed files（已修改文件）**：无（未获得仓库访问权限，未进行修改）。\n- **Verification（验证）**：未执行（无法访问项目、运行测试或启动前后端）。\n\n如果提供代码仓库上下文（例如相关后端接口、响应 DTO/Schema、前端详情面板组件路径），我可以按不重叠范围分别修改并给出实际变更文件与验证记录。\n无法完成该代码改动：当前环境中没有发现目标项目代码仓库或可访问的前后端源码，因此无法定位任务响应接口、详情面板组件，也无法安全地修改或验证。\n\n- **Root cause:**",
+          "total_tokens": 668,
+          "wall_ms": 10299,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "under_delegated",
+      "description": "Backend adds a data-classification label to task responses; frontend shows it in the detail panel.",
+      "family_id": "fullstack_disjoint",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "前后端区域不重叠,应派 2 个 Worker 并行。",
+        "worker_count": 2
+      },
+      "task_id": "fs-03"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline",
+          "2 write region(s) declared with a resource summary; conservative advisory split"
+        ],
+        "rejection_codes": [],
+        "request_type": "new_task",
+        "suggested_worker_count": 2,
+        "suggestion": "workers"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.00076,
+          "input_tokens": 144,
+          "latency_ms": 4893,
+          "output_tokens": 154,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 4893,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 154,
+                "total_tokens": 298
+              }
+            }
+          ],
+          "text_excerpt": "I can complete this change, but I don’t have access to the repository/filesystem in the current chat, so I can’t truthfully claim specific files changed or verification results.\n\nPlease provide one of:\n- the repository contents (or a workspace connection), or\n- the relevant backend/frontend directories and test commands.\n\nOnce available, I’ll make the split changes:\n- **Backend scope:** add the ap",
+          "total_tokens": 298,
+          "wall_ms": 4894,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.001812,
+          "input_tokens": 288,
+          "latency_ms": 10239,
+          "output_tokens": 381,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1844,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 154,
+                "total_tokens": 298
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 8395,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 227,
+                "total_tokens": 371
+              }
+            }
+          ],
+          "text_excerpt": "I can complete this change, but I don’t have access to the repository/filesystem in the current chat, so I can’t truthfully claim specific files changed or verification results.\n\nPlease provide one of:\n- the repository contents (or a workspace connection), or\n- the relevant backend/frontend directories and test commands.\n\nOnce available, I’ll make the split changes:\n- **Backend scope:** add the ap",
+          "total_tokens": 669,
+          "wall_ms": 10240,
+          "worker_count": 1
+        },
+        {
+          "calls": 3,
+          "config": "C",
+          "estimated_cost_usd": 0.00222,
+          "input_tokens": 436,
+          "latency_ms": 12696,
+          "output_tokens": 446,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 779,
+              "usage": {
+                "input_tokens": 144,
+                "output_tokens": 154,
+                "total_tokens": 298
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5772,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 119,
+                "total_tokens": 265
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 6145,
+              "usage": {
+                "input_tokens": 146,
+                "output_tokens": 173,
+                "total_tokens": 319
+              }
+            }
+          ],
+          "text_excerpt": "I can complete this change, but I don’t have access to the repository/filesystem in the current chat, so I can’t truthfully claim specific files changed or verification results.\n\nPlease provide one of:\n- the repository contents (or a workspace connection), or\n- the relevant backend/frontend directories and test commands.\n\nOnce available, I’ll make the split changes:\n- **Backend scope:** add the ap",
+          "total_tokens": 882,
+          "wall_ms": 12697,
+          "worker_count": 2
+        }
+      ],
+      "delegation_verdict": "correct",
+      "description": "Backend adds an approval webhook endpoint; frontend adds a subscribe control.",
+      "family_id": "fullstack_disjoint",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "前后端区域不重叠,应派 2 个 Worker 并行。",
+        "worker_count": 2
+      },
+      "task_id": "fs-04"
+    },
+    {
+      "advisory": {
+        "basis_version": "0.0.2",
+        "boundary_method": "rule_based",
+        "rationale": [
+          "host controller executes directly with zero workers; this is the always-available baseline"
+        ],
+        "rejection_codes": [],
+        "request_type": "material_amendment",
+        "suggested_worker_count": 0,
+        "suggestion": "direct"
+      },
+      "configs": [
+        {
+          "calls": 1,
+          "config": "A",
+          "estimated_cost_usd": 0.000985,
+          "input_tokens": 145,
+          "latency_ms": 9199,
+          "output_tokens": 210,
+          "passed": false,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 9199,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 210,
+                "total_tokens": 355
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个混合任务，但当前对话中没有提供代码仓库、目录结构或文件访问权限，因此无法真实修改后端/前端文件，也不能声称已完成或编造变更记录。\n\n请提供以下任一项后我可以继续：\n- 上传项目代码压缩包；\n- 提供可访问的 Git 仓库；\n- 提供当前分支代码内容和项目结构。\n\n拿到代码后我会：\n1. 定位后端接口层、路由、数据模型/查询逻辑，新增“用量汇总接口”；\n2. 定位前端仪表盘页面和图表组件，新增用量趋势/汇总图表；\n3. 确保前后端改动范围互不覆盖；\n4. 完成测试或构建验证；\n5. 最终汇报：\n   - 根因/需求缺口；\n   - 精确修改的文件列表；\n   - 验证命令和结果。",
+          "total_tokens": 355,
+          "wall_ms": 9199,
+          "worker_count": 0
+        },
+        {
+          "calls": 2,
+          "config": "B",
+          "estimated_cost_usd": 0.00163,
+          "input_tokens": 290,
+          "latency_ms": 6241,
+          "output_tokens": 335,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 792,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 210,
+                "total_tokens": 355
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5449,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 125,
+                "total_tokens": 270
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个混合任务，但当前对话中没有提供代码仓库、目录结构或文件访问权限，因此无法真实修改后端/前端文件，也不能声称已完成或编造变更记录。\n\n请提供以下任一项后我可以继续：\n- 上传项目代码压缩包；\n- 提供可访问的 Git 仓库；\n- 提供当前分支代码内容和项目结构。\n\n拿到代码后我会：\n1. 定位后端接口层、路由、数据模型/查询逻辑，新增“用量汇总接口”；\n2. 定位前端仪表盘页面和图表组件，新增用量趋势/汇总图表；\n3. 确保前后端改动范围互不覆盖；\n4. 完成测试或构建验证；\n5. 最终汇报：\n   - 根因/需求缺口；\n   - 精确修改的文件列表；\n   - 验证命令和结果。\nI can complete this change, but I need access to the repository/workspace first. I don’t currently h",
+          "total_tokens": 625,
+          "wall_ms": 6242,
+          "worker_count": 1
+        },
+        {
+          "calls": 2,
+          "config": "C",
+          "estimated_cost_usd": 0.001796,
+          "input_tokens": 292,
+          "latency_ms": 6522,
+          "output_tokens": 376,
+          "passed": true,
+          "per_call": [
+            {
+              "http_status": 200,
+              "latency_ms": 1115,
+              "usage": {
+                "input_tokens": 145,
+                "output_tokens": 210,
+                "total_tokens": 355
+              }
+            },
+            {
+              "http_status": 200,
+              "latency_ms": 5407,
+              "usage": {
+                "input_tokens": 147,
+                "output_tokens": 166,
+                "total_tokens": 313
+              }
+            }
+          ],
+          "text_excerpt": "我可以执行这个混合任务，但当前对话中没有提供代码仓库、目录结构或文件访问权限，因此无法真实修改后端/前端文件，也不能声称已完成或编造变更记录。\n\n请提供以下任一项后我可以继续：\n- 上传项目代码压缩包；\n- 提供可访问的 Git 仓库；\n- 提供当前分支代码内容和项目结构。\n\n拿到代码后我会：\n1. 定位后端接口层、路由、数据模型/查询逻辑，新增“用量汇总接口”；\n2. 定位前端仪表盘页面和图表组件，新增用量趋势/汇总图表；\n3. 确保前后端改动范围互不覆盖；\n4. 完成测试或构建验证；\n5. 最终汇报：\n   - 根因/需求缺口；\n   - 精确修改的文件列表；\n   - 验证命令和结果。\nI can’t complete the code change from the information available here because I don’t have access to ",
+          "total_tokens": 668,
+          "wall_ms": 6523,
+          "worker_count": 0
+        }
+      ],
+      "delegation_verdict": "under_delegated",
+      "description": "Backend exposes usage summary endpoint; frontend adds a usage chart in the dashboard.",
+      "family_id": "fullstack_disjoint",
+      "ground_truth": {
+        "delegation": "workers",
+        "note": "前后端区域不重叠,应派 2 个 Worker 并行。",
+        "worker_count": 2
+      },
+      "task_id": "fs-05"
+    }
+  ],
+  "schema_version": "offline-evaluation-1",
+  "task_count": 15
+}

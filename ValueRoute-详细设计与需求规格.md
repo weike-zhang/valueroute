@@ -1351,6 +1351,8 @@ P1 上线前必须先用 v0.0.1 的真实事件和 Evidence 建立离线评估�
 
 每个任务族先冻结 5–10 个任务、允许范围和客观验收器。调试阶段可以单次运行；形成公开结论时每题至少 3 次，并固定模型、SDK、价格表、代码版本和地区。
 
+冻结任务集已落地为 `evaluation/frozen_tasks.json`（三族 × 5 任务，含允许范围与客观验收器），评估 harness 为 `scripts/evaluate_offline.py`，原始证据归档在 `evaluation/evidence/`。首次真实模型运行记录见 `docs/evaluation.md`。
+
 ### 20.3 核心指标
 
 - 任务成功率和必要证据满足率；
@@ -1499,10 +1501,10 @@ valueroute/
 - [x] API 修改使用 expected_version，并发覆盖返回 version_conflict；
 - [x] Provider 超时、重试、heartbeat、claim、lease、取消宽限和对象大小均有可配置保护；
 - [x] API key 和私有代码正文不进入默认日志和公开导出；
-- [ ] A/B/C 三组评估至少覆盖三个冻结任务族；
-- [ ] README 的任何性能主张都能追溯到配置、任务和原始结果。
+- [x] A/B/C 三组评估至少覆盖三个冻结任务族；
+- [x] README 的任何性能主张都能追溯到配置、任务和原始结果。
 
-> 状态：前 34 项已由 v0.0.1/v0.0.2 实现与测试覆盖（见 `docs/acceptance-matrix.md`）；后 2 项依赖离线评估集，作为发布前下一项待办。
+> 状态：36 项均已由 v0.0.1/v0.0.2 实现与测试覆盖（见 `docs/acceptance-matrix.md`）。A/B/C 三组评估通过 `evaluation/frozen_tasks.json`（三个冻结任务族，每族 5 个任务）与 `scripts/evaluate_offline.py` 完成，原始证据归档在 `evaluation/evidence/`；README 的性能主张可追溯到这些配置、任务和原始结果。
 
 ## 24. 风险与待验证假设
 

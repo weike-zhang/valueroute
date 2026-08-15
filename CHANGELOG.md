@@ -5,6 +5,21 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 
 ## [Unreleased]
 
+### Added
+
+- Offline evaluation set (P1-7):
+  - `evaluation/frozen_tasks.json` freezes three task families
+    (backend/API diagnosis, frontend browser verification, disjoint
+    full-stack) with five tasks each, ground-truth delegation, and
+    acceptance criteria.
+  - `scripts/evaluate_offline.py` runs advisory routing decisions and live
+    A/B/C (zero worker / fixed one / adaptive) measurements against an
+    OpenAI-compatible endpoint, recording tokens, wall time, and estimated
+    cost with `quality_claim: false`.
+  - First live evidence archived at
+    `evaluation/evidence/evaluation-2026-08-15-gpt-5-6-mini.json`;
+    design §23 acceptance checklist items 35/36 are now verified.
+
 ## [0.0.2] - 2026-08-15
 
 ### Added

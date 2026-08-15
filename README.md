@@ -38,6 +38,7 @@ Design and operation notes:
 - [API specification](docs/api-spec.md)
 - [Versioned API schemas](schemas/v1/manifest.json)
 - [Model profiles](model_manifests/README.md)
+- [Offline evaluation set](evaluation/)
 - [NFR and supply-chain evidence](docs/nfr-and-supply-chain-evidence.md)
 - [Ownership and leases](docs/ownership-and-region-lease.md)
 - [Checkpoint and recovery](docs/checkpoint-and-recovery.md)
@@ -55,7 +56,9 @@ The v0.0.2 advisory routing pipeline (boundary classification, profiler,
 candidate suggestions, and durable shadow records) is implemented as a
 read-only surface: it only recommends and never modifies the Controller,
 WorkerPlan, or model configuration. Automatic delegation stays disabled until
-the offline evaluation set demonstrates quality, cost, or latency gains.
+the offline evaluation set ([`evaluation/`](evaluation/), first live run
+recorded in [docs/evaluation.md](docs/evaluation.md)) demonstrates quality,
+cost, or latency gains.
 
 ## Documentation
 

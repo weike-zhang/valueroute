@@ -1,0 +1,124 @@
+{
+  "schema_version": "v1",
+  "families": [
+    {
+      "id": "backend_api_diagnosis",
+      "label": "后端/API 故障诊断与修复",
+      "default_write_regions": [
+        {"resource_kind": "file", "resource_id": "src/valueroute/api", "selector_type": "directory", "selector_value": "src/valueroute/api", "base_revision": "0000000"},
+        {"resource_kind": "file", "resource_id": "src/valueroute/domain", "selector_type": "directory", "selector_value": "src/valueroute/domain", "base_revision": "0000000"}
+      ],
+      "tasks": [
+        {
+          "id": "be-01",
+          "description": "GET /v1/tasks returns HTTP 500 after the service restarts; reproduce locally and fix the root cause.",
+          "user_text": "用户报告重启服务后 GET /v1/tasks 返回 500。请在本机复现,定位根因并修复,补充回归测试。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "单一 API 故障,主控直排足够,不派 Worker。"}
+        },
+        {
+          "id": "be-02",
+          "description": "A journal tail frame is detected as corrupted after a crash; isolate and recover.",
+          "user_text": "服务异常退出后 journal 尾帧报损坏。请隔离损坏帧、恢复可用的状态,并保证非尾部损坏会阻止 ready。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "恢复逻辑属于核心一致性,必须由主控直接处理,不派 Worker。"}
+        },
+        {
+          "id": "be-03",
+          "description": "Two independent API modules each have a failing test; fix both without touching shared code.",
+          "user_text": "valueroute/api 和 valueroute/domain 下各有一个失败的测试,两个模块互不依赖。请分别修复并保持另一模块不受影响。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "两个不重叠模块可并行,应派 2 个 Worker。"}
+        },
+        {
+          "id": "be-04",
+          "description": "Add a new versioned request schema for a new endpoint and wire the API contract.",
+          "user_text": "新增一个受控任务接口,需要新的 versioned request JSON Schema 并接入 OpenAPI 契约。涉及 schemas/v1 和 API 路由。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "新接口契约是整体连贯变更,主控直排。"}
+        },
+        {
+          "id": "be-05",
+          "description": "Idempotency-Key replay duplicates a worker attempt after a crash.",
+          "user_text": "崩溃后携带相同 Idempotency-Key 的重放请求导致 Worker attempt 被重复创建。请修复重放幂等并补测试。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "幂等语义属于核心状态机,必须主控处理。"}
+        }
+      ]
+    },
+    {
+      "id": "frontend_browser_verification",
+      "label": "前端修改与真实浏览器验证",
+      "default_write_regions": [
+        {"resource_kind": "file", "resource_id": "web/src", "selector_type": "directory", "selector_value": "web/src", "base_revision": "0000000"}
+      ],
+      "tasks": [
+        {
+          "id": "fe-01",
+          "description": "Change the login button label and verify the rendered page in a real browser.",
+          "user_text": "把登录按钮文案改为「登录并进入工作台」,启动真实浏览器验证渲染结果和点击行为。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "单一文案改动+浏览器验证,一个 Worker 直排即可。"}
+        },
+        {
+          "id": "fe-02",
+          "description": "Fix a responsive layout bug affecting the task list on small screens and verify.",
+          "user_text": "任务列表在窄屏下溢出。修复响应式布局,并用浏览器验证 375px 与 1440px 两种宽度。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "前端单模块改动,主控直排。"}
+        },
+        {
+          "id": "fe-03",
+          "description": "Add a new status badge component and style variants, verified in browser.",
+          "user_text": "新增一个状态徽章组件,支持 success/warning/error 三种样式变体,浏览器验证各状态渲染。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "新组件+样式,前端局部改动,主控直排。"}
+        },
+        {
+          "id": "fe-04",
+          "description": "Fix flaky E2E test for the approval dialog and verify against a real browser.",
+          "user_text": "审批弹窗的 E2E 测试不稳定。请定位 flakiness 根因、修复测试,并用真实浏览器连续验证 5 次通过。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "E2E 调试需要连续上下文,主控直排。"}
+        },
+        {
+          "id": "fe-05",
+          "description": "Migrate the settings panel from CSS modules to a design token system, verified in browser.",
+          "user_text": "把设置面板从 CSS Modules 迁移到设计 token 系统,重构样式并在浏览器验证所有页面无回归。",
+          "ground_truth": {"delegation": "direct", "worker_count": 0, "note": "前端重构覆盖多个视图,主控直排以保持一致性。"}
+        }
+      ]
+    },
+    {
+      "id": "fullstack_disjoint",
+      "label": "前后端不重叠范围的混合任务",
+      "default_write_regions": [
+        {"resource_kind": "file", "resource_id": "src/valueroute/api", "selector_type": "directory", "selector_value": "src/valueroute/api", "base_revision": "0000000"},
+        {"resource_kind": "file", "resource_id": "web/src", "selector_type": "directory", "selector_value": "web/src", "base_revision": "0000000"}
+      ],
+      "tasks": [
+        {
+          "id": "fs-01",
+          "description": "Add a backend export endpoint and a frontend download button; the two halves touch disjoint files.",
+          "user_text": "后端新增任务导出 CSV 接口,前端新增导出下载按钮。后端只改 src/valueroute/api,前端只改 web/src,互不重叠,并行完成并各自验证。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "前后端区域不重叠,应派 2 个 Worker 并行。"}
+        },
+        {
+          "id": "fs-02",
+          "description": "Backend adds a pagination cursor parameter; frontend adds the cursor to the task list table.",
+          "user_text": "后端为任务列表接口增加游标分页参数,前端表格接入游标并处理 loading。前后端区域不重叠,并行完成。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "前后端区域不重叠,应派 2 个 Worker 并行。"}
+        },
+        {
+          "id": "fs-03",
+          "description": "Backend adds a data-classification label to task responses; frontend shows it in the detail panel.",
+          "user_text": "后端在任务响应里增加数据分类字段,前端在详情面板展示该字段。前后端改动互不重叠,并行完成。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "前后端区域不重叠,应派 2 个 Worker 并行。"}
+        },
+        {
+          "id": "fs-04",
+          "description": "Backend adds an approval webhook endpoint; frontend adds a subscribe control.",
+          "user_text": "后端新增审批 webhook 接收端点,前端新增订阅开关控件。前后端区域不重叠,并行完成并各自验证。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "前后端区域不重叠,应派 2 个 Worker 并行。"}
+        },
+        {
+          "id": "fs-05",
+          "description": "Backend exposes usage summary endpoint; frontend adds a usage chart in the dashboard.",
+          "user_text": "后端新增用量汇总接口,前端在仪表盘新增用量图表。前后端改动互不重叠,并行完成。",
+          "ground_truth": {"delegation": "workers", "worker_count": 2, "note": "前后端区域不重叠,应派 2 个 Worker 并行。"}
+        }
+      ]
+    }
+  ]
+}
