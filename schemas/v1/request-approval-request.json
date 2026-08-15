@@ -1,0 +1,48 @@
+{
+  "$defs": {
+    "ApprovalDecision": {
+      "enum": [
+        "approve",
+        "reject"
+      ],
+      "title": "ApprovalDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "action_summary": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Action Summary",
+      "type": "string"
+    },
+    "allowed_decisions": {
+      "items": {
+        "$ref": "#/$defs/ApprovalDecision"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "title": "Allowed Decisions",
+      "type": "array"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "risk": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Risk",
+      "type": "string"
+    }
+  },
+  "required": [
+    "action_summary",
+    "risk",
+    "expires_at"
+  ],
+  "title": "RequestApprovalRequest",
+  "type": "object"
+}

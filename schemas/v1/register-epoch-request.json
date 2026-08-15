@@ -1,0 +1,49 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_version": {
+      "minimum": 1,
+      "title": "Expected Version",
+      "type": "integer"
+    },
+    "model_id": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_snapshot": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Snapshot"
+    },
+    "provider_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "reasoning_effort": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Reasoning Effort",
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_version",
+    "provider_id",
+    "model_id",
+    "reasoning_effort"
+  ],
+  "title": "RegisterEpochRequest",
+  "type": "object"
+}

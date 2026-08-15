@@ -1,0 +1,42 @@
+{
+  "$defs": {
+    "ChangeSetRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "conflict": {
+          "default": false,
+          "title": "Conflict",
+          "type": "boolean"
+        },
+        "integrated": {
+          "default": false,
+          "title": "Integrated",
+          "type": "boolean"
+        }
+      },
+      "title": "ChangeSetRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "changesets": {
+      "items": {
+        "$ref": "#/$defs/ChangeSetRequest"
+      },
+      "maxItems": 100,
+      "title": "Changesets",
+      "type": "array"
+    },
+    "expected_version": {
+      "minimum": 1,
+      "title": "Expected Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "expected_version"
+  ],
+  "title": "VerifyTaskRequest",
+  "type": "object"
+}

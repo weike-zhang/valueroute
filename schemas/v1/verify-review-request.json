@@ -1,0 +1,10 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_review_version": {"minimum": 1, "title": "Expected Review Version", "type": "integer"},
+    "verifier_agent_id": {"maxLength": 200, "minLength": 1, "title": "Verifier Agent Id", "type": "string"},
+    "evidence_ids": {"items": {"type": "string"}, "maxItems": 100, "title": "Evidence Ids", "type": "array"}
+  },
+  "required": ["expected_review_version", "verifier_agent_id"],
+  "title": "VerifyReviewRequest", "type": "object"
+}

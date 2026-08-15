@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "ObservationStatus": {
+      "enum": [
+        "observed_pass",
+        "observed_fail",
+        "unobserved",
+        "not_applicable"
+      ],
+      "title": "ObservationStatus",
+      "type": "string"
+    },
+    "ResourceRegionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "resource_kind": {"enum": ["file", "directory", "database", "external"], "title": "Resource Kind", "type": "string"},
+        "resource_id": {"maxLength": 2000, "minLength": 1, "title": "Resource Id", "type": "string"},
+        "selector_type": {"enum": ["symbol", "ast_node", "path_prefix", "row_keys", "key_range", "partition", "json_pointer", "provider_subresource", "whole_resource"], "title": "Selector Type", "type": "string"},
+        "selector_value": {"title": "Selector Value"},
+        "base_revision": {"maxLength": 512, "minLength": 1, "title": "Base Revision", "type": "string"}
+      },
+      "required": ["resource_kind", "resource_id", "selector_type", "selector_value", "base_revision"],
+      "title": "ResourceRegionRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifact_ref": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact Ref"
+    },
+    "child_task_id": {"anyOf": [{"maxLength": 200, "type": "string"}, {"type": "null"}], "default": null, "title": "Child Task Id"},
+    "evidence_type": {
+      "enum": [
+        "test",
+        "static_check",
+        "live_check",
+        "artifact",
+        "human_confirmation"
+      ],
+      "title": "Evidence Type",
+      "type": "string"
+    },
+    "expected_version": {
+      "minimum": 1,
+      "title": "Expected Version",
+      "type": "integer"
+    },
+    "observation_status": {
+      "$ref": "#/$defs/ObservationStatus"
+    },
+    "requirement_id": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Requirement Id",
+      "type": "string"
+    },
+    "source": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Source",
+      "type": "string"
+    },
+    "region": {
+      "anyOf": [{"$ref": "#/$defs/ResourceRegionRequest"}, {"type": "null"}],
+      "default": null
+    }
+  },
+  "required": [
+    "expected_version",
+    "requirement_id",
+    "evidence_type",
+    "observation_status",
+    "source"
+  ],
+  "title": "RecordEvidenceRequest",
+  "type": "object"
+}

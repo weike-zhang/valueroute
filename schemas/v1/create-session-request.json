@@ -1,0 +1,37 @@
+{
+  "$defs": {
+    "OrchestrationMode": {
+      "enum": [
+        "off",
+        "worker_only"
+      ],
+      "title": "OrchestrationMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "host_session_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Host Session Id",
+      "type": "string"
+    },
+    "orchestration_mode": {
+      "$ref": "#/$defs/OrchestrationMode"
+    },
+    "tenant_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Tenant Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "host_session_id",
+    "orchestration_mode"
+  ],
+  "title": "CreateSessionRequest",
+  "type": "object"
+}

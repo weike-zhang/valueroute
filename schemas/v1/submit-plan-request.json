@@ -1,0 +1,152 @@
+{
+  "$defs": {
+    "ChildProposalRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_contract": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Acceptance Contract",
+          "type": "array"
+        },
+        "client_ref": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Client Ref",
+          "type": "string"
+        },
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "title": "Depends On",
+          "type": "array"
+        },
+        "objective": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Objective",
+          "type": "string"
+        },
+        "read_scope": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Read Scope",
+          "type": "array"
+        },
+        "requested_model_profile": {
+          "default": "default_worker",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Requested Model Profile",
+          "type": "string"
+        },
+        "write_regions": {
+          "items": {
+            "$ref": "#/$defs/ResourceRegionRequest"
+          },
+          "maxItems": 100,
+          "title": "Write Regions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "client_ref",
+        "objective",
+        "acceptance_contract"
+      ],
+      "title": "ChildProposalRequest",
+      "type": "object"
+    },
+    "ResourceRegionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "base_revision": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Base Revision",
+          "type": "string"
+        },
+        "resource_id": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Resource Id",
+          "type": "string"
+        },
+        "resource_kind": {
+          "enum": [
+            "file",
+            "directory",
+            "database",
+            "external"
+          ],
+          "title": "Resource Kind",
+          "type": "string"
+        },
+        "selector_type": {
+          "enum": [
+            "symbol",
+            "ast_node",
+            "path_prefix",
+            "row_keys",
+            "key_range",
+            "partition",
+            "json_pointer",
+            "provider_subresource",
+            "whole_resource"
+          ],
+          "title": "Selector Type",
+          "type": "string"
+        },
+        "selector_value": {
+          "title": "Selector Value"
+        }
+      },
+      "required": [
+        "resource_kind",
+        "resource_id",
+        "selector_type",
+        "selector_value",
+        "base_revision"
+      ],
+      "title": "ResourceRegionRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "children": {
+      "items": {
+        "$ref": "#/$defs/ChildProposalRequest"
+      },
+      "maxItems": 5,
+      "title": "Children",
+      "type": "array"
+    },
+    "expected_parent_version": {
+      "minimum": 1,
+      "title": "Expected Parent Version",
+      "type": "integer"
+    },
+    "integration_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5,
+      "title": "Integration Order",
+      "type": "array"
+    }
+  },
+  "required": [
+    "expected_parent_version",
+    "children"
+  ],
+  "title": "SubmitPlanRequest",
+  "type": "object"
+}
