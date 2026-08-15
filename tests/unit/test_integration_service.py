@@ -87,3 +87,34 @@ def test_store_replays_integration_attempt_transitions(tmp_path: Path):
     assert restarted.integration_attempts[attempt.id] == completed
     assert restarted.recover_integration_results(["a"]) == [{"client_ref": "a", "status": "integrated", "owner_id": "owner-a", "revision": "r2"}]
     restarted_journal.close()
+
+
+def test_integration_failure_keeps_canonical_at_last_committed_revision(tmp_path: Path):
+    canonical = tmp_path / "canonical"
+    canonical.mkdir()
+    (canonical / "shared.txt").write_text("base\n")
+    adapter = LocalWorkspaceAdapter(canonical, tmp_path / "workers")
+    snapshot = adapter.snapshot()
+    base_revision = snapshot.revision
+
+    first_owner = adapter.create_owner_workspace("owner-a", snapshot)
+    second_owner = adapter.create_owner_workspace("owner-b", snapshot)
+    (first_owner / "shared.txt").write_text("first\n")
+    (second_owner / "shared.txt").write_text("second\n")
+    first_changeset = adapter.create_changeset("owner-a", first_owner, snapshot)
+    second_changeset = adapter.create_changeset("owner-b", second_owner, snapshot)
+    lease_a = _lease("owner-a", base_revision, "shared.txt")
+    lease_b = _lease("owner-b", base_revision, "shared.txt")
+
+    first_result = IntegrationService(adapter).integrate_in_order(["a"], {"a": first_changeset}, [lease_a])
+    assert first_result[0]["status"] == "integrated"
+    committed_revision = adapter.snapshot().revision
+    assert (canonical / "shared.txt").read_text() == "first\n"
+
+    second_result = IntegrationService(adapter).integrate_in_order(["b"], {"b": second_changeset}, [lease_b])
+    assert second_result[0]["status"] == "blocked"
+    assert second_result[0]["code"] == "integration_conflict"
+    assert (canonical / "shared.txt").read_text() == "first\n"
+    assert adapter.snapshot().revision == committed_revision
+    adapter.cleanup_owner_workspace(first_owner)
+    adapter.cleanup_owner_workspace(second_owner)

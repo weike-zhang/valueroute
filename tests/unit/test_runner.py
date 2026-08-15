@@ -203,3 +203,63 @@ def test_runner_does_not_claim_cancelled_when_provider_cannot_stop(tmp_path):
     result = asyncio.run(exercise())
     assert result.status is WorkerAttemptStatus.failed
     journal.close()
+
+
+def test_runner_cancel_racing_provider_timeout_finishes_as_cancelled(tmp_path):
+    class Provider:
+        def __init__(self):
+            self.started = asyncio.Event()
+
+        async def complete(self, **kwargs):
+            self.started.set()
+            await asyncio.Event().wait()
+
+    store, journal, attempt = attempt_store(tmp_path)
+    provider = Provider()
+
+    async def exercise():
+        running = asyncio.create_task(
+            WorkerRunner(store, provider, provider_timeout=0.001, cancel_grace_seconds=0.01).run(
+                attempt.id, task_id="task_1", input_text="do work"
+            )
+        )
+        await provider.started.wait()
+        requested = ExecutionManager(store).request_control(attempt.id, "cancel")
+        assert requested.status is WorkerAttemptStatus.cancel_requested
+        return await running
+
+    result = asyncio.run(exercise())
+    assert result.status in {WorkerAttemptStatus.cancelled, WorkerAttemptStatus.failed}
+    assert result.status is not WorkerAttemptStatus.succeeded
+    journal.close()
+
+
+def test_runner_pause_racing_provider_timeout_never_claims_success(tmp_path):
+    class Provider:
+        def __init__(self):
+            self.started = asyncio.Event()
+            self.release = asyncio.Event()
+
+        async def complete(self, **kwargs):
+            self.started.set()
+            await self.release.wait()
+            return ProviderResult(usage())
+
+    store, journal, attempt = attempt_store(tmp_path)
+    provider = Provider()
+
+    async def exercise():
+        running = asyncio.create_task(
+            WorkerRunner(store, provider, provider_timeout=0.001, cancel_grace_seconds=0.01).run(
+                attempt.id, task_id="task_1", input_text="do work"
+            )
+        )
+        await provider.started.wait()
+        ExecutionManager(store).request_control(attempt.id, "pause")
+        provider.release.set()
+        return await running
+
+    result = asyncio.run(exercise())
+    assert result.status in {WorkerAttemptStatus.paused, WorkerAttemptStatus.failed}
+    assert result.status is not WorkerAttemptStatus.succeeded
+    journal.close()

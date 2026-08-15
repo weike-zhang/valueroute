@@ -7,6 +7,15 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 
 ### Added
 
+- Close design section 20.1 test-coverage gaps:
+  - disk-free-threshold guard in `ensure_storage_capacity`
+    (`test_runtime_protection.py`);
+  - terminal states stay immutable after journal replay (NFR-010,
+    `test_state_machine.py`);
+  - integration failure keeps the canonical workspace at the last committed
+    revision (NFR-015, `test_integration_service.py`);
+  - provider timeout racing cancel/pause never claims success
+    (`test_runner.py`).
 - Offline evaluation set (P1-7):
   - `evaluation/frozen_tasks.json` freezes three task families
     (backend/API diagnosis, frontend browser verification, disjoint

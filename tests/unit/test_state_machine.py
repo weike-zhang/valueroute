@@ -104,3 +104,32 @@ def test_unobserved_required_acceptance_blocks_parent_completion():
     evidence = ParentCompletionEvidence(child_statuses=[], changes_integrated=True, parent_verification_passed=True)
     with pytest.raises(StateTransitionError, match="requires required acceptance evidence"):
         transition_task(running, TaskStatus.completed, 1, completion_evidence=evidence)
+
+
+def test_terminal_states_stay_immutable_after_journal_replay(tmp_path):
+    from valueroute.storage.journal import LocalJournal
+    from valueroute.storage.store import Store
+
+    journal = LocalJournal(tmp_path)
+    store = Store(journal)
+    completed_task = task(status=TaskStatus.completed)
+    failed_attempt = attempt(status=WorkerAttemptStatus.failed)
+    store.tasks[completed_task.id] = completed_task
+    store.attempts[failed_attempt.id] = failed_attempt
+    store.commit({"type": "task.created", "data": completed_task.model_dump(mode="json")})
+    store.commit({"type": "worker.terminal_ack", "data": failed_attempt.model_dump(mode="json")})
+    journal.close()
+
+    restarted_journal = LocalJournal(tmp_path)
+    restarted = Store(restarted_journal)
+    replayed_task = restarted.tasks[completed_task.id]
+    replayed_attempt = restarted.attempts[failed_attempt.id]
+    assert replayed_task.status is TaskStatus.completed
+    assert replayed_attempt.status is WorkerAttemptStatus.failed
+    for target in (TaskStatus.running, TaskStatus.partial, TaskStatus.completed):
+        with pytest.raises(StateTransitionError, match="terminal state"):
+            transition_task(replayed_task, target, replayed_task.version)
+    for target in (WorkerAttemptStatus.queued, WorkerAttemptStatus.running, WorkerAttemptStatus.failed):
+        with pytest.raises(StateTransitionError, match="terminal state"):
+            transition_worker_attempt(replayed_attempt, target, replayed_attempt.version)
+    restarted_journal.close()

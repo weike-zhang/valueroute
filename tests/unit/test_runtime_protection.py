@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from valueroute.settings import RuntimeProtectionConfig, RuntimeProtectionError
+from valueroute.settings import RuntimeProtectionConfig, RuntimeProtectionError, ensure_storage_capacity
 from valueroute.storage.artifacts import ArtifactStore
 from valueroute.storage.journal import LocalJournal
 
@@ -28,3 +28,19 @@ def test_journal_size_limit_fails_before_append(tmp_path: Path):
             journal.append([{"type": "test", "data": {}}])
     finally:
         journal.close()
+
+
+def test_ensure_storage_capacity_rejects_when_free_disk_is_below_threshold(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("valueroute.settings.shutil.disk_usage", lambda path: type("DU", (), {"free": 10 * 1024 * 1024})())
+    with pytest.raises(RuntimeProtectionError, match="disk_free_space_below_threshold"):
+        ensure_storage_capacity(tmp_path, incoming_bytes=5 * 1024 * 1024, max_bytes=None, min_free_bytes=100 * 1024 * 1024)
+
+
+def test_ensure_storage_capacity_allows_when_free_disk_is_above_threshold(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("valueroute.settings.shutil.disk_usage", lambda path: type("DU", (), {"free": 200 * 1024 * 1024})())
+    ensure_storage_capacity(tmp_path, incoming_bytes=5 * 1024 * 1024, max_bytes=None, min_free_bytes=100 * 1024 * 1024)
+
+
+def test_ensure_storage_capacity_rejects_negative_incoming_bytes(tmp_path: Path):
+    with pytest.raises(ValueError, match="must not be negative"):
+        ensure_storage_capacity(tmp_path, incoming_bytes=-1, max_bytes=None, min_free_bytes=0)
