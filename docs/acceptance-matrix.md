@@ -18,7 +18,7 @@ This matrix records current evidence honestly; `partial` means the code has a us
 | FR-012 | pass | Journal-backed queue plus bounded local `ExecutionSupervisor` can claim and drain 0–5 attempts; the HTTP service owns the supervisor lifecycle when a Provider adapter is configured, and contract tests cover the zero-worker and multi-worker paths. |
 | FR-013 | pass | Checkpoint, SIGKILL-equivalent recovery, durable provider request context, supervisor restart consumption and a subprocess kill-9 continuation test are present. |
 | FR-014 | pass | Write APIs use Idempotency-Key and replay tests. |
-| FR-015 | partial | Pause/resume/cancel coordination exists; Provider cancellation is optional and now fails closed when remote stop is not confirmed, but external provider implementations remain adapter-dependent. |
+| FR-015 | pass | Pause/resume/cancel coordination exists; the OpenAI adapter now implements `cancel()` by aborting the in-flight request and returning confirmation, with fail-closed behavior when no request is running or stop is not confirmed. Runner-level cancellation and adapter contract tests cover pause, resume, cancel, and remote-stop uncertainty. |
 | FR-016 | pass | Evidence Gate and unobserved blocking tests. |
 | FR-017 | pass | Parent and Worker state-machine terminal guards. |
 | FR-018 | pass | Usage records/export include latency and retry count; OpenAI-compatible adapter retries retryable failures and records the performed count while preserving unknown cost. Negative tests also verify provider error payloads, logs, and usage exports do not expose credential sentinels or private request bodies. |

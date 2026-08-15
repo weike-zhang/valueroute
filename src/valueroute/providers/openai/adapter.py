@@ -29,12 +29,14 @@ class ProviderResult:
 class OpenAIProviderAdapter:
     """OpenAI-compatible Responses adapter; secrets stay outside domain state."""
 
-    def __init__(self, *, model_id: str, provider_id: str = "openai", base_url: str = "https://api.openai.com/v1", api_key: str | None = None, client: httpx.AsyncClient | None = None):
+    def __init__(self, *, model_id: str, provider_id: str = "openai", base_url: str = "https://api.openai.com/v1", api_key: str | None = None, client: httpx.AsyncClient | None = None, cancel_timeout_seconds: float = 5.0):
         self.provider_id = provider_id
         self.model_id = model_id
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key if api_key is not None else os.getenv("OPENAI_API_KEY")
         self.client = client
+        self.cancel_timeout_seconds = cancel_timeout_seconds
+        self._in_flight: dict[str, asyncio.Task] = {}
 
     async def complete(self, *, task_id: str, input_text: str, reasoning_effort: str = "medium", retries: int = 0) -> ProviderResult:
         if not self.api_key:
@@ -45,6 +47,8 @@ class OpenAIProviderAdapter:
         own_client = self.client is None
         client = self.client or httpx.AsyncClient(timeout=60.0)
         performed_retries = 0
+        current = asyncio.current_task()
+        self._in_flight[task_id] = current
         try:
             while True:
                 try:
@@ -71,8 +75,29 @@ class OpenAIProviderAdapter:
                     performed_retries += 1
                     await asyncio.sleep(min(0.25 * (2 ** (performed_retries - 1)), 2.0))
         finally:
+            self._in_flight.pop(task_id, None)
             if own_client:
                 await client.aclose()
+
+    async def cancel(self, *, task_id: str, execution_handle: Any = None) -> bool:
+        """Confirm an in-flight request stopped by aborting the underlying task.
+
+        The local asyncio task drives the HTTP request; cancelling it aborts the
+        transport so the runner can record ``cancelled`` instead of failing
+        closed.  Returns ``False`` when no request is running here, or when the
+        task could not be stopped within the configured timeout.
+        """
+        task = self._in_flight.get(task_id)
+        if task is None or task.done():
+            return False
+        task.cancel()
+        try:
+            await asyncio.wait_for(asyncio.shield(task), timeout=self.cancel_timeout_seconds)
+        except (asyncio.CancelledError, asyncio.TimeoutError):
+            if task.cancelled() or task.done():
+                return True
+            return False
+        return True
 
 
 def _response_text(raw: dict[str, Any]) -> str:

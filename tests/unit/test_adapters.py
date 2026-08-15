@@ -89,6 +89,73 @@ def test_openai_adapter_does_not_call_without_credential():
         asyncio.run(OpenAIProviderAdapter(model_id="m", api_key=None).complete(task_id="t", input_text="hi"))
 
 
+def test_openai_adapter_cancel_aborts_in_flight_request():
+    started = asyncio.Event()
+    released = asyncio.Event()
+
+    async def handler(request: httpx.Request):
+        started.set()
+        await released.wait()
+        return httpx.Response(200, json={"output_text": "done", "usage": {"input_tokens": 1, "output_tokens": 1}})
+
+    client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    adapter = OpenAIProviderAdapter(model_id="m", api_key="secret", client=client, cancel_timeout_seconds=2.0)
+
+    async def run():
+        task = asyncio.create_task(adapter.complete(task_id="t", input_text="hi"))
+        await started.wait()
+        stopped = await adapter.cancel(task_id="t")
+        await asyncio.gather(task, return_exceptions=True)
+        await client.aclose()
+        return stopped
+
+    assert asyncio.run(run()) is True
+
+
+def test_openai_adapter_cancel_returns_false_when_no_request_is_in_flight():
+    adapter = OpenAIProviderAdapter(model_id="m", api_key="secret")
+    assert asyncio.run(adapter.cancel(task_id="missing")) is False
+
+
+def test_runner_records_cancelled_with_real_openai_adapter(tmp_path):
+    from valueroute.domain.models import WorkerAttempt, WorkerAttemptStatus
+    from valueroute.execution.manager import ExecutionManager
+    from valueroute.execution.runner import WorkerRunner
+    from valueroute.storage.journal import LocalJournal
+    from valueroute.storage.store import Store
+
+    started = asyncio.Event()
+
+    async def handler(request: httpx.Request):
+        started.set()
+        await asyncio.Event().wait()
+
+    client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    adapter = OpenAIProviderAdapter(model_id="m", api_key="secret", client=client, cancel_timeout_seconds=2.0)
+
+    journal = LocalJournal(tmp_path)
+    store = Store(journal)
+    attempt = WorkerAttempt(id="attempt_cancel", worker_session_id="session_1", child_task_id="child_1")
+    store.attempts[attempt.id] = attempt
+    store.attempt_session[attempt.id] = "controller_1"
+
+    async def exercise():
+        running = asyncio.create_task(
+            WorkerRunner(store, adapter, provider_timeout=None, cancel_grace_seconds=0.5).run(
+                attempt.id, task_id="task_1", input_text="do work"
+            )
+        )
+        await started.wait()
+        ExecutionManager(store).request_control(attempt.id, "cancel")
+        result = await running
+        await client.aclose()
+        return result
+
+    result = asyncio.run(exercise())
+    assert result.status is WorkerAttemptStatus.cancelled
+    journal.close()
+
+
 def test_httpx_bridge_preserves_idempotency_and_sse_resume():
     class Response:
         text = 'id: evt_2\nevent: task.running\ndata: {"status":"running"}\n\n'
