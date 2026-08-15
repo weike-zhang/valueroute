@@ -47,7 +47,7 @@ class Approval:
         }
 
     @classmethod
-    def from_dict(cls, value: dict) -> "Approval":
+    def from_dict(cls, value: dict) -> Approval:
         return cls(
             id=value["id"], version=int(value.get("version", 1)), action_summary=value["action_summary"], risk=value["risk"],
             expires_at=datetime.fromisoformat(value["expires_at"]),

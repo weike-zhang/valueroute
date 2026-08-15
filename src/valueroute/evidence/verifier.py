@@ -13,7 +13,6 @@ from valueroute.domain.models import (
     VerificationRecord,
     VerificationStatus,
     new_id,
-    now,
 )
 
 

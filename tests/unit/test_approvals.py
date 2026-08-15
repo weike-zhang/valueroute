@@ -12,7 +12,6 @@ from valueroute.approvals import (
     ApprovalStatus,
 )
 
-
 NOW = datetime(2026, 1, 1, tzinfo=timezone.utc)
 
 

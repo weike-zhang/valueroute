@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
 
 from valueroute.domain.models import ExecutionRequest, WorkerAttempt
+from valueroute.execution.interfaces import ExecutionQueue
 from valueroute.execution.runner import AsyncProvider, WorkerRunner
 from valueroute.storage.interfaces import StateStore
-from valueroute.execution.interfaces import ExecutionQueue
 from valueroute.workspaces.interfaces import WorkspaceAdapter
 
 

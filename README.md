@@ -2,7 +2,7 @@
 
 ValueRoute is an independent FastAPI service for bounded model and worker orchestration.
 
-The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRoute-详细设计与需求规格.md). The current v0.0.1 work is being built as a correctness-first vertical slice:
+The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRoute-详细设计与需求规格.md). The current v0.0.2 work is built as a correctness-first vertical slice:
 
 - local append-only JSONL journal;
 - explicit ControllerSession and ControllerEpoch registration;
@@ -29,7 +29,7 @@ python3 -m pytest -q
 VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main
 ```
 
-The service exposes `/v1/health/live`, `/v1/health/ready`, session/task APIs, and a journal-backed SSE event endpoint. Database, Redis, and remote state services are intentionally not required by v0.0.1.
+The service exposes `/v1/health/live`, `/v1/health/ready`, session/task APIs, and a journal-backed SSE event endpoint. Database, Redis, and remote state services are intentionally not required by v0.0.2.
 
 Design and operation notes:
 
@@ -44,9 +44,9 @@ Design and operation notes:
 - [Testing philosophy](docs/testing-philosophy.md)
 - [Evaluation](docs/evaluation.md)
 - [AgentScope host example](docs/agentscope-example.md)
-- [v0.0.1 acceptance matrix](docs/acceptance-matrix.md)
+- [v0.0.2 acceptance matrix](docs/acceptance-matrix.md)
 
-The v0.0.1 local coordination path is implemented and covered by the
+The v0.0.1 and v0.0.2 implementation paths are covered by the
 acceptance matrix. Real credentialed provider/model-quality evaluation,
 production authentication and remote deployment hardening remain explicitly
 outside this local-first release evidence.
@@ -69,4 +69,10 @@ the offline evaluation set demonstrates quality, cost, or latency gains.
 - [Security](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
 
-These documents describe the checked-in v0.0.1 implementation. They intentionally label gaps and do not claim throughput, latency, reliability, or model-quality results that have not been measured.
+These documents describe the checked-in v0.0.2 implementation. They intentionally label gaps and do not claim throughput, latency, reliability, or model-quality results that have not been measured.
+
+## Repository
+
+- Home: <https://github.com/weike-zhang/valueroute>
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+- License: [LICENSE](LICENSE)

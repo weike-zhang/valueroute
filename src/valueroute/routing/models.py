@@ -5,8 +5,7 @@ from typing import Any, Literal
 
 from pydantic import Field, field_validator
 
-from valueroute.domain.models import StrictModel, now, new_id
-
+from valueroute.domain.models import StrictModel, new_id, now
 
 RequestType = Literal["new_task", "material_amendment", "continuation", "clarification", "control"]
 

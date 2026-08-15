@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
+
 from valueroute.application.service import overlaps
 from valueroute.domain.errors import DomainError
 from valueroute.domain.models import ResourceRegion, WriterLease, new_id
 from valueroute.storage.store import Store
-from datetime import datetime, timedelta, timezone
 
 
 class LeaseManager:

@@ -4,12 +4,13 @@ import hashlib
 import json
 import os
 import uuid
+from collections.abc import Mapping, Sequence
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock, RLock
-from typing import Any, Mapping, Sequence
+from typing import Any, ClassVar
 
-from valueroute.settings import RuntimeProtectionError, ensure_storage_capacity
+from valueroute.settings import ensure_storage_capacity
 
 
 class JournalError(RuntimeError):
@@ -31,7 +32,7 @@ class SnapshotRecoveryError(JournalError):
 class InstanceLock:
     """An advisory process lock, with an in-process guard for clear local errors."""
 
-    _held_paths: set[Path] = set()
+    _held_paths: ClassVar[set[Path]] = set()
     _held_paths_lock = Lock()
 
     def __init__(self, root: Path, *, max_bytes: int | None = None, min_free_bytes: int = 0):
@@ -119,10 +120,10 @@ class LocalJournal:
     def close(self) -> None:
         self.instance_lock.release()
 
-    def __enter__(self) -> "LocalJournal":
+    def __enter__(self) -> LocalJournal:
         return self
 
-    def __exit__(self, *_: Any) -> None:
+    def __exit__(self, *_: object) -> None:
         self.close()
 
     def _quarantine_tail(self, raw_frame: bytes, line_number: int, reason: str) -> None:
@@ -198,15 +199,15 @@ class LocalJournal:
                 self.recovery_diagnostics.append({"code": "snapshot_manifest_invalid"})
         candidates.extend(sorted(snapshots.glob("snapshot-*.json"), reverse=True))
         seen: set[Path] = set()
-        for candidate in candidates:
-            candidate = candidate.resolve()
-            if candidate in seen or not candidate.is_file() or candidate.parent != snapshots.resolve():
+        for raw_candidate in candidates:
+            resolved = raw_candidate.resolve()
+            if resolved in seen or not resolved.is_file() or resolved.parent != snapshots.resolve():
                 continue
-            seen.add(candidate)
+            seen.add(resolved)
             try:
-                sequence, records = self._decode_snapshot(candidate.read_bytes())
+                sequence, records = self._decode_snapshot(resolved.read_bytes())
             except (OSError, json.JSONDecodeError, SnapshotRecoveryError) as error:
-                self.recovery_diagnostics.append({"code": "snapshot_ignored", "path": str(candidate), "reason": str(error)})
+                self.recovery_diagnostics.append({"code": "snapshot_ignored", "path": str(resolved), "reason": str(error)})
                 continue
             self._records.extend(records)
             self.sequence = sequence

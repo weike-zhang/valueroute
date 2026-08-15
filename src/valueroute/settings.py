@@ -1,7 +1,7 @@
-from pathlib import Path
 import os
-from dataclasses import dataclass
 import shutil
+from dataclasses import dataclass
+from pathlib import Path
 
 
 class RuntimeProtectionError(RuntimeError):

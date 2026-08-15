@@ -1465,42 +1465,44 @@ valueroute/
 
 ## 23. v0.0.1 验收清单
 
-- [ ] 服务以 `valueroute` 名称启动，OpenAPI、live 和 ready 可访问；
-- [ ] 全新用户数据目录可启动，不安装或连接任何数据库；
-- [ ] 同一数据目录的第二个实例拒绝启动；
-- [ ] journal 尾帧截断可隔离并恢复，非尾部损坏会阻止 ready；
-- [ ] 宿主可以登记唯一活动主控，ValueRoute 不自动切换；
-- [ ] ParentTaskBoundary 可以拆成多个 ChildTaskBoundary；
-- [ ] 前端和后端不重叠子任务可以分别绑定 Owner 并行执行；
-- [ ] 每个 Owner 只修改、自审和验证自己的区域；
-- [ ] Owner 在隔离工作区修改，无法直接写规范工作区；
-- [ ] ChangeSet 的实际 Diff 越界时整批拒绝；
-- [ ] ChangeSet 串行集成，冲突不污染规范工作区并返回原 Owner；
-- [ ] ParentVerification 通过前父任务不能 completed；
-- [ ] 同一文件不同可解析符号可以获得两个 Lease；
-- [ ] 同一文件交叉符号、整文件与符号 Lease 会冲突；
-- [ ] 同目录不同子路径可以并行，父目录租约会阻止后代租约；
-- [ ] 同表不同主键集合可以并行，Schema 变更要求表级独占；
-- [ ] 未注册的外部子资源退化为整个对象独占；
-- [ ] base revision 变化后会重新解析或返回明确冲突；
-- [ ] 单会话和单父任务最多 5 个活动 Worker，第 6 个被拒绝；
-- [ ] Worker 无法创建子 Worker；
-- [ ] Checkpoint 按关键事件写入，不依赖固定时间周期；
-- [ ] FastAPI 进程中断后从最近安全 Checkpoint 恢复；
-- [ ] kill -9 后旧 claim 被回收，可恢复任务重新入队；
-- [ ] 重复 Idempotency-Key 不会重复创建任务或 Worker；
-- [ ] 等待审批跨重启保留，重复相同决定幂等，冲突决定被拒绝；
-- [ ] 暂停、恢复、取消和 Provider 失败都有明确状态和事件；
-- [ ] `Unobserved` 只作为 Evidence observation，必要未观察项阻止 completed；
-- [ ] 测试削弱、skip、删除和过度 mock 会被标记；
-- [ ] Token、费用状态、延迟、重试和模型版本可追踪；
-- [ ] AgentScope 可以创建、订阅、取消和恢复 ValueRoute 任务；
-- [ ] SSE 断线后可从 Last-Event-ID 续接；
-- [ ] API 修改使用 expected_version，并发覆盖返回 version_conflict；
-- [ ] Provider 超时、重试、heartbeat、claim、lease、取消宽限和对象大小均有可配置保护；
-- [ ] API key 和私有代码正文不进入默认日志和公开导出；
+- [x] 服务以 `valueroute` 名称启动，OpenAPI、live 和 ready 可访问；
+- [x] 全新用户数据目录可启动，不安装或连接任何数据库；
+- [x] 同一数据目录的第二个实例拒绝启动；
+- [x] journal 尾帧截断可隔离并恢复，非尾部损坏会阻止 ready；
+- [x] 宿主可以登记唯一活动主控，ValueRoute 不自动切换；
+- [x] ParentTaskBoundary 可以拆成多个 ChildTaskBoundary；
+- [x] 前端和后端不重叠子任务可以分别绑定 Owner 并行执行；
+- [x] 每个 Owner 只修改、自审和验证自己的区域；
+- [x] Owner 在隔离工作区修改，无法直接写规范工作区；
+- [x] ChangeSet 的实际 Diff 越界时整批拒绝；
+- [x] ChangeSet 串行集成，冲突不污染规范工作区并返回原 Owner；
+- [x] ParentVerification 通过前父任务不能 completed；
+- [x] 同一文件不同可解析符号可以获得两个 Lease；
+- [x] 同一文件交叉符号、整文件与符号 Lease 会冲突；
+- [x] 同目录不同子路径可以并行，父目录租约会阻止后代租约；
+- [x] 同表不同主键集合可以并行，Schema 变更要求表级独占；
+- [x] 未注册的外部子资源退化为整个对象独占；
+- [x] base revision 变化后会重新解析或返回明确冲突；
+- [x] 单会话和单父任务最多 5 个活动 Worker，第 6 个被拒绝；
+- [x] Worker 无法创建子 Worker；
+- [x] Checkpoint 按关键事件写入，不依赖固定时间周期；
+- [x] FastAPI 进程中断后从最近安全 Checkpoint 恢复；
+- [x] kill -9 后旧 claim 被回收，可恢复任务重新入队；
+- [x] 重复 Idempotency-Key 不会重复创建任务或 Worker；
+- [x] 等待审批跨重启保留，重复相同决定幂等，冲突决定被拒绝；
+- [x] 暂停、恢复、取消和 Provider 失败都有明确状态和事件；
+- [x] `Unobserved` 只作为 Evidence observation，必要未观察项阻止 completed；
+- [x] 测试削弱、skip、删除和过度 mock 会被标记；
+- [x] Token、费用状态、延迟、重试和模型版本可追踪；
+- [x] AgentScope 可以创建、订阅、取消和恢复 ValueRoute 任务；
+- [x] SSE 断线后可从 Last-Event-ID 续接；
+- [x] API 修改使用 expected_version，并发覆盖返回 version_conflict；
+- [x] Provider 超时、重试、heartbeat、claim、lease、取消宽限和对象大小均有可配置保护；
+- [x] API key 和私有代码正文不进入默认日志和公开导出；
 - [ ] A/B/C 三组评估至少覆盖三个冻结任务族；
 - [ ] README 的任何性能主张都能追溯到配置、任务和原始结果。
+
+> 状态：前 34 项已由 v0.0.1/v0.0.2 实现与测试覆盖（见 `docs/acceptance-matrix.md`）；后 2 项依赖离线评估集，作为发布前下一项待办。
 
 ## 24. 风险与待验证假设
 

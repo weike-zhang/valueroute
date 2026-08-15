@@ -92,8 +92,8 @@ def required_acceptance_is_satisfied(task: ParentTask) -> bool:
             latest[record.requirement_id] = record
     return all(
         not acceptance.required
-        or (record := latest.get(acceptance.id)) is not None
-        and record.observation_status in {ObservationStatus.observed_pass, ObservationStatus.not_applicable}
+        or ((record := latest.get(acceptance.id)) is not None
+        and record.observation_status in {ObservationStatus.observed_pass, ObservationStatus.not_applicable})
         for acceptance in task.acceptance_contract
     )
 

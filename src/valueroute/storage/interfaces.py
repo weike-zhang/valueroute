@@ -6,8 +6,7 @@ the domain/application layer independent from their JSONL representation.
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping, MutableMapping, Sequence
-from datetime import datetime
+from collections.abc import Iterable, Mapping, MutableMapping
 from typing import Any, Protocol, runtime_checkable
 
 

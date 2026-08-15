@@ -1,6 +1,7 @@
+import asyncio
+
 import httpx
 import pytest
-import asyncio
 
 from valueroute.frameworks.agentscope import AgentScopeFrameworkAdapter
 from valueroute.frameworks.agentscope.adapter import HttpxValueRouteApi

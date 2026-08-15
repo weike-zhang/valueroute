@@ -6,16 +6,16 @@ that directory, so integration never reads a worker directory a second time.
 
 from __future__ import annotations
 
+import os
+import shutil
+import subprocess
+from collections.abc import Iterable
 from dataclasses import dataclass
 from difflib import unified_diff
 from hashlib import sha256
 from pathlib import Path, PurePosixPath
-import os
-import subprocess
-import shutil
-from threading import RLock
 from tempfile import mkdtemp
-from typing import Iterable
+from threading import RLock
 
 from valueroute.domain.models import ResourceRegion, WriterLease
 

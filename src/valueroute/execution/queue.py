@@ -15,7 +15,6 @@ from valueroute.execution.claims import AttemptRecord, WorkerClaimService
 from valueroute.storage.checkpoints import CheckpointStore
 from valueroute.storage.store import Store
 
-
 TERMINAL_STATUSES = frozenset(
     {
         WorkerAttemptStatus.succeeded,
@@ -226,4 +225,4 @@ class LocalExecutionQueue:
 
 ExecutionQueue = LocalExecutionQueue
 
-__all__ = ["ExecutionQueue", "LocalExecutionQueue", "TERMINAL_STATUSES"]
+__all__ = ["TERMINAL_STATUSES", "ExecutionQueue", "LocalExecutionQueue"]

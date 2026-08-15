@@ -6,7 +6,6 @@ from dataclasses import dataclass
 
 from valueroute.domain.errors import DomainError
 
-
 MAX_WORKERS = 5
 MAX_DELEGATION_DEPTH = 1
 

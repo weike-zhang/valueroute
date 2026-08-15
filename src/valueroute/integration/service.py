@@ -6,11 +6,11 @@ from collections.abc import Callable, Iterable, Mapping
 from typing import Any
 
 from valueroute.domain.models import IntegrationAttempt, IntegrationAttemptStatus, WriterLease, new_id, now
+from valueroute.integration.queue import IntegrationClaim, IntegrationQueue
+from valueroute.ownership.resolver import resolve_changeset
 from valueroute.storage.interfaces import StateStore
 from valueroute.workspaces.interfaces import WorkspaceAdapter
 from valueroute.workspaces.local import ChangeSet, IntegrationConflict
-from valueroute.ownership.resolver import resolve_changeset
-from valueroute.integration.queue import IntegrationClaim, IntegrationQueue
 
 
 class IntegrationService:

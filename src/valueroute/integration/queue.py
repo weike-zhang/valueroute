@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 from valueroute.domain.models import IntegrationAttempt, IntegrationAttemptStatus, now
 from valueroute.storage.interfaces import StateStore
+
 
 @dataclass(frozen=True)
 class IntegrationClaim:

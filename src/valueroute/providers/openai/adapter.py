@@ -8,8 +8,8 @@ from typing import Any
 
 import httpx
 
-from valueroute.observability.usage import CostStatus, UsageRecord
 from valueroute.domain.models import new_id
+from valueroute.observability.usage import CostStatus, UsageRecord
 
 
 class ProviderCallError(RuntimeError):
@@ -93,10 +93,8 @@ class OpenAIProviderAdapter:
         task.cancel()
         try:
             await asyncio.wait_for(asyncio.shield(task), timeout=self.cancel_timeout_seconds)
-        except (asyncio.CancelledError, asyncio.TimeoutError):
-            if task.cancelled() or task.done():
-                return True
-            return False
+        except (asyncio.TimeoutError, asyncio.CancelledError):
+            return task.cancelled() or task.done()
         return True
 
 
@@ -105,7 +103,5 @@ def _response_text(raw: dict[str, Any]) -> str:
         return raw["output_text"]
     chunks: list[str] = []
     for item in raw.get("output", []) or []:
-        for content in item.get("content", []) or []:
-            if isinstance(content.get("text"), str):
-                chunks.append(content["text"])
+        chunks.extend(content["text"] for content in item.get("content", []) or [] if isinstance(content.get("text"), str))
     return "".join(chunks)

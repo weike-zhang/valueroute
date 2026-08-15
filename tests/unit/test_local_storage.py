@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from valueroute.storage.journal import InstanceLockedError, JournalRecoveryError, LocalJournal
 from valueroute.api.app import create_app
+from valueroute.storage.journal import InstanceLockedError, JournalRecoveryError, LocalJournal
 from valueroute.storage.store import Store
 
 
@@ -62,7 +62,7 @@ def test_non_tail_corruption_refuses_replay_with_repair_diagnostic(tmp_path: Pat
     journal_path.write_bytes(first + b"broken-frame\n" + second)
 
     corrupted = journal_path.read_bytes()
-    with pytest.raises(JournalRecoveryError, match="journal_corrupt_non_tail.*repair"):
+    with pytest.raises(JournalRecoveryError, match=r"journal_corrupt_non_tail.*repair"):
         LocalJournal(tmp_path)
     assert journal_path.read_bytes() == corrupted
 

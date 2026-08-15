@@ -1,27 +1,27 @@
 """Local isolated workspaces and ChangeSet integration primitives."""
 
+from .git import AdoptionResult, GitWorkspaceAdapter, GitWorkspaceError
 from .local import (
+    CanonicalWriteRejected,
     ChangeSet,
     ChangeSetRejected,
-    CanonicalWriteRejected,
     FileChange,
     IntegrationConflict,
     LocalWorkspaceAdapter,
     OwnerWorkspace,
     WorkspaceSnapshot,
 )
-from .git import AdoptionResult, GitWorkspaceAdapter, GitWorkspaceError
 
 __all__ = [
-    "ChangeSet",
-    "ChangeSetRejected",
     "AdoptionResult",
     "CanonicalWriteRejected",
+    "ChangeSet",
+    "ChangeSetRejected",
     "FileChange",
+    "GitWorkspaceAdapter",
+    "GitWorkspaceError",
     "IntegrationConflict",
     "LocalWorkspaceAdapter",
     "OwnerWorkspace",
     "WorkspaceSnapshot",
-    "GitWorkspaceAdapter",
-    "GitWorkspaceError",
 ]

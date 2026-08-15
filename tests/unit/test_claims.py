@@ -4,7 +4,6 @@ import pytest
 
 from valueroute.execution.claims import AttemptRecord, WorkerClaimService
 
-
 NOW = datetime(2026, 1, 1, tzinfo=timezone.utc)
 
 

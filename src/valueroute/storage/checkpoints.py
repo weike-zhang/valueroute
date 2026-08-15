@@ -8,8 +8,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from valueroute.storage.artifacts import ArtifactRef, ArtifactStore
 from valueroute.settings import ensure_storage_capacity
+from valueroute.storage.artifacts import ArtifactRef, ArtifactStore
 
 
 class CheckpointError(RuntimeError):
@@ -72,7 +72,7 @@ class Checkpoint:
         return value
 
     @classmethod
-    def from_dict(cls, value: dict[str, Any]) -> "Checkpoint":
+    def from_dict(cls, value: dict[str, Any]) -> Checkpoint:
         try:
             checkpoint = cls(
                 id=value["id"],

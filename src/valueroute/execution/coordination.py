@@ -62,7 +62,7 @@ def _handles(store: Any) -> dict[str, ExecutionHandle]:
     handles = getattr(store, "_execution_handles", None)
     if handles is None:
         handles = {}
-        setattr(store, "_execution_handles", handles)
+        store._execution_handles = handles
     return handles
 
 

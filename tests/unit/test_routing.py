@@ -1,4 +1,3 @@
-import pytest
 
 from valueroute.routing.advisory import AdvisoryEngine
 from valueroute.routing.boundary import classify_boundary
@@ -124,7 +123,7 @@ class TestAdvisoryEngine:
         boundary = classify_boundary(envelope)
         graph = Profiler().profile(envelope)
         advice = AdvisoryEngine().advise(envelope, boundary, graph)
-        workers = [c for c in advice.candidates if c.mode == "workers"][0]
+        workers = next(c for c in advice.candidates if c.mode == "workers")
         assert workers.worker_count == 2
         assert not workers.rejection_codes
 

@@ -1,10 +1,9 @@
 from __future__ import annotations
 
+import asyncio
 import csv
 import io
-import asyncio
 import time
-import json
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
@@ -14,72 +13,74 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response, StreamingResponse
 
-from valueroute.application.service import DomainError, Service
-from valueroute.application.control import ControlService
-from valueroute.execution.manager import ExecutionManager
-from valueroute.execution.supervisor import ExecutionSupervisor
-from valueroute.evidence import EvidenceGate
-from valueroute.evidence.verifier import VerifierService
-from valueroute.domain.models import EvidenceRecord, new_id
-from valueroute.storage.artifacts import ArtifactStore as LocalArtifactStore
-from valueroute.storage.checkpoints import CheckpointStore as LocalCheckpointStore
-from valueroute.domain.models import *
-from valueroute.settings import RuntimeProtectionConfig, RuntimeProtectionError, data_dir, ensure_storage_capacity
-from valueroute.storage.journal import JournalError, LocalJournal
-from valueroute.storage.store import Store
-from valueroute.storage.interfaces import ArtifactStore, CheckpointStore, StateStore
-from valueroute.ownership.persistence import PersistentOwnershipBoundaryService
-from valueroute.ownership.boundaries import OwnerAssignment
-from valueroute.ownership.review import OwnerReviewService
-from valueroute.integration.parent_verification import ParentVerification, ChildTaskResult, ChangeSetResult
-from valueroute.domain.state_machine import transition_task, StateTransitionError
-from valueroute.domain.models import ParentCompletionEvidence, WorkerAttemptStatus
-from valueroute.observability.events import EventStreamError, deduplicate_events, format_sse_frame, parse_last_event_id
-from valueroute.observability.usage import USAGE_EXPORT_FIELDS, build_usage_report, usage_export_rows
-from valueroute.approvals import Approval, ApprovalDecision, ApprovalService, ApprovalDecisionConflict, ApprovalDecisionNotAllowed, ApprovalExpired, ApprovalVersionConflict
-from valueroute.routing.service import RoutingService
-from valueroute.routing.models import RoutingRequestEnvelope, ShadowRecord
 from valueroute.api.schemas import (
     AdvisoryRequest,
     AdvisoryResponse,
-    AdvisoryResponseData,
-    ApprovalResponse,
     ApprovalListResponse,
+    ApprovalResponse,
     ApprovalView,
-    ChildResponse,
     ChildListResponse,
+    ChildResponse,
     ControlTaskRequest,
     CreateSessionRequest,
     CreateTaskRequest,
     DecideApprovalRequest,
     EpochResponse,
     EvidenceListResponse,
-    EvidenceResponse,
     EvidenceWriteResponse,
     IntegrationAttemptsResponse,
     IntegrationResultResponse,
     LeaseListResponse,
+    OwnerReviewRequest,
     PlanResponse,
     RecordEvidenceRequest,
     RegisterEpochRequest,
     RequestApprovalRequest,
-    ReviewResponse,
     ReviewListResponse,
+    ReviewResponse,
     SessionResponse,
     ShadowListResponse,
-    ShadowListData,
     SubmitPlanRequest,
     TaskResponse,
-    TaskViewResponse,
     TaskVerificationResponse,
+    TaskViewResponse,
     UsageResponse,
-    VerificationResponse,
     VerificationListResponse,
-    VerifyTaskRequest,
-    OwnerReviewRequest,
+    VerificationResponse,
     VerifyReviewRequest,
+    VerifyTaskRequest,
 )
-from datetime import datetime
+from valueroute.application.control import ControlService
+from valueroute.application.service import DomainError, Service
+from valueroute.approvals import (
+    Approval,
+    ApprovalDecisionConflict,
+    ApprovalDecisionNotAllowed,
+    ApprovalExpired,
+    ApprovalService,
+    ApprovalVersionConflict,
+)
+from valueroute.domain.models import *
+from valueroute.domain.models import EvidenceRecord, ParentCompletionEvidence, WorkerAttemptStatus, new_id
+from valueroute.domain.state_machine import StateTransitionError, transition_task
+from valueroute.evidence import EvidenceGate
+from valueroute.evidence.verifier import VerifierService
+from valueroute.execution.manager import ExecutionManager
+from valueroute.execution.supervisor import ExecutionSupervisor
+from valueroute.integration.parent_verification import ChangeSetResult, ChildTaskResult, ParentVerification
+from valueroute.observability.events import EventStreamError, deduplicate_events, format_sse_frame, parse_last_event_id
+from valueroute.observability.usage import USAGE_EXPORT_FIELDS, build_usage_report, usage_export_rows
+from valueroute.ownership.boundaries import OwnerAssignment
+from valueroute.ownership.persistence import PersistentOwnershipBoundaryService
+from valueroute.ownership.review import OwnerReviewService
+from valueroute.routing.models import RoutingRequestEnvelope
+from valueroute.routing.service import RoutingService
+from valueroute.settings import RuntimeProtectionConfig, RuntimeProtectionError, data_dir, ensure_storage_capacity
+from valueroute.storage.artifacts import ArtifactStore as LocalArtifactStore
+from valueroute.storage.checkpoints import CheckpointStore as LocalCheckpointStore
+from valueroute.storage.interfaces import ArtifactStore, CheckpointStore, StateStore
+from valueroute.storage.journal import JournalError, LocalJournal
+from valueroute.storage.store import Store
 
 
 def envelope(data: Any, request_id: str = "req_local", version: int | None = None) -> dict[str, Any]:

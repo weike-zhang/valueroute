@@ -65,5 +65,5 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 - Versioned v1 request/response JSON Schema artifacts checked against
   Pydantic and OpenAPI.
 
-[0.0.2]: https://github.com/anomalyco/valueroute/releases/tag/v0.0.2
-[0.0.1]: https://github.com/anomalyco/valueroute/releases/tag/v0.0.1
+[0.0.2]: https://github.com/weike-zhang/valueroute/releases/tag/v0.0.2
+[0.0.1]: https://github.com/weike-zhang/valueroute/releases/tag/v0.0.1

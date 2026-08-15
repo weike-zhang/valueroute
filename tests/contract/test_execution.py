@@ -3,8 +3,8 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from valueroute.api.app import create_app
-from valueroute.workspaces.local import LocalWorkspaceAdapter
 from valueroute.observability.usage import UsageRecord
+from valueroute.workspaces.local import LocalWorkspaceAdapter
 
 
 class CompletingProvider:

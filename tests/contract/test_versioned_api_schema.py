@@ -2,24 +2,21 @@ import json
 from pathlib import Path
 from typing import Any
 
-from fastapi.testclient import TestClient
-
 from valueroute.api.app import create_app
 from valueroute.api.schemas import (
+    AdvisoryRequest,
     ControlTaskRequest,
     CreateSessionRequest,
     CreateTaskRequest,
     DecideApprovalRequest,
+    OwnerReviewRequest,
     RecordEvidenceRequest,
     RegisterEpochRequest,
     RequestApprovalRequest,
     SubmitPlanRequest,
-    VerifyTaskRequest,
-    OwnerReviewRequest,
     VerifyReviewRequest,
-    AdvisoryRequest,
+    VerifyTaskRequest,
 )
-
 
 SCHEMA_DIR = Path(__file__).parents[2] / "schemas" / "v1"
 REQUEST_MODELS = {

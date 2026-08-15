@@ -1,11 +1,15 @@
 import asyncio
 
 import httpx
-
-from valueroute.api.app import create_app
 import pytest
 
-from valueroute.frameworks.agentscope import AgentScopeHost, AgentScopeLifecycleError, AgentScopeTaskHandle, HttpxValueRouteApi
+from valueroute.api.app import create_app
+from valueroute.frameworks.agentscope import (
+    AgentScopeHost,
+    AgentScopeLifecycleError,
+    AgentScopeTaskHandle,
+    HttpxValueRouteApi,
+)
 
 
 def test_agentscope_adapter_drives_real_asgi_lifecycle(tmp_path):

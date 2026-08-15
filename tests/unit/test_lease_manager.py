@@ -1,9 +1,10 @@
-import pytest
 from datetime import datetime, timedelta, timezone
 
+import pytest
+
+from valueroute.application.service import DomainError
 from valueroute.domain.models import ResourceRegion
 from valueroute.ownership.manager import LeaseManager
-from valueroute.application.service import DomainError
 from valueroute.storage.journal import LocalJournal
 from valueroute.storage.store import Store
 

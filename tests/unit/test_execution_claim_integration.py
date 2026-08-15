@@ -1,5 +1,5 @@
-import os
 import asyncio
+import os
 import signal
 import subprocess
 import sys
@@ -9,9 +9,9 @@ from pathlib import Path
 
 from valueroute.domain.models import WorkerAttempt, WorkerAttemptStatus
 from valueroute.execution.manager import ExecutionManager
+from valueroute.storage.checkpoints import Checkpoint, CheckpointStore
 from valueroute.storage.journal import LocalJournal
 from valueroute.storage.store import Store
-from valueroute.storage.checkpoints import Checkpoint, CheckpointStore
 
 
 def test_claim_and_heartbeat_are_persisted_and_replayed(tmp_path):

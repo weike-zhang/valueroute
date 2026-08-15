@@ -9,3 +9,5 @@ valueroute-data/
 .codegraph/
 Memory/
 *.egg-info/
+.mcp
+skills/

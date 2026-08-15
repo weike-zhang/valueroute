@@ -2,8 +2,8 @@ from .adapter import (
     AgentScopeFrameworkAdapter,
     AgentScopeHost,
     AgentScopeInstallation,
-    AgentScopeTaskHandle,
     AgentScopeLifecycleError,
+    AgentScopeTaskHandle,
     HttpxValueRouteApi,
     detect_agentscope,
 )
@@ -12,8 +12,8 @@ __all__ = [
     "AgentScopeFrameworkAdapter",
     "AgentScopeHost",
     "AgentScopeInstallation",
-    "AgentScopeTaskHandle",
     "AgentScopeLifecycleError",
+    "AgentScopeTaskHandle",
     "HttpxValueRouteApi",
     "detect_agentscope",
 ]

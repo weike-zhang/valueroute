@@ -34,6 +34,7 @@ def latency_summary(values: list[float]) -> dict[str, float]:
 
 def run(iterations: int) -> dict[str, object]:
     from fastapi.testclient import TestClient
+
     from valueroute.api.app import create_app
     from valueroute.domain.errors import DomainError
     from valueroute.domain.models import ResourceRegion

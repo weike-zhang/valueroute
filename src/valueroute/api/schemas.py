@@ -5,8 +5,7 @@ from typing import Any, Generic, Literal, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
-from valueroute.approvals import ApprovalDecision
-from valueroute.approvals import ApprovalStatus
+from valueroute.approvals import ApprovalDecision, ApprovalStatus
 from valueroute.domain.models import (
     ControllerEpoch,
     ControllerSession,
@@ -25,7 +24,6 @@ from valueroute.domain.models import (
 from valueroute.observability.usage import TaskUsageReport
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnerAssignment
 from valueroute.routing.models import RoutingAdvice, ShadowRecord
-
 
 T = TypeVar("T")
 
@@ -201,7 +199,7 @@ class ResponseEnvelope(BaseModel, Generic[T]):
 
     data: T
     meta: ResponseMeta
-    error: Literal[None] = None
+    error: None = None
 
 
 class ChildListData(BaseModel):

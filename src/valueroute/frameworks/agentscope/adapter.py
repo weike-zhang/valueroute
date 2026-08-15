@@ -61,7 +61,7 @@ def _parse_sse(body: str) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
     current: dict[str, Any] = {}
     data_lines: list[str] = []
-    for line in body.splitlines() + [""]:
+    for line in [*body.splitlines(), ""]:
         if line == "":
             if current or data_lines:
                 import json

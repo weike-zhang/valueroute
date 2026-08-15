@@ -45,7 +45,7 @@ class OwnerAssignment(StrictModel):
     released_at: datetime | None = None
 
     @model_validator(mode="after")
-    def valid_lifecycle(self) -> "OwnerAssignment":
+    def valid_lifecycle(self) -> OwnerAssignment:
         if self.status not in {"active", "released"}:
             raise ValueError("assignment status must be active or released")
         if self.status == "active" and self.released_at is not None:

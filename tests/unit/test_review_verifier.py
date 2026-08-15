@@ -1,4 +1,11 @@
-from valueroute.domain.models import Acceptance, EvidenceRecord, ObservationStatus, ParentTask, ResourceRegion, Workspace
+from valueroute.domain.models import (
+    Acceptance,
+    EvidenceRecord,
+    ObservationStatus,
+    ParentTask,
+    ResourceRegion,
+    Workspace,
+)
 from valueroute.evidence.verifier import VerifierService
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnershipBoundaryService
 from valueroute.ownership.review import OwnerReviewService

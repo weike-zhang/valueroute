@@ -4,12 +4,12 @@ import hashlib
 import json
 from typing import Any
 
+from valueroute.domain.errors import DomainError
 from valueroute.domain.models import *
 from valueroute.domain.state_machine import transition_task
-from valueroute.storage.interfaces import StateStore
-from valueroute.domain.errors import DomainError
 from valueroute.ownership.boundaries import ChildTaskBoundary
 from valueroute.ownership.persistence import PersistentOwnershipBoundaryService
+from valueroute.storage.interfaces import StateStore
 
 
 def digest(value: Any) -> str:

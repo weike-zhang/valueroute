@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import re
 
-from valueroute.routing.models import RequestBoundaryDecision, RequestType, RoutingRequestEnvelope
-
+from valueroute.routing.models import RequestBoundaryDecision, RoutingRequestEnvelope
 
 _AMENDMENT_MARKERS = (
     "改",

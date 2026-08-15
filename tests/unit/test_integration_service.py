@@ -1,8 +1,8 @@
 from pathlib import Path
 
 from valueroute.domain.models import IntegrationAttempt, IntegrationAttemptStatus, ResourceRegion, WriterLease
-from valueroute.integration.service import IntegrationService
 from valueroute.integration.queue import IntegrationQueue
+from valueroute.integration.service import IntegrationService
 from valueroute.storage.journal import LocalJournal
 from valueroute.storage.store import Store
 from valueroute.workspaces.local import LocalWorkspaceAdapter

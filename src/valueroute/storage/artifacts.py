@@ -27,7 +27,7 @@ class ArtifactRef:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, value: dict[str, object]) -> "ArtifactRef":
+    def from_dict(cls, value: dict[str, object]) -> ArtifactRef:
         try:
             reference = cls(
                 relative_path=str(value["relative_path"]),

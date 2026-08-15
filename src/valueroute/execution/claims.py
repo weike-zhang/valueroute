@@ -6,11 +6,11 @@ models.  Callers provide small records and persist the returned values.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from secrets import token_urlsafe
-from typing import Iterable, Protocol
-
+from typing import Protocol
 
 TERMINAL = frozenset({"succeeded", "partial", "blocked", "failed", "cancelled"})
 

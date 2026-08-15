@@ -15,7 +15,7 @@ def test_response_manifest_matches_openapi_components_and_routes(tmp_path: Path)
         for method, operation in item.items():
             if method.upper() not in {"GET", "POST"} or "responses" not in operation:
                 continue
-            for status, response in operation["responses"].items():
+            for response in operation["responses"].values():
                 schema = response.get("content", {}).get("application/json", {}).get("schema")
                 if schema and "$ref" in schema:
                     actual[f"{method.upper()} {path}"] = schema["$ref"].split("/")[-1]

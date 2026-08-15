@@ -6,6 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "valueroute"
 version = "0.0.2"
 description = "Bounded model and worker orchestration service"
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115",
@@ -15,12 +17,54 @@ dependencies = [
   "httpx>=0.27",
 ]
 
+[project.urls]
+Homepage = "https://github.com/weike-zhang/valueroute"
+Repository = "https://github.com/weike-zhang/valueroute"
+
 [project.optional-dependencies]
 dev = ["httpx>=0.27", "pytest>=8.0", "pytest-asyncio>=0.23"]
 agentscope = ["agentscope>=2.0,<3"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "RUF", "PERF", "TRY", "PLW", "PYI", "ASYNC"]
+# BLE001: API boundaries intentionally convert any exception into a stable
+# HTTP error; provider/runner loops treat the durable journal as authoritative.
+# E701/E702: the API layer uses compact single-line handlers.
+# TRY003: long human messages are intentionally raised inline.
+# RUF001: tests assert on fullwidth CJK punctuation on purpose.
+# UP042: datetime.now(timezone.utc) is used deliberately for clock clarity.
+ignore = [
+  "BLE001",
+  "F403",
+  "F405",
+  "E701",
+  "E702",
+  "TRY003",
+  "RUF001",
+  "UP042",
+  "TRY300",
+  "TRY301",
+  "SIM105",
+  "SIM117",
+  "SIM103",
+  "TRY004",
+  "PYI034",
+  "PLW2901",
+  "UP017",
+  "UP024",
+  "UP041",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLW1510", "F811", "E501"]
+"scripts/**" = ["E501"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

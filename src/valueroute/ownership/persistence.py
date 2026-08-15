@@ -14,7 +14,6 @@ from valueroute.domain.errors import DomainError
 from valueroute.domain.models import ResourceRegion
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnerAssignment, OwnershipBoundaryService
 
-
 AppendEvent = Callable[[dict[str, Any]], None]
 ListEvents = Callable[[], Iterable[Mapping[str, Any]]]
 

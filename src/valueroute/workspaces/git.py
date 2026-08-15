@@ -8,13 +8,12 @@ removed explicitly by the host.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-import os
-from pathlib import Path
 import shutil
 import subprocess
+from collections.abc import Iterable
+from dataclasses import dataclass
+from pathlib import Path
 from tempfile import mkdtemp
-from typing import Iterable
 
 from valueroute.domain.models import ResourceRegion, WriterLease
 
@@ -28,7 +27,6 @@ from .local import (
     _diff,
     _hash,
     _normal_path,
-    _revision,
 )
 
 
@@ -64,8 +62,8 @@ class GitWorkspaceAdapter:
         self._require_clean_canonical()
         revision = self._git(["rev-parse", "HEAD"])
         files: dict[str, bytes] = {}
-        for relative in self._git(["ls-tree", "-r", "--name-only", revision]).splitlines():
-            relative = _normal_path(relative)
+        for raw_relative in self._git(["ls-tree", "-r", "--name-only", revision]).splitlines():
+            relative = _normal_path(raw_relative)
             files[relative] = self._git_bytes(["show", f"{revision}:{relative}"])
         return WorkspaceSnapshot(revision=revision, files=files)
 

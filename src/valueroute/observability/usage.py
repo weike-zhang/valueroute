@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from datetime import datetime
 from enum import Enum
-from typing import Iterable
 
 from pydantic import Field
 

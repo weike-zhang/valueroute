@@ -1,27 +1,27 @@
 from __future__ import annotations
 
-from copy import deepcopy
-from typing import Any, Iterable, Mapping
+from collections.abc import Iterable, Mapping
+from typing import Any
 
+from valueroute.approvals import Approval
 from valueroute.domain.models import (
     ControllerEpoch,
     ControllerSession,
-    OwnerSelfReview,
-    VerificationRecord,
     IntegrationAttempt,
     IntegrationAttemptStatus,
+    OwnerSelfReview,
     ParentTask,
+    VerificationRecord,
     WorkerAttempt,
+    WorkerAttemptStatus,
     WorkerPlan,
     WriterLease,
 )
 from valueroute.observability.usage import UsageRecord
-from valueroute.domain.models import WorkerAttemptStatus
-from valueroute.storage.checkpoints import CheckpointStore
-from valueroute.approvals import Approval
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnerAssignment
 from valueroute.routing.models import ShadowRecord
-from valueroute.storage.journal import JournalError, LocalJournal
+from valueroute.storage.checkpoints import CheckpointStore
+from valueroute.storage.journal import LocalJournal
 
 
 class Store:
@@ -58,8 +58,7 @@ class Store:
                 self.epochs[data["id"]] = ControllerEpoch.model_validate(data)
                 session = self.sessions[data["controller_session_id"]]
                 self.sessions[session.id] = session.model_copy(update={"active_controller_epoch_id": data["id"], "version": session.version + 1})
-            elif kind == "task.created": self.tasks[data["id"]] = ParentTask.model_validate(data)
-            elif kind == "task.updated": self.tasks[data["id"]] = ParentTask.model_validate(data)
+            elif kind == "task.created" or kind == "task.updated": self.tasks[data["id"]] = ParentTask.model_validate(data)
             elif kind == "child_task.created":
                 child = ChildTaskBoundary.model_validate(data)
                 self.children[child.id] = child
@@ -67,17 +66,11 @@ class Store:
                 self.plans[data["id"]] = WorkerPlan.model_validate(data)
                 task = self.tasks[data["parent_task_id"]]
                 self.tasks[task.id] = task.model_copy(update={"plan_id": data["id"], "status": "planned", "version": task.version + 1})
-            elif kind == "lease.acquired": self.leases[data["id"]] = WriterLease.model_validate(data)
-            elif kind in {"lease.heartbeat", "lease.expired"}:
-                self.leases[data["id"]] = WriterLease.model_validate(data)
+            elif kind == "lease.acquired" or kind in {"lease.heartbeat", "lease.expired"}: self.leases[data["id"]] = WriterLease.model_validate(data)
             elif kind == "lease.released":
                 lease = self.leases[data["id"]]
                 self.leases[lease.id] = lease.model_copy(update={"status": "released", "version": lease.version + 1})
-            elif kind == "worker.queued":
-                self.attempts[data["id"]] = WorkerAttempt.model_validate({key: value for key, value in data.items() if key != "session_id"})
-                if data.get("session_id"):
-                    self.attempt_session[data["id"]] = data["session_id"]
-            elif kind in {"worker.request_bound", "worker.claimed", "worker.heartbeat", "worker.recovered", "worker.requeued", "worker.blocked", "worker.started", "worker.stopped", "worker.cancel_failed", "worker.checkpointed"}:
+            elif kind == "worker.queued" or kind in {"worker.request_bound", "worker.claimed", "worker.heartbeat", "worker.recovered", "worker.requeued", "worker.blocked", "worker.started", "worker.stopped", "worker.cancel_failed", "worker.checkpointed"}:
                 self.attempts[data["id"]] = WorkerAttempt.model_validate({key: value for key, value in data.items() if key != "session_id"})
                 if data.get("session_id"):
                     self.attempt_session[data["id"]] = data["session_id"]
