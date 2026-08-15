@@ -1,15 +1,15 @@
 {
   "project_name": "ValueRoute",
-  "version": "0.0.2",
-  "title": "Read-only advisory routing for bounded model and worker orchestration",
-  "summary": "ValueRoute answers whether a multi-agent task should stay on the host controller or be split across workers, and how many. v0.0.2 adds the read-only /v1/advisory pipeline (boundary classification, requirement profiler, candidate suggestions with cost and latency estimates, durable shadow records) on top of the v0.0.1 local coordination slice (journal, leases, workspaces, integration, recovery). Automatic delegation stays disabled: advisory only recommends, and the offline evaluation set is now in place to judge gains before anything auto-delegates.",
+  "version": "0.1.0",
+  "title": "Automatic controller selection with independent role certification",
+  "summary": "ValueRoute answers whether a multi-agent task should stay on the host controller or be split across workers, and how many. v0.1.0 adds automatic controller selection: in `automatic` orchestration mode the service picks the first certified controller from versioned model profiles and keeps it sticky, with a safe expected-version-protected switch that commits atomically. Controller and Worker roles are now certified independently in the model manifest, so no single aggregate ranking is used.",
   "highlights": [
-    "Read-only advisory routing: classify the request boundary, profile a requirement graph, and get direct-vs-workers candidates with estimated tokens, cost, latency, confidence, and rejection reasons.",
-    "Durable shadow records: every unexecuted advice is journaled with a stable request fingerprint and survives restart, ready for offline comparison against real outcomes.",
-    "Idempotency-Key-protected /v1/advisory API with versioned v1 request schema artifacts checked against Pydantic and OpenAPI.",
-    "Offline evaluation set: three frozen task families (backend/API diagnosis, frontend browser verification, disjoint full-stack) with ground-truth delegation and A/B/C live measurements; first run archived in evaluation/evidence/.",
-    "Local coordination core from v0.0.1: append-only checksummed journal, region writer leases, isolated workspaces with atomic integration and parent verification, 0-5 worker queue with kill-9 recovery.",
-    "36-item design acceptance checklist verified; CI (pytest on Python 3.11 + ruff) added.",
+    "Automatic controller selection (FR-201): `OrchestrationMode.automatic`; `ensure_controller` picks the first certified controller from candidate profiles and stays sticky across calls and journal replay.",
+    "Safe controller switch (FR-202): refuses while session tasks are running, requires the current expected version, releases the previous epoch, and commits the new epoch and session in one journal frame.",
+    "Independent role certification (FR-203): `model-manifest.schema.json` gains `controller_status` alongside `worker_status`; a deterministic `ControllerRanker` selects only certified, compatible controllers and never a single aggregate ranking.",
+    "New API surface `POST /v1/controller-sessions/{session_id}/epochs/automatic` and `/epochs/switch`, both Idempotency-Key protected; versioned request schemas added and checked against OpenAPI.",
+    "Read-only advisory routing (v0.0.2): boundary classification, requirement profiler, candidate suggestions with cost/latency estimates, and durable shadow records.",
+    "Offline evaluation set with three frozen task families and live A/B/C measurements; 36-item design acceptance checklist verified.",
     "Simplified-Chinese README (README.zh-CN.md) alongside the English one."
   ],
   "install_or_update": [
@@ -18,11 +18,11 @@
     "VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main"
   ],
   "verification": [
-    "python3 -m pytest -q: 189 passed, 0 failed",
+    "python3 -m pytest -q: 214 passed, 0 failed",
     "python3 -m ruff check .: 0 errors",
     "python3 scripts/check_links.py .: 49 local links valid",
     "Design section 23 acceptance checklist: 36 of 36 items verified",
-    "First live offline evaluation (2026-08-15, gpt-5-6-mini): A/B/C pass 4/7/5 at ~$0.019 / $0.035 / $0.037; advisory delegation 6/15 correct, 5/15 over-delegated, 4/15 under-delegated"
+    "25 new tests cover automatic selection, sticky epoch, safe switch, role-independent ranking, and journal replay"
   ],
   "compatibility": [
     "Python 3.11+ (tests run on 3.11 in CI; 3.10 development environment)",
@@ -31,10 +31,10 @@
     "OpenAI-compatible endpoint via chat/completions for the evaluation harness"
   ],
   "limitations": [
-    "Advisory mode is read-only: it never registers a controller, never creates a WorkerPlan, and never changes model configuration.",
-    "Automatic delegation stays disabled until the offline evaluation set demonstrates quality, cost, or latency gains.",
+    "Automatic controller selection picks the host controller only; it does not auto-delegate worker tasks.",
+    "Worker delegation stays disabled until the offline evaluation set demonstrates quality, cost, or latency gains.",
+    "A `controller_status` of `certified` requires reproducible measurement evidence; until then the status must stay `candidate`, so automatic selection may find no eligible controller.",
     "Evaluation acceptance is keyword-based, not full task execution; quality_claim is false and no model-quality certification is implied.",
-    "Production authentication and remote deployment hardening are outside this local-first release evidence.",
-    "The boundary classifier can misclassify a request containing a bare 'change' token as a material amendment, under-delegating some disjoint full-stack tasks (recorded in docs/evaluation.md)."
+    "Production authentication and remote deployment hardening are outside this local-first release evidence."
   ]
 }

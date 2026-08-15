@@ -4,7 +4,7 @@ English | [简体中文](README.zh-CN.md)
 
 ValueRoute is an independent FastAPI service for bounded model and worker orchestration.
 
-The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRoute-详细设计与需求规格.md). The current v0.0.2 work is built as a correctness-first vertical slice:
+The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRoute-详细设计与需求规格.md). The current v0.1.0 work is built as a correctness-first vertical slice:
 
 - local append-only JSONL journal;
 - explicit ControllerSession and ControllerEpoch registration;
@@ -18,10 +18,15 @@ The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRout
 - bounded local `ExecutionSupervisor` over the journal-backed queue;
 - versioned v1 request JSON Schema artifacts checked against Pydantic and OpenAPI;
 - configurable storage, disk, claim, lease, and provider runtime protections;
-- read-only v0.0.2 advisory routing: request-boundary classification, a
+- read-only advisory routing: request-boundary classification, a
   `RequirementGraph` profiler, conservative candidate suggestions with
   cost/latency estimates, and durable shadow records for offline comparison,
-  all exposed via the Idempotency-Key-protected `/v1/advisory` API.
+  all exposed via the Idempotency-Key-protected `/v1/advisory` API;
+- automatic controller selection (`OrchestrationMode.automatic`): picks the
+  first certified controller from versioned model profiles and keeps it
+  sticky, with a safe expected-version-protected switch, exposed via
+  `/v1/controller-sessions/{session_id}/epochs/automatic` and
+  `/epochs/switch`.
 
 ## Development
 
@@ -31,7 +36,7 @@ python3 -m pytest -q
 VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main
 ```
 
-The service exposes `/v1/health/live`, `/v1/health/ready`, session/task APIs, and a journal-backed SSE event endpoint. Database, Redis, and remote state services are intentionally not required by v0.0.2.
+The service exposes `/v1/health/live`, `/v1/health/ready`, session/task APIs, and a journal-backed SSE event endpoint. Database, Redis, and remote state services are intentionally not required by v0.1.0.
 
 Design and operation notes:
 
@@ -47,14 +52,14 @@ Design and operation notes:
 - [Testing philosophy](docs/testing-philosophy.md)
 - [Evaluation](docs/evaluation.md)
 - [AgentScope host example](docs/agentscope-example.md)
-- [v0.0.2 acceptance matrix](docs/acceptance-matrix.md)
+- [v0.1.0 acceptance matrix](docs/acceptance-matrix.md)
 
-The v0.0.1 and v0.0.2 implementation paths are covered by the
+The v0.0.1, v0.0.2 and v0.1.0 implementation paths are covered by the
 acceptance matrix. Real credentialed provider/model-quality evaluation,
 production authentication and remote deployment hardening remain explicitly
 outside this local-first release evidence.
 
-The v0.0.2 advisory routing pipeline (boundary classification, profiler,
+The advisory routing pipeline (boundary classification, profiler,
 candidate suggestions, and durable shadow records) is implemented as a
 read-only surface: it only recommends and never modifies the Controller,
 WorkerPlan, or model configuration. Automatic delegation stays disabled until
@@ -74,7 +79,7 @@ cost, or latency gains.
 - [Security](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
 
-These documents describe the checked-in v0.0.2 implementation. They intentionally label gaps and do not claim throughput, latency, reliability, or model-quality results that have not been measured.
+These documents describe the checked-in v0.1.0 implementation. They intentionally label gaps and do not claim throughput, latency, reliability, or model-quality results that have not been measured.
 
 ## Repository
 

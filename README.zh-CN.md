@@ -12,7 +12,7 @@ ValueRoute 是一个独立的 FastAPI 编排服务，回答多代理任务里一
 - 新需求算"新增功能"还是"改现有范围"？改范围的任务不能盲目派工。
 - 派 Worker 要花多少 token、多少钱、多久？值不值得派？
 
-ValueRoute 把判断变成可核对的规则和证据：它只读入请求包络（envelope），产出边界分类、需求图和候选建议，给出拒绝原因、预计 token、费用和延迟。它从不注册主控、从不创建 WorkerPlan、从不修改模型配置，advisory 模式没有写权限。
+ValueRoute 把判断变成可核对的规则和证据：它只读入请求包络（envelope），产出边界分类、需求图和候选建议，给出拒绝原因、预计 token、费用和延迟。advisory 模式只读、从不注册主控、从不创建 WorkerPlan、从不修改模型配置；automatic 模式额外负责从已认证候选里选择主控，但同样不自动派 Worker。
 
 ## 现在已经能做什么
 
@@ -23,12 +23,13 @@ ValueRoute 把判断变成可核对的规则和证据：它只读入请求包络
 - 隔离工作区 + ChangeSet 校验 + 原子集成 + 父级验收
 - 0–5 Worker 队列、心跳、事件驱动 Checkpoint、kill -9 恢复
 - `/v1/advisory` 只读路由建议，shadow 记录持久化、重启不丢
+- `automatic` 模式自动选择主控：从已认证的 Controller 候选里选一个并保持 sticky，切换需无运行中任务、expected-version 保护、单帧原子提交
 
 ## 快速开始
 
 ```bash
 python3 -m pip install -e '.[dev]'
-python3 -m pytest -q        # 189 个测试
+python3 -m pytest -q        # 214 个测试
 VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main
 ```
 
