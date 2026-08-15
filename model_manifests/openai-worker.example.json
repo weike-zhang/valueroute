@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "model_profile": {
+    "provider_id": "openai",
+    "model_id": "gpt-4.1-mini",
+    "measured_at": "2026-08-15T00:00:00Z",
+    "protocol_status": "compatible",
+    "worker_status": "candidate",
+    "supported_modalities": [
+      "text"
+    ],
+    "supported_tools": [],
+    "effort_mapping": {},
+    "region": "not-measured",
+    "evidence_refs": []
+  }
+}

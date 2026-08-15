@@ -37,6 +37,8 @@ Design and operation notes:
 - [Domain model](docs/domain-model.md)
 - [API specification](docs/api-spec.md)
 - [Versioned API schemas](schemas/v1/manifest.json)
+- [Model profiles](model_manifests/README.md)
+- [NFR and supply-chain evidence](docs/nfr-and-supply-chain-evidence.md)
 - [Ownership and leases](docs/ownership-and-region-lease.md)
 - [Checkpoint and recovery](docs/checkpoint-and-recovery.md)
 - [Testing philosophy](docs/testing-philosophy.md)
@@ -64,7 +66,7 @@ the offline evaluation set demonstrates quality, cost, or latency gains.
 - [Checkpoint and recovery](docs/checkpoint-and-recovery.md)
 - [Testing philosophy](docs/testing-philosophy.md)
 - [Evaluation](docs/evaluation.md)
-- [Security](docs/SECURITY.md)
-- [Contributing](docs/CONTRIBUTING.md)
+- [Security](SECURITY.md)
+- [Contributing](CONTRIBUTING.md)
 
 These documents describe the checked-in v0.0.1 implementation. They intentionally label gaps and do not claim throughput, latency, reliability, or model-quality results that have not been measured.

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ModelProfile",
+  "description": "Versioned model-profile manifest (design section 15.1). v0.0.2 only requires the Worker role certification; Profiler and Controller ranking are certified separately in later versions and must not be replaced by a single aggregate ranking.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "model_profile"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "v1"
+    },
+    "model_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "model_id",
+        "measured_at",
+        "protocol_status",
+        "worker_status",
+        "supported_modalities",
+        "supported_tools",
+        "effort_mapping",
+        "region",
+        "evidence_refs"
+      ],
+      "properties": {
+        "provider_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "measured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "protocol_status": {
+          "enum": [
+            "compatible",
+            "incompatible"
+          ]
+        },
+        "worker_status": {
+          "enum": [
+            "candidate",
+            "certified",
+            "suspended"
+          ]
+        },
+        "supported_modalities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "supported_tools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "effort_mapping": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

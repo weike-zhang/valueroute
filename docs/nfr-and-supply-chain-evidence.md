@@ -15,8 +15,12 @@ python scripts/api_lease_performance.py --iterations 200 --output /tmp/valuerout
 
 `api_lease_performance.py` 在隔离临时目录中重复调用 `GET /v1/health/live`，并对同一资源重复申请重叠 WriterLease，输出两类工作负载的 p50/p95/max。后者还要求每次冲突都被 `lease_overlap` 拒绝；任何一次错误放行都会以非零状态失败。脚本使用进程内 TestClient 和 LeaseManager，结果只代表当前机器、当前 Python 环境和这组样本，不代表生产 HTTP 网络、并发、多进程或外部数据库性能。
 
+## 依赖锁定
+
+仓库根目录的 `requirements.lock` 记录回归套件所用环境的依赖版本快照。请在干净的 Python 3.11+ 环境中用 pip-tools 重新生成（生成命令见文件头注释）。该文件是锁定基线，不是签名 SBOM，也不是漏洞扫描结果。
+
 ## 证据边界
 
 这些数字只描述运行命令时的本机、Python 版本、磁盘和指定 workload。它们不是生产 SLO、容量承诺或 provider 延迟结论；不同机器、磁盘、进程竞争、数据规模和配置都需要重新采集。提交报告时应保留完整 JSON、命令、代码版本指纹和环境信息，并与全量测试结果一起审阅。
 
-脚本故意不设置“通过/失败”阈值：当前设计尚未定义可公开承诺的 NFR 基线。供应链清单同样不替代依赖锁文件、签名制品、漏洞扫描或发布流程。
+脚本故意不设置“通过/失败”阈值：当前设计尚未定义可公开承诺的 NFR 基线。供应链清单和 `requirements.lock` 同样不替代签名制品、漏洞扫描或发布流程。
