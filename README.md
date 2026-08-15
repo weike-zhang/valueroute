@@ -1,5 +1,7 @@
 # ValueRoute
 
+English | [简体中文](README.zh-CN.md)
+
 ValueRoute is an independent FastAPI service for bounded model and worker orchestration.
 
 The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRoute-详细设计与需求规格.md). The current v0.0.2 work is built as a correctness-first vertical slice:
@@ -9,16 +11,16 @@ The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRout
 - ParentTask and deterministic WorkerPlan validation;
 - expected-version and Idempotency-Key protection;
 - explicit execute, pause, resume and cancel transitions;
-- conservative ResourceRegion overlap checks.
+- conservative ResourceRegion overlap checks;
 - content-addressed Artifacts, structured Checkpoints, and checksummed journal recovery;
 - isolated local workspaces, ChangeSet validation, ordered atomic integration, and parent verification;
 - AgentScope lifecycle/SSE bridge and provider-boundary Worker recovery checkpoints;
 - bounded local `ExecutionSupervisor` over the journal-backed queue;
 - versioned v1 request JSON Schema artifacts checked against Pydantic and OpenAPI;
-- configurable storage, disk, claim, lease, and provider runtime protections.
+- configurable storage, disk, claim, lease, and provider runtime protections;
 - read-only v0.0.2 advisory routing: request-boundary classification, a
   `RequirementGraph` profiler, conservative candidate suggestions with
-  cost/latency estimates, and durable shadow records for offline comparison —
+  cost/latency estimates, and durable shadow records for offline comparison,
   all exposed via the Idempotency-Key-protected `/v1/advisory` API.
 
 ## Development

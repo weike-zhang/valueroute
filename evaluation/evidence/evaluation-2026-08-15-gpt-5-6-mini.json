@@ -37,7 +37,7 @@
     "task_count": 15
   },
   "code_fingerprint": "a0ce1fafe6d79b700800e20f6e586069728a4710095cf28d0a6f369e85ca2e55",
-  "endpoint_host": "186.241.75.230:3000",
+  "endpoint_host": "internal-host:3000",
   "environment": {
     "implementation": "CPython",
     "platform": "macOS-26.5.1-arm64-arm-64bit",

@@ -377,7 +377,7 @@ async def main_async(args: argparse.Namespace) -> dict[str, object]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base-url", default="http://186.241.75.230:3000/v1")
+    parser.add_argument("--base-url", default=os.getenv("VALUEROUTE_EVAL_BASE_URL", "http://localhost:3000/v1"))
     parser.add_argument("--model", default="gpt-5-6-mini")
     parser.add_argument("--api-key", default=None)
     parser.add_argument("--tasks", type=Path, default=ROOT / "evaluation/frozen_tasks.json")

@@ -7,6 +7,8 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 
 ### Added
 
+- Simplified-Chinese README (`README.zh-CN.md`) as a sibling narrative with
+  the same facts, evidence, and boundaries as the English README.
 - Close design section 20.1 test-coverage gaps:
   - disk-free-threshold guard in `ensure_storage_capacity`
     (`test_runtime_protection.py`);
