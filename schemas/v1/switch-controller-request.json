@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_version": {
+      "minimum": 1,
+      "title": "Expected Version",
+      "type": "integer"
+    },
+    "reasoning_effort": {
+      "default": "medium",
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Reasoning Effort",
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_version"
+  ],
+  "title": "SwitchControllerRequest",
+  "type": "object"
+}

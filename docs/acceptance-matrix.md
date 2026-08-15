@@ -41,10 +41,15 @@ This matrix records current evidence honestly; `partial` means the code has a us
 | FR-105 | pass | `RoutingCandidate` carries rejection codes, estimated input/output tokens, cost, latency, confidence and a stable basis version for both direct and worker candidates. |
 | FR-106 | pass | `ShadowLedger` durably records unexecuted advice with a stable request fingerprint and `mark_compared` attaches the real outcome ref; records replay across restart and the `POST /v1/advisory` + `GET /v1/advisory/shadow` API is Idempotency-Key protected. |
 | EVAL-001 | pass | Offline evaluation set `evaluation/frozen_tasks.json` freezes three task families (backend/API diagnosis, frontend browser verification, disjoint full-stack) with five tasks each, ground-truth delegation, and acceptance criteria; `scripts/evaluate_offline.py` runs advisory decisions plus live A/B/C measurements; archived raw evidence lives in `evaluation/evidence/`. First live run (2026-08-15, gpt-5-6-mini): 6/15 correct delegation, A/B/C pass 4/7/5 with cost ~$0.019 / $0.035 / $0.037. `quality_claim: false`; API keys are never written into output. |
+| FR-203 | pass | `model-manifest.schema.json` now has independent `worker_status` and `controller_status` roles; `ModelProfile` (src/valueroute/routing/manifest.py) validates role fields, `ControllerRanker` (src/valueroute/routing/rank.py) selects only `controller_status == certified` and compatible candidates with a deterministic, role-specific rank. |
+| FR-201 | pass | `OrchestrationMode.automatic` plus `AutomaticControllerService.ensure_controller` selects the first certified controller from candidate profiles and keeps it sticky across calls and journal replay; `POST /v1/controller-sessions/{session_id}/epochs/automatic` exposes it with Idempotency-Key protection. |
+| FR-202 | pass | `AutomaticControllerService.switch_controller` refuses switching while session tasks are running (safe boundary), requires the current expected version, releases the previous epoch, and commits the new epoch and session in one journal frame (atomic); `POST /v1/controller-sessions/{session_id}/epochs/switch` is Idempotency-Key protected and replay-safe. |
 
 The v0.0.2 advisory pipeline remains read-only: it is wired as an independent
 `/v1/advisory` surface and must still demonstrate quality/cost/latency gains
 against the v0.0.1 offline evaluation set before any automatic delegation is
-enabled.
+enabled. Automatic *controller selection* (v0.1, FR-201/202) is separate from
+automatic *worker delegation*: it picks the host controller from certified
+candidates and does not auto-delegate task work.
 
 The project is not release-ready while any P0 row remains partial. This is an audit artifact, not a performance or quality claim.

@@ -3,14 +3,14 @@
     "ChangeSetRequest": {
       "additionalProperties": false,
       "properties": {
-        "conflict": {
-          "default": false,
-          "title": "Conflict",
-          "type": "boolean"
-        },
         "integrated": {
           "default": false,
           "title": "Integrated",
+          "type": "boolean"
+        },
+        "conflict": {
+          "default": false,
+          "title": "Conflict",
           "type": "boolean"
         }
       },
@@ -20,6 +20,11 @@
   },
   "additionalProperties": false,
   "properties": {
+    "expected_version": {
+      "minimum": 1,
+      "title": "Expected Version",
+      "type": "integer"
+    },
     "changesets": {
       "items": {
         "$ref": "#/$defs/ChangeSetRequest"
@@ -27,11 +32,6 @@
       "maxItems": 100,
       "title": "Changesets",
       "type": "array"
-    },
-    "expected_version": {
-      "minimum": 1,
-      "title": "Expected Version",
-      "type": "integer"
     }
   },
   "required": [

@@ -9,11 +9,13 @@ from valueroute.api.schemas import (
     CreateSessionRequest,
     CreateTaskRequest,
     DecideApprovalRequest,
+    EnsureControllerRequest,
     OwnerReviewRequest,
     RecordEvidenceRequest,
     RegisterEpochRequest,
     RequestApprovalRequest,
     SubmitPlanRequest,
+    SwitchControllerRequest,
     VerifyReviewRequest,
     VerifyTaskRequest,
 )
@@ -32,6 +34,8 @@ REQUEST_MODELS = {
     "OwnerReviewRequest": OwnerReviewRequest,
     "VerifyReviewRequest": VerifyReviewRequest,
     "AdvisoryRequest": AdvisoryRequest,
+    "EnsureControllerRequest": EnsureControllerRequest,
+    "SwitchControllerRequest": SwitchControllerRequest,
 }
 
 
@@ -94,6 +98,8 @@ def test_v1_manifest_and_artifacts_are_complete_and_model_generated():
         "owner-review-request.json",
         "verify-review-request.json",
         "advisory-request.json",
+        "ensure-controller-request.json",
+        "switch-controller-request.json",
     }
 
     for model_name, model in REQUEST_MODELS.items():

@@ -6,6 +6,7 @@
     "measured_at": "2026-08-15T00:00:00Z",
     "protocol_status": "compatible",
     "worker_status": "candidate",
+    "controller_status": "candidate",
     "supported_modalities": [
       "text"
     ],

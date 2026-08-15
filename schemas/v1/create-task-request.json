@@ -3,16 +3,16 @@
     "AcceptanceRequest": {
       "additionalProperties": false,
       "properties": {
-        "description": {
-          "maxLength": 2000,
-          "minLength": 1,
-          "title": "Description",
-          "type": "string"
-        },
         "id": {
           "maxLength": 120,
           "minLength": 1,
           "title": "Id",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Description",
           "type": "string"
         },
         "required": {
@@ -31,19 +31,6 @@
     "BudgetsRequest": {
       "additionalProperties": false,
       "properties": {
-        "max_cost_usd": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Max Cost Usd"
-        },
         "max_input_tokens": {
           "anyOf": [
             {
@@ -83,6 +70,19 @@
           "default": null,
           "title": "Max Total Tokens"
         },
+        "max_cost_usd": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Cost Usd"
+        },
         "max_wall_time_seconds": {
           "anyOf": [
             {
@@ -110,16 +110,16 @@
           "title": "Adapter Id",
           "type": "string"
         },
-        "base_revision": {
-          "maxLength": 512,
-          "minLength": 1,
-          "title": "Base Revision",
-          "type": "string"
-        },
         "canonical_uri": {
           "maxLength": 2000,
           "minLength": 1,
           "title": "Canonical Uri",
+          "type": "string"
+        },
+        "base_revision": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Base Revision",
           "type": "string"
         }
       },
@@ -133,38 +133,10 @@
   },
   "additionalProperties": false,
   "properties": {
-    "acceptance_contract": {
-      "items": {
-        "$ref": "#/$defs/AcceptanceRequest"
-      },
-      "maxItems": 100,
-      "minItems": 1,
-      "title": "Acceptance Contract",
-      "type": "array"
-    },
-    "budgets": {
-      "$ref": "#/$defs/BudgetsRequest"
-    },
     "controller_session_id": {
       "maxLength": 200,
       "minLength": 1,
       "title": "Controller Session Id",
-      "type": "string"
-    },
-    "data_classification": {
-      "enum": [
-        "public",
-        "internal",
-        "confidential",
-        "restricted"
-      ],
-      "title": "Data Classification",
-      "type": "string"
-    },
-    "goal": {
-      "maxLength": 10000,
-      "minLength": 1,
-      "title": "Goal",
       "type": "string"
     },
     "request_type": {
@@ -178,8 +150,36 @@
       "title": "Request Type",
       "type": "string"
     },
+    "goal": {
+      "maxLength": 10000,
+      "minLength": 1,
+      "title": "Goal",
+      "type": "string"
+    },
+    "acceptance_contract": {
+      "items": {
+        "$ref": "#/$defs/AcceptanceRequest"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Acceptance Contract",
+      "type": "array"
+    },
+    "data_classification": {
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted"
+      ],
+      "title": "Data Classification",
+      "type": "string"
+    },
     "workspace": {
       "$ref": "#/$defs/WorkspaceRequest"
+    },
+    "budgets": {
+      "$ref": "#/$defs/BudgetsRequest"
     }
   },
   "required": [

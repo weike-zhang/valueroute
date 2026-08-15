@@ -1450,11 +1450,11 @@ valueroute/
 
 ### 22.3 v0.1：自动主控与公共合同
 
-- `automatic`；
-- ControllerRanker、sticky Epoch、切换和回滚；
-- 独立角色 ModelProfile；
-- 经内部稳定验证后的公共插件 API；
-- 独立运行轨迹 UI；
+- `automatic`（FR-201：已实现，sticky ControllerEpoch 与 `/v1/controller-sessions/{session_id}/epochs/automatic`）；
+- ControllerRanker、sticky Epoch、切换和回滚（FR-202：已实现，切换须无运行中任务、expected_version 保护、单帧原子提交）；
+- 独立角色 ModelProfile（FR-203：已实现，`controller_status` 与 `worker_status` 独立认证）；
+- 经内部稳定验证后的公共插件 API（FR-204：待实现）；
+- 独立运行轨迹 UI（FR-205：待实现）；
 - 公开 Alpha 和扩展评估。
 
 ### 22.4 v0.2：跨厂商与策略学习

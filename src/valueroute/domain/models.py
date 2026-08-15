@@ -24,6 +24,7 @@ class OrchestrationMode(str, Enum):
     off = "off"
     worker_only = "worker_only"
     advisory = "advisory"
+    automatic = "automatic"
 
 
 class TaskStatus(str, Enum):
@@ -146,7 +147,7 @@ class ControllerEpoch(StrictModel):
     model_id: str
     model_snapshot: str | None = None
     reasoning_effort: str
-    status: Literal["active"] = "active"
+    status: Literal["active", "released"] = "active"
     activated_at: datetime = Field(default_factory=now)
 
 

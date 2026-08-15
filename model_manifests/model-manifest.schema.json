@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ModelProfile",
-  "description": "Versioned model-profile manifest (design section 15.1). v0.0.2 only requires the Worker role certification; Profiler and Controller ranking are certified separately in later versions and must not be replaced by a single aggregate ranking.",
+  "description": "Versioned model-profile manifest (design section 15.1). Worker and Controller roles are certified independently; a single aggregate ranking must never replace role-specific status.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -21,6 +21,7 @@
         "measured_at",
         "protocol_status",
         "worker_status",
+        "controller_status",
         "supported_modalities",
         "supported_tools",
         "effort_mapping",
@@ -49,6 +50,13 @@
           ]
         },
         "worker_status": {
+          "enum": [
+            "candidate",
+            "certified",
+            "suspended"
+          ]
+        },
+        "controller_status": {
           "enum": [
             "candidate",
             "certified",

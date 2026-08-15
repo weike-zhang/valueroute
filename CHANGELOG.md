@@ -7,6 +7,22 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 
 ### Added
 
+- v0.1 automatic controller selection (FR-201/202/203):
+  - `OrchestrationMode.automatic` and
+    `AutomaticControllerService` (src/valueroute/routing/automatic.py):
+    `ensure_controller` selects the first certified controller from candidate
+    profiles and keeps it sticky across calls and journal replay;
+    `switch_controller` refuses while session tasks are running, requires the
+    current expected version, releases the previous epoch, and commits the new
+    epoch and session in one journal frame.
+  - API: `POST /v1/controller-sessions/{session_id}/epochs/automatic` and
+    `/epochs/switch`, both Idempotency-Key protected; new versioned request
+    schemas `ensure-controller-request.json` and `switch-controller-request.json`.
+  - Independent role certification (FR-203): `model-manifest.schema.json`
+    gains `controller_status` alongside `worker_status`;
+    `ModelProfile` (src/valueroute/routing/manifest.py) and deterministic
+    `ControllerRanker` (src/valueroute/routing/rank.py) select only certified
+    compatible controllers, never a single aggregate ranking.
 - Simplified-Chinese README (`README.zh-CN.md`) as a sibling narrative with
   the same facts, evidence, and boundaries as the English README.
 - Close design section 20.1 test-coverage gaps:

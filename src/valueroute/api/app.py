@@ -25,6 +25,7 @@ from valueroute.api.schemas import (
     CreateSessionRequest,
     CreateTaskRequest,
     DecideApprovalRequest,
+    EnsureControllerRequest,
     EpochResponse,
     EvidenceListResponse,
     EvidenceWriteResponse,
@@ -41,6 +42,7 @@ from valueroute.api.schemas import (
     SessionResponse,
     ShadowListResponse,
     SubmitPlanRequest,
+    SwitchControllerRequest,
     TaskResponse,
     TaskVerificationResponse,
     TaskViewResponse,
@@ -73,6 +75,7 @@ from valueroute.observability.usage import USAGE_EXPORT_FIELDS, build_usage_repo
 from valueroute.ownership.boundaries import OwnerAssignment
 from valueroute.ownership.persistence import PersistentOwnershipBoundaryService
 from valueroute.ownership.review import OwnerReviewService
+from valueroute.routing.automatic import AutomaticControllerService
 from valueroute.routing.models import RoutingRequestEnvelope
 from valueroute.routing.service import RoutingService
 from valueroute.settings import RuntimeProtectionConfig, RuntimeProtectionError, data_dir, ensure_storage_capacity
@@ -104,6 +107,7 @@ def create_app(
     state_store: StateStore | None = None,
     artifact_store: ArtifactStore | None = None,
     checkpoint_store: CheckpointStore | None = None,
+    controller_profiles: list[Any] | None = None,
 ) -> FastAPI:
     app = FastAPI(title="ValueRoute", version="0.0.1")
 
@@ -155,6 +159,7 @@ def create_app(
     review_service = OwnerReviewService(store, ownership)
     verifier_service = VerifierService(store, ownership, review_service)
     routing_service = RoutingService(store)
+    automatic_controller = AutomaticControllerService(store, profiles=controller_profiles or [])
     app.state.store = store
     app.state.service = service
     app.state.control = control
@@ -164,6 +169,7 @@ def create_app(
     app.state.state_store = store
     app.state.ownership = ownership
     app.state.routing = routing_service
+    app.state.automatic_controller = automatic_controller
     app.state.runtime_protection = limits
     app.state.supervisor = supervisor
     app.state.supervisor_stop = asyncio.Event()
@@ -327,6 +333,30 @@ def create_app(
         values = payload.model_dump(mode="json")
         expected = values.pop("expected_version")
         try: result = service.register_epoch(session_id, values, expected, idem_key(request, idempotency_key))
+        except Exception as e: handle_error(e)
+        return envelope(result.model_dump(mode="json"), version=result.version)
+
+    @app.post("/v1/controller-sessions/{session_id}/epochs/automatic", status_code=200, response_model=EpochResponse)
+    async def ensure_automatic_controller(session_id: str, payload: EnsureControllerRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
+        try:
+            result = automatic_controller.ensure_controller(
+                session_id,
+                expected_version=payload.expected_version,
+                reasoning_effort=payload.reasoning_effort,
+                idem=idem_key(request, idempotency_key),
+            )
+        except Exception as e: handle_error(e)
+        return envelope(result.model_dump(mode="json"), version=result.version)
+
+    @app.post("/v1/controller-sessions/{session_id}/epochs/switch", status_code=200, response_model=EpochResponse)
+    async def switch_automatic_controller(session_id: str, payload: SwitchControllerRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
+        try:
+            result = automatic_controller.switch_controller(
+                session_id,
+                expected_version=payload.expected_version,
+                reasoning_effort=payload.reasoning_effort,
+                idem=idem_key(request, idempotency_key),
+            )
         except Exception as e: handle_error(e)
         return envelope(result.model_dump(mode="json"), version=result.version)
 

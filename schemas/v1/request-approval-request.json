@@ -17,6 +17,17 @@
       "title": "Action Summary",
       "type": "string"
     },
+    "risk": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Risk",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
     "allowed_decisions": {
       "items": {
         "$ref": "#/$defs/ApprovalDecision"
@@ -25,17 +36,6 @@
       "minItems": 1,
       "title": "Allowed Decisions",
       "type": "array"
-    },
-    "expires_at": {
-      "format": "date-time",
-      "title": "Expires At",
-      "type": "string"
-    },
-    "risk": {
-      "maxLength": 1000,
-      "minLength": 1,
-      "title": "Risk",
-      "type": "string"
     }
   },
   "required": [

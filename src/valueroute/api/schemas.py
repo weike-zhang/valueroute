@@ -76,6 +76,16 @@ class RegisterEpochRequest(RequestModel):
     reasoning_effort: StrictStr = Field(min_length=1, max_length=100)
 
 
+class EnsureControllerRequest(RequestModel):
+    expected_version: StrictInt = Field(ge=1)
+    reasoning_effort: StrictStr = Field(default="medium", min_length=1, max_length=100)
+
+
+class SwitchControllerRequest(RequestModel):
+    expected_version: StrictInt = Field(ge=1)
+    reasoning_effort: StrictStr = Field(default="medium", min_length=1, max_length=100)
+
+
 class CreateTaskRequest(RequestModel):
     controller_session_id: StrictStr = Field(min_length=1, max_length=200)
     request_type: Literal["new_task", "material_amendment", "continuation", "clarification", "control"]

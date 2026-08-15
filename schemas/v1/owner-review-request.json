@@ -3,24 +3,103 @@
     "ResourceRegionRequest": {
       "additionalProperties": false,
       "properties": {
-        "resource_kind": {"enum": ["file", "directory", "database", "external"], "title": "Resource Kind", "type": "string"},
-        "resource_id": {"maxLength": 2000, "minLength": 1, "title": "Resource Id", "type": "string"},
-        "selector_type": {"enum": ["symbol", "ast_node", "path_prefix", "row_keys", "key_range", "partition", "json_pointer", "provider_subresource", "whole_resource"], "title": "Selector Type", "type": "string"},
-        "selector_value": {"title": "Selector Value"},
-        "base_revision": {"maxLength": 512, "minLength": 1, "title": "Base Revision", "type": "string"}
+        "resource_kind": {
+          "enum": [
+            "file",
+            "directory",
+            "database",
+            "external"
+          ],
+          "title": "Resource Kind",
+          "type": "string"
+        },
+        "resource_id": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Resource Id",
+          "type": "string"
+        },
+        "selector_type": {
+          "enum": [
+            "symbol",
+            "ast_node",
+            "path_prefix",
+            "row_keys",
+            "key_range",
+            "partition",
+            "json_pointer",
+            "provider_subresource",
+            "whole_resource"
+          ],
+          "title": "Selector Type",
+          "type": "string"
+        },
+        "selector_value": {
+          "title": "Selector Value"
+        },
+        "base_revision": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Base Revision",
+          "type": "string"
+        }
       },
-      "required": ["resource_kind", "resource_id", "selector_type", "selector_value", "base_revision"],
-      "title": "ResourceRegionRequest", "type": "object"
+      "required": [
+        "resource_kind",
+        "resource_id",
+        "selector_type",
+        "selector_value",
+        "base_revision"
+      ],
+      "title": "ResourceRegionRequest",
+      "type": "object"
     }
   },
   "additionalProperties": false,
   "properties": {
-    "expected_assignment_version": {"minimum": 1, "title": "Expected Assignment Version", "type": "integer"},
-    "owner_agent_id": {"maxLength": 200, "minLength": 1, "title": "Owner Agent Id", "type": "string"},
-    "review_regions": {"items": {"$ref": "#/$defs/ResourceRegionRequest"}, "maxItems": 100, "minItems": 1, "title": "Review Regions", "type": "array"},
-    "evidence_ids": {"items": {"type": "string"}, "maxItems": 100, "minItems": 1, "title": "Evidence Ids", "type": "array"},
-    "summary": {"maxLength": 4000, "minLength": 1, "title": "Summary", "type": "string"}
+    "expected_assignment_version": {
+      "minimum": 1,
+      "title": "Expected Assignment Version",
+      "type": "integer"
+    },
+    "owner_agent_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Owner Agent Id",
+      "type": "string"
+    },
+    "review_regions": {
+      "items": {
+        "$ref": "#/$defs/ResourceRegionRequest"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Review Regions",
+      "type": "array"
+    },
+    "evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
   },
-  "required": ["expected_assignment_version", "owner_agent_id", "review_regions", "evidence_ids", "summary"],
-  "title": "OwnerReviewRequest", "type": "object"
+  "required": [
+    "expected_assignment_version",
+    "owner_agent_id",
+    "review_regions",
+    "evidence_ids",
+    "summary"
+  ],
+  "title": "OwnerReviewRequest",
+  "type": "object"
 }

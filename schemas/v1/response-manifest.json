@@ -56,6 +56,8 @@
     "POST /v1/tasks/{task_id}/plan": "PlanResponse",
     "POST /v1/advisory": "AdvisoryResponse",
     "GET /v1/advisory/shadow": "ShadowListResponse",
-    "GET /v1/advisory/shadow/{record_id}": "ShadowListResponse"
+    "GET /v1/advisory/shadow/{record_id}": "ShadowListResponse",
+    "POST /v1/controller-sessions/{session_id}/epochs/automatic": "EpochResponse",
+    "POST /v1/controller-sessions/{session_id}/epochs/switch": "EpochResponse"
   }
 }

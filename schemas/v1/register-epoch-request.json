@@ -6,6 +6,12 @@
       "title": "Expected Version",
       "type": "integer"
     },
+    "provider_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
     "model_id": {
       "maxLength": 500,
       "minLength": 1,
@@ -24,12 +30,6 @@
       ],
       "default": null,
       "title": "Model Snapshot"
-    },
-    "provider_id": {
-      "maxLength": 200,
-      "minLength": 1,
-      "title": "Provider Id",
-      "type": "string"
     },
     "reasoning_effort": {
       "maxLength": 100,

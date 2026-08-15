@@ -4,7 +4,8 @@
       "enum": [
         "off",
         "worker_only",
-        "advisory"
+        "advisory",
+        "automatic"
       ],
       "title": "OrchestrationMode",
       "type": "string"
@@ -12,6 +13,12 @@
   },
   "additionalProperties": false,
   "properties": {
+    "tenant_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Tenant Id",
+      "type": "string"
+    },
     "host_session_id": {
       "maxLength": 200,
       "minLength": 1,
@@ -20,12 +27,6 @@
     },
     "orchestration_mode": {
       "$ref": "#/$defs/OrchestrationMode"
-    },
-    "tenant_id": {
-      "maxLength": 200,
-      "minLength": 1,
-      "title": "Tenant Id",
-      "type": "string"
     }
   },
   "required": [
