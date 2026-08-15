@@ -13,7 +13,8 @@
     "RequestApprovalRequest": "request-approval-request.json",
     "DecideApprovalRequest": "decide-approval-request.json",
     "ControlTaskRequest": "control-task-request.json",
-    "SubmitPlanRequest": "submit-plan-request.json"
+    "SubmitPlanRequest": "submit-plan-request.json",
+    "AdvisoryRequest": "advisory-request.json"
   },
   "routes": {
     "POST /v1/controller-sessions": "CreateSessionRequest",
@@ -29,6 +30,7 @@
     "POST /v1/tasks/{task_id}/cancel": "ControlTaskRequest",
     "POST /v1/tasks/{task_id}/plan": "SubmitPlanRequest",
     "POST /v1/tasks/{task_id}/children/{child_task_id}/review": "OwnerReviewRequest",
-    "POST /v1/tasks/{task_id}/children/{child_task_id}/reviews/{review_id}/verify": "VerifyReviewRequest"
+    "POST /v1/tasks/{task_id}/children/{child_task_id}/reviews/{review_id}/verify": "VerifyReviewRequest",
+    "POST /v1/advisory": "AdvisoryRequest"
   }
 }

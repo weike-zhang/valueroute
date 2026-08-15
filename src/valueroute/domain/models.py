@@ -23,6 +23,7 @@ class StrictModel(BaseModel):
 class OrchestrationMode(str, Enum):
     off = "off"
     worker_only = "worker_only"
+    advisory = "advisory"
 
 
 class TaskStatus(str, Enum):

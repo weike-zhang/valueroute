@@ -7,6 +7,7 @@ The versioned HTTP surface is under `/v1`.
 - Parent task creation/query, planning, execution, pause, resume, cancel
 - Child boundary, evidence, usage, approval, integration-attempt and integration-result queries
 - Parent verification and resumable SSE events via `Last-Event-ID`
+- Read-only advisory routing: `POST /v1/advisory` returns candidate suggestions with rejection reasons, cost/latency estimates and confidence; `GET /v1/advisory/shadow` and `GET /v1/advisory/shadow/{record_id}` list durable shadow records. Shadow recording is idempotent and is enabled per-request with `record_shadow: true`.
 
 All write routes require `Idempotency-Key`; migrations use `expected_version`. Errors use stable `code` values in the response detail.
 

@@ -34,5 +34,16 @@ This matrix records current evidence honestly; `partial` means the code has a us
 | FR-028 | pass | Tail quarantine, non-tail refusal, claim recovery and subprocess SIGKILL-equivalent tests. |
 | FR-029 | pass | `create_app` accepts structural `StateStore`, `ArtifactStore`, and `CheckpointStore` adapters while retaining local defaults; the contract test proves the API writes through an injected recording state adapter and exposes all three injected objects. Queue/workspace injection remains separately supported. |
 | FR-030 | pass | Approval persistence, monotonic version, expected-version conflict (409 without an event), decision idempotency, and restart replay tests. |
+| FR-101 | pass | `classify_boundary` distinguishes new_task, material_amendment, continuation, clarification and control with host-declared requests winning at full confidence; rule-based keyword scoring otherwise; unparseable input falls back to low-confidence new_task so the host can override. |
+| FR-102 | pass | `Profiler` reads only the `RoutingRequestEnvelope` and never executes or inspects controller state; it has no execution rights by construction. |
+| FR-103 | pass | `RequirementGraph` outputs requirements, constraints and evidence gaps; `has_write_suggestion` is structurally always `False`, and advisory mode never creates WorkerPlans or write permissions. |
+| FR-104 | pass | `AdvisoryEngine` returns suggestions only and never registers a controller, never creates a WorkerPlan, and never changes model/policy configuration; control/clarification and material-amendment requests fail closed. |
+| FR-105 | pass | `RoutingCandidate` carries rejection codes, estimated input/output tokens, cost, latency, confidence and a stable basis version for both direct and worker candidates. |
+| FR-106 | pass | `ShadowLedger` durably records unexecuted advice with a stable request fingerprint and `mark_compared` attaches the real outcome ref; records replay across restart and the `POST /v1/advisory` + `GET /v1/advisory/shadow` API is Idempotency-Key protected. |
+
+The v0.0.2 advisory pipeline remains read-only: it is wired as an independent
+`/v1/advisory` surface and must still demonstrate quality/cost/latency gains
+against the v0.0.1 offline evaluation set before any automatic delegation is
+enabled.
 
 The project is not release-ready while any P0 row remains partial. This is an audit artifact, not a performance or quality claim.

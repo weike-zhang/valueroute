@@ -17,6 +17,7 @@ from valueroute.api.schemas import (
     VerifyTaskRequest,
     OwnerReviewRequest,
     VerifyReviewRequest,
+    AdvisoryRequest,
 )
 
 
@@ -33,6 +34,7 @@ REQUEST_MODELS = {
     "SubmitPlanRequest": SubmitPlanRequest,
     "OwnerReviewRequest": OwnerReviewRequest,
     "VerifyReviewRequest": VerifyReviewRequest,
+    "AdvisoryRequest": AdvisoryRequest,
 }
 
 
@@ -94,6 +96,7 @@ def test_v1_manifest_and_artifacts_are_complete_and_model_generated():
         "submit-plan-request.json",
         "owner-review-request.json",
         "verify-review-request.json",
+        "advisory-request.json",
     }
 
     for model_name, model in REQUEST_MODELS.items():

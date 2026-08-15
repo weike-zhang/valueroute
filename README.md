@@ -16,6 +16,10 @@ The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRout
 - bounded local `ExecutionSupervisor` over the journal-backed queue;
 - versioned v1 request JSON Schema artifacts checked against Pydantic and OpenAPI;
 - configurable storage, disk, claim, lease, and provider runtime protections.
+- read-only v0.0.2 advisory routing: request-boundary classification, a
+  `RequirementGraph` profiler, conservative candidate suggestions with
+  cost/latency estimates, and durable shadow records for offline comparison —
+  all exposed via the Idempotency-Key-protected `/v1/advisory` API.
 
 ## Development
 
@@ -44,6 +48,12 @@ The v0.0.1 local coordination path is implemented and covered by the
 acceptance matrix. Real credentialed provider/model-quality evaluation,
 production authentication and remote deployment hardening remain explicitly
 outside this local-first release evidence.
+
+The v0.0.2 advisory routing pipeline (boundary classification, profiler,
+candidate suggestions, and durable shadow records) is implemented as a
+read-only surface: it only recommends and never modifies the Controller,
+WorkerPlan, or model configuration. Automatic delegation stays disabled until
+the offline evaluation set demonstrates quality, cost, or latency gains.
 
 ## Documentation
 

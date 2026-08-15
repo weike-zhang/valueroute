@@ -3,7 +3,8 @@
     "OrchestrationMode": {
       "enum": [
         "off",
-        "worker_only"
+        "worker_only",
+        "advisory"
       ],
       "title": "OrchestrationMode",
       "type": "string"

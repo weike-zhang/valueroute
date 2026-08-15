@@ -24,6 +24,7 @@ from valueroute.domain.models import (
 )
 from valueroute.observability.usage import TaskUsageReport
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnerAssignment
+from valueroute.routing.models import RoutingAdvice, ShadowRecord
 
 
 T = TypeVar("T")
@@ -158,6 +159,30 @@ class VerifyReviewRequest(RequestModel):
     expected_review_version: StrictInt = Field(ge=1)
     verifier_agent_id: StrictStr = Field(min_length=1, max_length=200)
     evidence_ids: list[StrictStr] = Field(default_factory=list, max_length=100)
+
+
+class RoutingPermissionsRequest(RequestModel):
+    read_scope: list[StrictStr] = Field(default_factory=list, max_length=200)
+    available_tools: list[StrictStr] = Field(default_factory=list, max_length=200)
+    requested_write_regions: list[ResourceRegionRequest] = Field(default_factory=list, max_length=200)
+
+
+class RoutingResourceSummaryRequest(RequestModel):
+    canonical_uri: StrictStr = Field(min_length=1, max_length=2000)
+    base_revision: StrictStr = Field(min_length=1, max_length=512)
+    referenced_paths: list[StrictStr] = Field(default_factory=list, max_length=500)
+    referenced_symbols: list[StrictStr] = Field(default_factory=list, max_length=500)
+
+
+class AdvisoryRequest(RequestModel):
+    tenant_id: StrictStr = Field(min_length=1, max_length=200)
+    host_session_id: StrictStr = Field(min_length=1, max_length=200)
+    host_declared_request_type: Literal["new_task", "material_amendment", "continuation", "clarification", "control"] | None = None
+    user_text: StrictStr = Field(min_length=1, max_length=10000)
+    permissions: RoutingPermissionsRequest = Field(default_factory=RoutingPermissionsRequest)
+    resource_summary: RoutingResourceSummaryRequest | None = None
+    data_classification: Literal["public", "internal", "confidential", "restricted"] = "internal"
+    record_shadow: StrictBool = False
 
 
 class ResponseMeta(BaseModel):
@@ -372,4 +397,25 @@ class ApprovalResponse(ResponseEnvelope[ApprovalView]):
 
 
 class PlanResponse(ResponseEnvelope[PlanResponseData]):
+    pass
+
+
+class AdvisoryResponseData(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    advice: RoutingAdvice
+    shadow_id: StrictStr | None = None
+
+
+class AdvisoryResponse(ResponseEnvelope[AdvisoryResponseData]):
+    pass
+
+
+class ShadowListData(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    records: list[ShadowRecord]
+
+
+class ShadowListResponse(ResponseEnvelope[ShadowListData]):
     pass

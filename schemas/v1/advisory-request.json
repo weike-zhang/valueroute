@@ -1,0 +1,205 @@
+{
+  "$defs": {
+    "ResourceRegionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "resource_kind": {
+          "enum": [
+            "file",
+            "directory",
+            "database",
+            "external"
+          ],
+          "title": "Resource Kind",
+          "type": "string"
+        },
+        "resource_id": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Resource Id",
+          "type": "string"
+        },
+        "selector_type": {
+          "enum": [
+            "symbol",
+            "ast_node",
+            "path_prefix",
+            "row_keys",
+            "key_range",
+            "partition",
+            "json_pointer",
+            "provider_subresource",
+            "whole_resource"
+          ],
+          "title": "Selector Type",
+          "type": "string"
+        },
+        "selector_value": {
+          "title": "Selector Value"
+        },
+        "base_revision": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Base Revision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resource_kind",
+        "resource_id",
+        "selector_type",
+        "selector_value",
+        "base_revision"
+      ],
+      "title": "ResourceRegionRequest",
+      "type": "object"
+    },
+    "RoutingPermissionsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "read_scope": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 200,
+          "title": "Read Scope",
+          "type": "array"
+        },
+        "available_tools": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 200,
+          "title": "Available Tools",
+          "type": "array"
+        },
+        "requested_write_regions": {
+          "items": {
+            "$ref": "#/$defs/ResourceRegionRequest"
+          },
+          "maxItems": 200,
+          "title": "Requested Write Regions",
+          "type": "array"
+        }
+      },
+      "title": "RoutingPermissionsRequest",
+      "type": "object"
+    },
+    "RoutingResourceSummaryRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_uri": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Canonical Uri",
+          "type": "string"
+        },
+        "base_revision": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Base Revision",
+          "type": "string"
+        },
+        "referenced_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Referenced Paths",
+          "type": "array"
+        },
+        "referenced_symbols": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Referenced Symbols",
+          "type": "array"
+        }
+      },
+      "required": [
+        "canonical_uri",
+        "base_revision"
+      ],
+      "title": "RoutingResourceSummaryRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "tenant_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "host_session_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Host Session Id",
+      "type": "string"
+    },
+    "host_declared_request_type": {
+      "anyOf": [
+        {
+          "enum": [
+            "new_task",
+            "material_amendment",
+            "continuation",
+            "clarification",
+            "control"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Host Declared Request Type"
+    },
+    "user_text": {
+      "maxLength": 10000,
+      "minLength": 1,
+      "title": "User Text",
+      "type": "string"
+    },
+    "permissions": {
+      "$ref": "#/$defs/RoutingPermissionsRequest"
+    },
+    "resource_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RoutingResourceSummaryRequest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "data_classification": {
+      "default": "internal",
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted"
+      ],
+      "title": "Data Classification",
+      "type": "string"
+    },
+    "record_shadow": {
+      "default": false,
+      "title": "Record Shadow",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "host_session_id",
+    "user_text"
+  ],
+  "title": "AdvisoryRequest",
+  "type": "object"
+}

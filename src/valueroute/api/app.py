@@ -37,7 +37,12 @@ from valueroute.domain.models import ParentCompletionEvidence, WorkerAttemptStat
 from valueroute.observability.events import EventStreamError, deduplicate_events, format_sse_frame, parse_last_event_id
 from valueroute.observability.usage import USAGE_EXPORT_FIELDS, build_usage_report, usage_export_rows
 from valueroute.approvals import Approval, ApprovalDecision, ApprovalService, ApprovalDecisionConflict, ApprovalDecisionNotAllowed, ApprovalExpired, ApprovalVersionConflict
+from valueroute.routing.service import RoutingService
+from valueroute.routing.models import RoutingRequestEnvelope, ShadowRecord
 from valueroute.api.schemas import (
+    AdvisoryRequest,
+    AdvisoryResponse,
+    AdvisoryResponseData,
     ApprovalResponse,
     ApprovalListResponse,
     ApprovalView,
@@ -61,6 +66,8 @@ from valueroute.api.schemas import (
     ReviewResponse,
     ReviewListResponse,
     SessionResponse,
+    ShadowListResponse,
+    ShadowListData,
     SubmitPlanRequest,
     TaskResponse,
     TaskViewResponse,
@@ -146,6 +153,7 @@ def create_app(
     approval_service = ApprovalService()
     review_service = OwnerReviewService(store, ownership)
     verifier_service = VerifierService(store, ownership, review_service)
+    routing_service = RoutingService(store)
     app.state.store = store
     app.state.service = service
     app.state.control = control
@@ -154,6 +162,7 @@ def create_app(
     app.state.checkpoint_store = resolved_checkpoint_store
     app.state.state_store = store
     app.state.ownership = ownership
+    app.state.routing = routing_service
     app.state.runtime_protection = limits
     app.state.supervisor = supervisor
     app.state.supervisor_stop = asyncio.Event()
@@ -647,6 +656,29 @@ def create_app(
         if not validation.valid:
             raise HTTPException(422, detail={"code": "invalid_plan", "message": "WorkerPlanProposal validation failed", "details": validation.model_dump(mode="json")})
         return envelope({"plan": plan.model_dump(mode="json"), "validation": validation.model_dump(mode="json")}, version=store.tasks[task_id].version)
+
+    @app.post("/v1/advisory", status_code=202, response_model=AdvisoryResponse)
+    async def advisory(payload: AdvisoryRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
+        values = payload.model_dump(mode="json")
+        record_shadow = values.pop("record_shadow")
+        envelope_input = RoutingRequestEnvelope.model_validate(values)
+        if record_shadow:
+            advice, record = routing_service.analyze_and_shadow(envelope_input, values, key=idem_key(request, idempotency_key))
+        else:
+            advice, _ = routing_service.analyze(envelope_input)
+            record = None
+        return envelope({"advice": advice.model_dump(mode="json"), "shadow_id": record.id if record else None})
+
+    @app.get("/v1/advisory/shadow", response_model=ShadowListResponse)
+    def list_shadow():
+        return envelope({"records": [record.model_dump(mode="json") for record in routing_service.list_shadow()]})
+
+    @app.get("/v1/advisory/shadow/{record_id}", response_model=ShadowListResponse)
+    def get_shadow(record_id: str):
+        record = next((item for item in routing_service.list_shadow() if item.id == record_id), None)
+        if not record:
+            raise HTTPException(404, detail={"code": "not_found", "message": "shadow record not found"})
+        return envelope({"records": [record.model_dump(mode="json")]})
 
     @app.get("/v1/tasks/{task_id}/events")
     async def events(

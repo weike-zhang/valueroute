@@ -20,6 +20,7 @@ from valueroute.domain.models import WorkerAttemptStatus
 from valueroute.storage.checkpoints import CheckpointStore
 from valueroute.approvals import Approval
 from valueroute.ownership.boundaries import ChildTaskBoundary, OwnerAssignment
+from valueroute.routing.models import ShadowRecord
 from valueroute.storage.journal import JournalError, LocalJournal
 
 
@@ -43,6 +44,7 @@ class Store:
         self.assignments: dict[str, OwnerAssignment] = {}
         self.reviews: dict[str, OwnerSelfReview] = {}
         self.verifications: dict[str, VerificationRecord] = {}
+        self.shadow_records: dict[str, ShadowRecord] = {}
         self._replay()
         if checkpoint_store is not None:
             self.reclaim_attempts(checkpoint_store)
@@ -104,6 +106,13 @@ class Store:
             elif kind == "verification.recorded":
                 verification = VerificationRecord.model_validate(data)
                 self.verifications[verification.id] = verification
+            elif kind == "routing.shadow_recorded":
+                record = ShadowRecord.model_validate(data)
+                self.shadow_records[record.id] = record
+            elif kind == "routing.shadow_compared":
+                record = self.shadow_records.get(data["record_id"])
+                if record is not None:
+                    self.shadow_records[record.id] = record.model_copy(update={"status": "compared", "real_outcome_ref": data["outcome_ref"]})
 
     def commit_frame(
         self,

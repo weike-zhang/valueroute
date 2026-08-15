@@ -22,7 +22,9 @@
     "UsageResponse",
     "ApprovalResponse",
     "ApprovalListResponse",
-    "PlanResponse"
+    "PlanResponse",
+    "AdvisoryResponse",
+    "ShadowListResponse"
   ],
   "routes": {
     "POST /v1/controller-sessions": "SessionResponse",
@@ -51,6 +53,9 @@
     "POST /v1/tasks/{task_id}/pause": "TaskResponse",
     "POST /v1/tasks/{task_id}/resume": "TaskResponse",
     "POST /v1/tasks/{task_id}/cancel": "TaskResponse",
-    "POST /v1/tasks/{task_id}/plan": "PlanResponse"
+    "POST /v1/tasks/{task_id}/plan": "PlanResponse",
+    "POST /v1/advisory": "AdvisoryResponse",
+    "GET /v1/advisory/shadow": "ShadowListResponse",
+    "GET /v1/advisory/shadow/{record_id}": "ShadowListResponse"
   }
 }
