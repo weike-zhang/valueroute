@@ -31,7 +31,11 @@ The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRout
   Controller Selector, Worker Policy, Provider, Framework, and Verifier as
   runtime-checkable Protocols with a validating role registry;
 - read-only runtime trace UI at `/v1/trace/ui`, aggregating sessions, epochs,
-  tasks, worker attempts, and shadow records.
+  tasks, worker attempts, and shadow records;
+- read-only cross-provider handoff (`POST /v1/tasks/{task_id}/handoff`):
+  re-point a claimed worker attempt to another provider in T1 mode, gated by a
+  field- and classification-level `EgressPolicy`, with every egress journaled
+  in an `EgressLedger` and queryable at `GET /v1/egress`.
 
 ## Development
 

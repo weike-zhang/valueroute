@@ -25,10 +25,12 @@ from valueroute.api.schemas import (
     CreateSessionRequest,
     CreateTaskRequest,
     DecideApprovalRequest,
+    EgressListResponse,
     EnsureControllerRequest,
     EpochResponse,
     EvidenceListResponse,
     EvidenceWriteResponse,
+    HandoffRequest,
     IntegrationAttemptsResponse,
     IntegrationResultResponse,
     LeaseListResponse,
@@ -66,6 +68,7 @@ from valueroute.approvals import (
 from valueroute.domain.models import *
 from valueroute.domain.models import EvidenceRecord, ParentCompletionEvidence, WorkerAttemptStatus, new_id
 from valueroute.domain.state_machine import StateTransitionError, transition_task
+from valueroute.egress import EgressLedger, HandoffService
 from valueroute.evidence import EvidenceGate
 from valueroute.evidence.verifier import VerifierService
 from valueroute.execution.manager import ExecutionManager
@@ -161,6 +164,8 @@ def create_app(
     verifier_service = VerifierService(store, ownership, review_service)
     routing_service = RoutingService(store)
     automatic_controller = AutomaticControllerService(store, profiles=controller_profiles or [])
+    handoff_service = HandoffService(store)
+    egress_ledger = EgressLedger(store)
     app.state.store = store
     app.state.service = service
     app.state.control = control
@@ -171,6 +176,8 @@ def create_app(
     app.state.ownership = ownership
     app.state.routing = routing_service
     app.state.automatic_controller = automatic_controller
+    app.state.handoff_service = handoff_service
+    app.state.egress_ledger = egress_ledger
     app.state.runtime_protection = limits
     app.state.supervisor = supervisor
     app.state.supervisor_stop = asyncio.Event()
@@ -370,6 +377,33 @@ def create_app(
     @app.get("/v1/trace/ui", response_class=HTMLResponse, include_in_schema=False)
     def trace_ui() -> HTMLResponse:
         return HTMLResponse(content=render_trace_page(store), status_code=200)
+
+    @app.post("/v1/tasks/{task_id}/handoff", status_code=201)
+    async def handoff_task(task_id: str, payload: HandoffRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):
+        key = idem_key(request, idempotency_key)
+        values = payload.model_dump(mode="json")
+        task = store.tasks.get(task_id)
+        if task is None or payload.child_task_id not in task.child_task_ids:
+            raise HTTPException(404, detail={"code": "not_found", "message": "child task not found"})
+        try:
+            result = handoff_service.handoff_attempt(
+                next((attempt.id for attempt in store.attempts.values() if attempt.child_task_id == payload.child_task_id), None),
+                target_provider=payload.target_provider,
+                target_model=payload.target_model,
+                fields=payload.fields,
+                data_classification=payload.data_classification,
+                idem=key,
+                payload=values,
+            )
+        except Exception as error:
+            handle_error(error)
+        updated_attempt = store.attempts.get(result["attempt_id"])
+        return envelope(result, version=updated_attempt.version if updated_attempt is not None else None)
+
+    @app.get("/v1/egress", response_model=EgressListResponse)
+    def list_egress(task_id: str | None = None, target_provider: str | None = None):
+        records = egress_ledger.list(task_id=task_id, target_provider=target_provider)
+        return envelope({"records": [record.model_dump(mode="json") for record in records]})
 
     @app.post("/v1/tasks", status_code=201, response_model=TaskResponse)
     async def create_task(payload: CreateTaskRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):

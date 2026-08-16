@@ -230,6 +230,8 @@ class WorkerAttempt(StrictModel):
     worker_session_id: str
     child_task_id: str
     workspace: WorkspaceBinding | None = None
+    provider_id: str | None = None
+    model_id: str | None = None
     provider_request: ExecutionRequest | None = None
     status: WorkerAttemptStatus = WorkerAttemptStatus.queued
     resumed_from_attempt_id: str | None = None

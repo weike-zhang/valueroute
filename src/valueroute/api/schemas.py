@@ -86,6 +86,14 @@ class SwitchControllerRequest(RequestModel):
     reasoning_effort: StrictStr = Field(default="medium", min_length=1, max_length=100)
 
 
+class HandoffRequest(RequestModel):
+    child_task_id: StrictStr = Field(min_length=1, max_length=200)
+    target_provider: StrictStr = Field(min_length=1, max_length=200)
+    target_model: StrictStr = Field(min_length=1, max_length=500)
+    fields: list[StrictStr] = Field(default_factory=list, max_length=200)
+    data_classification: Literal["public", "internal", "confidential", "restricted"]
+
+
 class CreateTaskRequest(RequestModel):
     controller_session_id: StrictStr = Field(min_length=1, max_length=200)
     request_type: Literal["new_task", "material_amendment", "continuation", "clarification", "control"]
@@ -323,6 +331,14 @@ class PlanResponseData(BaseModel):
 
 
 class SessionResponse(ResponseEnvelope[ControllerSession]):
+    pass
+
+
+class EgressListData(RequestModel):
+    records: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class EgressListResponse(ResponseEnvelope[EgressListData]):
     pass
 
 

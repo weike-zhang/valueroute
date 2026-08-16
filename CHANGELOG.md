@@ -3,6 +3,26 @@
 All notable changes to ValueRoute are documented here. The format follows
 Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 
+## [0.2.0] - 2026-08-16
+
+### Added
+
+- v0.2 cross-provider handoff (FR-301):
+  - `HandoffService` (src/valueroute/egress/handoff.py) re-points a claimed
+    WorkerAttempt to a target provider in read-only T1 mode (self-contained,
+    low-risk) and never grants the target provider controller authority.
+  - `POST /v1/tasks/{task_id}/handoff` is Idempotency-Key protected and
+    replay-safe; versioned request schema `handoff-request.json` added.
+- v0.2 egress audit (FR-302):
+  - `EgressPolicy` enforces field-level and data-classification-level egress
+    rules (default public/internal only; restricted never leaves the trusted
+    provider).
+  - `EgressLedger` journals every egress with source/target provider, fields,
+    and classification, survives journal replay, and `GET /v1/egress` filters
+    by task and target provider.
+- `WorkerAttempt` gains optional `provider_id`/`model_id` for cross-provider
+  handoff state.
+
 ## [0.1.0] - 2026-08-16
 
 ### Added
@@ -117,6 +137,7 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
 - Versioned v1 request/response JSON Schema artifacts checked against
   Pydantic and OpenAPI.
 
+[0.2.0]: https://github.com/weike-zhang/valueroute/releases/tag/v0.2.0
 [0.1.0]: https://github.com/weike-zhang/valueroute/releases/tag/v0.1.0
 [0.0.2]: https://github.com/weike-zhang/valueroute/releases/tag/v0.0.2
 [0.0.1]: https://github.com/weike-zhang/valueroute/releases/tag/v0.0.1

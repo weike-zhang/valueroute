@@ -26,12 +26,13 @@ ValueRoute 把判断变成可核对的规则和证据：它只读入请求包络
 - `automatic` 模式自动选择主控：从已认证的 Controller 候选里选一个并保持 sticky，切换需无运行中任务、expected-version 保护、单帧原子提交
 - 六个公共插件合同（`src/valueroute/plugins/`）：Profiler、Controller Selector、Worker Policy、Provider、Framework、Verifier，注册时校验角色与版本
 - `/v1/trace/ui` 只读运行轨迹页：汇总会话、epoch、任务、attempt、shadow 记录
+- 跨厂商只读交接（`POST /v1/tasks/{id}/handoff`）：按字段与数据等级政策（`EgressPolicy`）把已认领的 Worker attempt 交接给另一家厂商，每次出站写入 `EgressLedger`，可在 `GET /v1/egress` 查询
 
 ## 快速开始
 
 ```bash
 python3 -m pip install -e '.[dev]'
-python3 -m pytest -q        # 214 个测试
+python3 -m pytest -q        # 242 个测试
 VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main
 ```
 

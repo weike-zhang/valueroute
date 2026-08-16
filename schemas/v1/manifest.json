@@ -16,7 +16,8 @@
     "SubmitPlanRequest": "submit-plan-request.json",
     "AdvisoryRequest": "advisory-request.json",
     "EnsureControllerRequest": "ensure-controller-request.json",
-    "SwitchControllerRequest": "switch-controller-request.json"
+    "SwitchControllerRequest": "switch-controller-request.json",
+    "HandoffRequest": "handoff-request.json"
   },
   "routes": {
     "POST /v1/controller-sessions": "CreateSessionRequest",
@@ -35,6 +36,7 @@
     "POST /v1/tasks/{task_id}/children/{child_task_id}/reviews/{review_id}/verify": "VerifyReviewRequest",
     "POST /v1/advisory": "AdvisoryRequest",
     "POST /v1/controller-sessions/{session_id}/epochs/automatic": "EnsureControllerRequest",
-    "POST /v1/controller-sessions/{session_id}/epochs/switch": "SwitchControllerRequest"
+    "POST /v1/controller-sessions/{session_id}/epochs/switch": "SwitchControllerRequest",
+    "POST /v1/tasks/{task_id}/handoff": "HandoffRequest"
   }
 }

@@ -45,6 +45,7 @@ class Store:
         self.reviews: dict[str, OwnerSelfReview] = {}
         self.verifications: dict[str, VerificationRecord] = {}
         self.shadow_records: dict[str, ShadowRecord] = {}
+        self.egress_records: dict[str, Any] = {}
         self._replay()
         if checkpoint_store is not None:
             self.reclaim_attempts(checkpoint_store)
@@ -102,6 +103,10 @@ class Store:
             elif kind == "routing.shadow_recorded":
                 record = ShadowRecord.model_validate(data)
                 self.shadow_records[record.id] = record
+            elif kind == "egress.recorded":
+                self.egress_records[data["id"]] = data
+            elif kind == "worker.handed_off":
+                self.attempts[data["id"]] = WorkerAttempt.model_validate({key: value for key, value in data.items() if key != "session_id"})
             elif kind == "routing.shadow_compared":
                 record = self.shadow_records.get(data["record_id"])
                 if record is not None:

@@ -10,6 +10,7 @@ from valueroute.api.schemas import (
     CreateTaskRequest,
     DecideApprovalRequest,
     EnsureControllerRequest,
+    HandoffRequest,
     OwnerReviewRequest,
     RecordEvidenceRequest,
     RegisterEpochRequest,
@@ -36,6 +37,7 @@ REQUEST_MODELS = {
     "AdvisoryRequest": AdvisoryRequest,
     "EnsureControllerRequest": EnsureControllerRequest,
     "SwitchControllerRequest": SwitchControllerRequest,
+    "HandoffRequest": HandoffRequest,
 }
 
 
@@ -100,6 +102,7 @@ def test_v1_manifest_and_artifacts_are_complete_and_model_generated():
         "advisory-request.json",
         "ensure-controller-request.json",
         "switch-controller-request.json",
+        "handoff-request.json",
     }
 
     for model_name, model in REQUEST_MODELS.items():

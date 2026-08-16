@@ -1459,10 +1459,10 @@ valueroute/
 
 ### 22.4 v0.2：跨厂商与策略学习
 
-- T1 只读跨厂商 Handoff；
-- Egress Ledger；
-- 认证后的 T2/T3；
-- 离线 Ranking Policy 和 shadow 学习；
+- T1 只读跨厂商 Handoff（FR-301：已实现，`src/valueroute/egress/handoff.py`，默认只读、自包含、低风险，不授予目标厂商 Controller 权限）；
+- Egress Ledger（FR-302：已实现，`EgressPolicy` 字段级授权 + `EgressLedger` journal 持久化，`GET /v1/egress` 可查询）；
+- 认证后的 T2/T3（FR-303：待实现）；
+- 离线 Ranking Policy 和 shadow 学习（FR-304：待实现）；
 - 更多 Provider 和 Framework Adapter。
 
 ## 23. v0.0.1 验收清单

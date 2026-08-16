@@ -1,0 +1,49 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "child_task_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Child Task Id",
+      "type": "string"
+    },
+    "target_provider": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Target Provider",
+      "type": "string"
+    },
+    "target_model": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Target Model",
+      "type": "string"
+    },
+    "fields": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 200,
+      "title": "Fields",
+      "type": "array"
+    },
+    "data_classification": {
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted"
+      ],
+      "title": "Data Classification",
+      "type": "string"
+    }
+  },
+  "required": [
+    "child_task_id",
+    "target_provider",
+    "target_model",
+    "data_classification"
+  ],
+  "title": "HandoffRequest",
+  "type": "object"
+}

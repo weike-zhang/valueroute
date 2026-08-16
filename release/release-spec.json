@@ -1,15 +1,14 @@
 {
   "project_name": "ValueRoute",
-  "version": "0.1.0",
-  "title": "Automatic controller selection with independent role certification",
-  "summary": "ValueRoute answers whether a multi-agent task should stay on the host controller or be split across workers, and how many. v0.1.0 adds automatic controller selection: in `automatic` orchestration mode the service picks the first certified controller from versioned model profiles and keeps it sticky, with a safe expected-version-protected switch that commits atomically. Six public plugin contracts (Profiler, Controller Selector, Worker Policy, Provider, Framework, Verifier) open the extension points with a validating registry, and a read-only runtime trace UI at `/v1/trace/ui` aggregates sessions, epochs, tasks, attempts, and shadow records.",
+  "version": "0.2.0",
+  "title": "Read-only cross-provider handoff with egress audit",
+  "summary": "ValueRoute answers whether a multi-agent task should stay on the host controller or be split across workers, and how many. v0.2.0 adds read-only cross-provider handoff: a claimed worker attempt can be re-pointed to another provider in self-contained T1 mode, gated by a field- and classification-level egress policy, with every egress journaled in an auditable ledger. v0.1.0 automatic controller selection, the six public plugin contracts, and the runtime trace UI remain.",
   "highlights": [
-    "Automatic controller selection (FR-201): `OrchestrationMode.automatic`; `ensure_controller` picks the first certified controller from candidate profiles and stays sticky across calls and journal replay.",
-    "Safe controller switch (FR-202): refuses while session tasks are running, requires the current expected version, releases the previous epoch, and commits the new epoch and session in one journal frame.",
-    "Independent role certification (FR-203): `model-manifest.schema.json` gains `controller_status` alongside `worker_status`; a deterministic `ControllerRanker` selects only certified, compatible controllers and never a single aggregate ranking.",
-    "Public plugin contracts (FR-204): six runtime-checkable Protocols in `src/valueroute/plugins/` with a registry that rejects plugins that do not satisfy role, name, contract version, or provider async shape.",
-    "Read-only runtime trace UI (FR-205): `GET /v1/trace/ui` shows sessions, epochs, tasks, worker attempts, and shadow records with HTML-escaped values.",
-    "New API surface `POST /v1/controller-sessions/{session_id}/epochs/automatic` and `/epochs/switch`, both Idempotency-Key protected; versioned request schemas added and checked against OpenAPI.",
+    "Read-only cross-provider handoff (FR-301): `POST /v1/tasks/{task_id}/handoff` re-points a claimed WorkerAttempt to a target provider in T1 mode; the target never gains controller authority.",
+    "Egress audit (FR-302): `EgressPolicy` allows only public/internal classifications by default (restricted never leaves), enforces field prefixes, and `EgressLedger` journals every egress with source/target provider, fields, and classification, surviving journal replay; `GET /v1/egress` filters by task and provider.",
+    "Automatic controller selection (v0.1, FR-201/202): sticky certified-controller selection with safe expected-version-protected atomic switch.",
+    "Public plugin contracts (v0.1, FR-204): Profiler, Controller Selector, Worker Policy, Provider, Framework, and Verifier as runtime-checkable Protocols with a validating registry.",
+    "Read-only runtime trace UI (v0.1, FR-205): `GET /v1/trace/ui` aggregates sessions, epochs, tasks, attempts, and shadow records with HTML-escaped values.",
     "Read-only advisory routing (v0.0.2): boundary classification, requirement profiler, candidate suggestions with cost/latency estimates, and durable shadow records.",
     "Offline evaluation set with three frozen task families and live A/B/C measurements; 36-item design acceptance checklist verified.",
     "Simplified-Chinese README (README.zh-CN.md) alongside the English one."
@@ -20,11 +19,11 @@
     "VALUEROUTE_DATA_DIR=/tmp/valueroute-data python3 -m valueroute.main"
   ],
   "verification": [
-    "python3 -m pytest -q: 229 passed, 0 failed",
+    "python3 -m pytest -q: 242 passed, 0 failed",
     "python3 -m ruff check .: 0 errors",
     "python3 scripts/check_links.py .: 49 local links valid",
     "Design section 23 acceptance checklist: 36 of 36 items verified",
-    "37 new tests cover automatic selection, sticky epoch, safe switch, role-independent ranking, plugin contracts, and the trace UI"
+    "13 new tests cover handoff, egress policy gating, ledger replay, idempotent handoff, and egress query filtering"
   ],
   "compatibility": [
     "Python 3.11+ (tests run on 3.11 in CI; 3.10 development environment)",
@@ -33,9 +32,9 @@
     "OpenAI-compatible endpoint via chat/completions for the evaluation harness"
   ],
   "limitations": [
-    "Automatic controller selection picks the host controller only; it does not auto-delegate worker tasks.",
+    "Handoff is read-only T1 only: the target provider executes the handed-off attempt without controller authority; no T2/T3 write, tool, or recovery handoff.",
+    "By default only public/internal data classifications may egress; restricted data never leaves the trusted provider unless the policy explicitly allows it.",
     "Worker delegation stays disabled until the offline evaluation set demonstrates quality, cost, or latency gains.",
-    "A `controller_status` of `certified` requires reproducible measurement evidence; until then the status must stay `candidate`, so automatic selection may find no eligible controller.",
     "Evaluation acceptance is keyword-based, not full task execution; quality_claim is false and no model-quality certification is implied.",
     "Production authentication and remote deployment hardening are outside this local-first release evidence."
   ]
