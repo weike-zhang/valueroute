@@ -11,7 +11,7 @@ from typing import Any
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, Response, StreamingResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response, StreamingResponse
 
 from valueroute.api.schemas import (
     AdvisoryRequest,
@@ -52,6 +52,7 @@ from valueroute.api.schemas import (
     VerifyReviewRequest,
     VerifyTaskRequest,
 )
+from valueroute.api.trace_ui import render_trace_page
 from valueroute.application.control import ControlService
 from valueroute.application.service import DomainError, Service
 from valueroute.approvals import (
@@ -365,6 +366,10 @@ def create_app(
         result = store.sessions.get(session_id)
         if not result: raise HTTPException(404, detail={"code": "not_found", "message": "controller session not found"})
         return envelope(result.model_dump(mode="json"), version=result.version)
+
+    @app.get("/v1/trace/ui", response_class=HTMLResponse, include_in_schema=False)
+    def trace_ui() -> HTMLResponse:
+        return HTMLResponse(content=render_trace_page(store), status_code=200)
 
     @app.post("/v1/tasks", status_code=201, response_model=TaskResponse)
     async def create_task(payload: CreateTaskRequest, request: Request, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key")):

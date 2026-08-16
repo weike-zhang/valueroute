@@ -26,7 +26,12 @@ The implementation follows [ValueRoute-详细设计与需求规格.md](ValueRout
   first certified controller from versioned model profiles and keeps it
   sticky, with a safe expected-version-protected switch, exposed via
   `/v1/controller-sessions/{session_id}/epochs/automatic` and
-  `/epochs/switch`.
+  `/epochs/switch`;
+- six public plugin contracts (`src/valueroute/plugins/`): Profiler,
+  Controller Selector, Worker Policy, Provider, Framework, and Verifier as
+  runtime-checkable Protocols with a validating role registry;
+- read-only runtime trace UI at `/v1/trace/ui`, aggregating sessions, epochs,
+  tasks, worker attempts, and shadow records.
 
 ## Development
 

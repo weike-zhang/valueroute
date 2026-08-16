@@ -23,6 +23,16 @@ Keep a Changelog; versions follow semantic versioning while 0.0.x is pre-1.0.
     `ModelProfile` (src/valueroute/routing/manifest.py) and deterministic
     `ControllerRanker` (src/valueroute/routing/rank.py) select only certified
     compatible controllers, never a single aggregate ranking.
+- v0.1 public plugin contracts (FR-204):
+  - `src/valueroute/plugins/` exposes six stable structural contracts
+    (Profiler, ControllerSelector, WorkerPolicy, Provider, Framework,
+    Verifier) as runtime-checkable Protocols and a `PluginRegistry` that
+    validates role, name, contract version, and provider async shape before
+    registration.
+- v0.1 read-only runtime trace UI (FR-205):
+  - `GET /v1/trace/ui` serves an HTML page aggregating sessions, epochs,
+    tasks, worker attempts, and shadow records; rendered values are
+    HTML-escaped.
 - Simplified-Chinese README (`README.zh-CN.md`) as a sibling narrative with
   the same facts, evidence, and boundaries as the English README.
 - Close design section 20.1 test-coverage gaps:

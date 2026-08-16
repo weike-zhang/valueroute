@@ -65,6 +65,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["PLW1510", "F811", "E501"]
 "scripts/**" = ["E501"]
+"src/valueroute/api/trace_ui.py" = ["PERF401"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

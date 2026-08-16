@@ -24,6 +24,8 @@ ValueRoute 把判断变成可核对的规则和证据：它只读入请求包络
 - 0–5 Worker 队列、心跳、事件驱动 Checkpoint、kill -9 恢复
 - `/v1/advisory` 只读路由建议，shadow 记录持久化、重启不丢
 - `automatic` 模式自动选择主控：从已认证的 Controller 候选里选一个并保持 sticky，切换需无运行中任务、expected-version 保护、单帧原子提交
+- 六个公共插件合同（`src/valueroute/plugins/`）：Profiler、Controller Selector、Worker Policy、Provider、Framework、Verifier，注册时校验角色与版本
+- `/v1/trace/ui` 只读运行轨迹页：汇总会话、epoch、任务、attempt、shadow 记录
 
 ## 快速开始
 
